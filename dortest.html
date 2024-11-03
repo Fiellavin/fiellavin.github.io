@@ -28,7 +28,7 @@
         .section { margin-bottom: 20px; }
         textarea, .textarea-input {
             width: 100%;
-            height: 100px;
+            height: 80px; /* Compact size for the main text areas */
             margin-top: 10px;
             font-size: 14px;
             padding: 10px;
@@ -36,7 +36,7 @@
         }
         .rating-item { margin: 10px 0; position: relative; }
         .extra-input { display: none; margin-top: 10px; }
-        .extra-input textarea { width: 95%; height: 80px; padding: 8px; } /* Compact task and remediation fields */
+        .extra-input textarea { width: 95%; height: 60px; padding: 8px; } /* Smaller task and remediation fields */
 
         /* Logo overlay styling */
         .textarea-container, .rating-item, .extra-input {
@@ -44,17 +44,16 @@
         }
         .logo-overlay {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 10px; /* Center the logo more effectively */
+            left: 10px;
+            width: 60px; /* Slightly larger logo */
+            height: 60px;
             display: flex;
             justify-content: center;
             align-items: center;
             pointer-events: none;
-            opacity: 0.1;
+            opacity: 0.15;
         }
-        .logo-overlay img { max-width: 50px; max-height: 50px; } /* Resized logo for compact text areas */
     </style>
 </head>
 <body>
@@ -157,14 +156,13 @@
                             <label>Training/Remediation:</label><br>
                             <textarea id="${categoryId}-remediation" placeholder="Describe the remediation..."></textarea>
                             <div class="logo-overlay"><img src="seal.png" alt="Logo"></div>
-                        </div>
-                        <div class="logo-overlay"><img src="seal.png" alt="Logo"></div>`;
+                        </div>`;
                     ratingsDiv.appendChild(div);
                 });
             });
         }
 
-        // Show/hide extra input fields based on the rating
+        // Show/hide extra input fields and logos based on the rating
         function toggleExtraInput(categoryId) {
             const rating = document.getElementById(categoryId).value;
             const extraInputDiv = document.getElementById(`${categoryId}-extra`);
