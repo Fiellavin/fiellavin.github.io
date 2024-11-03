@@ -26,13 +26,22 @@
             font-weight: 700;
         }
         .section { margin-bottom: 20px; }
-        textarea, .textarea-input { width: 100%; height: 300px; margin-top: 10px; }
+        textarea, .textarea-input {
+            width: 100%;
+            height: 100px;
+            margin-top: 10px;
+            font-size: 14px;
+            padding: 10px;
+            resize: vertical;
+        }
         .rating-item { margin: 10px 0; position: relative; }
         .extra-input { display: none; margin-top: 10px; }
-        .extra-input textarea { width: 95%; height: 100px; } /* Smaller text areas for task and remediation */
-        
+        .extra-input textarea { width: 95%; height: 80px; padding: 8px; } /* Compact task and remediation fields */
+
         /* Logo overlay styling */
-        .textarea-container, .rating-item { position: relative; }
+        .textarea-container, .rating-item, .extra-input {
+            position: relative;
+        }
         .logo-overlay {
             position: absolute;
             top: 0;
@@ -45,7 +54,7 @@
             pointer-events: none;
             opacity: 0.1;
         }
-        .logo-overlay img { max-width: 80%; max-height: 80%; }
+        .logo-overlay img { max-width: 50px; max-height: 50px; } /* Resized logo for compact text areas */
     </style>
 </head>
 <body>
@@ -143,13 +152,13 @@
                         </select><br>
                         <div id="${categoryId}-extra" class="extra-input">
                             <label>Incident/Task:</label><br>
-                            <textarea id="${categoryId}-task" placeholder="Describe the task..."></textarea><br>
+                            <textarea id="${categoryId}-task" placeholder="Describe the task..."></textarea>
+                            <div class="logo-overlay"><img src="seal.png" alt="Logo"></div><br>
                             <label>Training/Remediation:</label><br>
                             <textarea id="${categoryId}-remediation" placeholder="Describe the remediation..."></textarea>
+                            <div class="logo-overlay"><img src="seal.png" alt="Logo"></div>
                         </div>
-                        <div class="logo-overlay">
-                            <img src="seal.png" alt="Logo">
-                        </div>`;
+                        <div class="logo-overlay"><img src="seal.png" alt="Logo"></div>`;
                     ratingsDiv.appendChild(div);
                 });
             });
