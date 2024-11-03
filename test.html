@@ -7,20 +7,7 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
         <style type="text/css">
-          /* General Styles */
-body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    font-family: Arial, sans-serif;
-    color: #c5c5c5;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: radial-gradient(circle at top, #0e1f12, #1b3d2a, #11231a); /* Dark green gradient */
-}
-
-/* Centered Content Styling */
+         /* Centered Content Styling */
 .centered-content {
     text-align: center;
     margin-top: -100px; /* Adjusts vertical positioning */
@@ -28,13 +15,20 @@ body, html {
 
 /* Fancy Title Styling */
 .title {
-    font-size: 72px;
+    font-size: 72px; /* Larger text */
     font-weight: 400;
-    color: #c5c5c5;
     font-family: 'Pacifico', cursive;
-    letter-spacing: 2px;
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4); /* Subtle shadow for depth */
+    letter-spacing: 3px;
+    background: linear-gradient(135deg, #a8e6a2, #56ab2f); /* Light to dark green gradient */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; /* Makes the gradient visible within text */
+    text-shadow: 4px 4px 12px rgba(0, 0, 0, 0.3); /* Soft shadow for depth */
     margin-bottom: 20px;
+    transition: transform 0.3s ease; /* Animation for subtle scaling */
+}
+
+.title:hover {
+    transform: scale(1.05); /* Slightly enlarge on hover */
 }
 
 /* Social Icon Styling */
@@ -48,11 +42,12 @@ body, html {
 .social-icons a {
     color: #c5c5c5;
     font-size: 32px;
-    transition: color 0.3s ease;
+    transition: color 0.3s ease, transform 0.3s ease;
 }
 
 .social-icons a:hover {
     color: #ffffff;
+    transform: scale(1.1); /* Slightly enlarge icons on hover */
 }
     </style>
 </head>
