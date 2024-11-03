@@ -4,83 +4,83 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fiellavin</title>
-    <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-        <style type="text/css">
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&display=swap');
-    /* General Styles */
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #0b3d0b; /* Dark green background */
-    color: #ffffff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-}
+    <style type="text/css">
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&display=swap');
 
-/* Centered Content Styling */
-.centered-content {
-    text-align: center;
-    margin-top: -100px; /* Adjusts vertical positioning */
-}
+        /* General Styles */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #0b3d0b; /* Dark green background */
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
 
-/* Fancy Title Styling */
-.title {
-    font-size: 72px;
-    font-weight: 700;
-    color: #c5c5c5;
-    font-family: 'Dancing Script', 'Great Vibes', cursive; /* Fancy font */
-    letter-spacing: 2px;
-    text-shadow: 2px 2px 8px rgba(0, 128, 0, 0.4); /* Adjusted shadow for depth */
-    margin-bottom: 20px;
-}
+        /* Centered Content Styling */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
 
-/* Social Icon Styling */
-.social-icons {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 10px;
-}
+        /* Fancy Title Styling */
+        .title {
+            font-size: 72px;
+            font-weight: 700;
+            color: #c5c5c5;
+            font-family: 'Dancing Script', 'Great Vibes', cursive; /* Fancy font */
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 8px rgba(0, 128, 0, 0.4); /* Adjusted shadow for depth */
+            margin-bottom: 10px;
+        }
 
-.social-icons a {
-    color: #a8f1a8; /* Light green color for icons */
-    font-size: 32px;
-    transition: color 0.3s ease;
-}
+        /* Play Button Styling */
+        #play-button {
+            padding: 10px 20px;
+            background-color: #4caf50; /* Green background */
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-bottom: 20px;
+        }
 
-.social-icons a:hover {
-    color: #76c776; /* Brighter green on hover */
-}
-#background-music {
-    display: none;
-}
-.container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-}     
-#play-button {
-    padding: 10px 20px;
-    background-color: #4caf50; /* Green background */
-    color: #ffffff;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
+        #play-button:hover {
+            background-color: #388e3c; /* Darker green on hover */
+        }
 
-#play-button:hover {
-    background-color: #388e3c; /* Darker green on hover */
-}
+        /* Social Icon Styling */
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .social-icons a {
+            color: #a8f1a8; /* Light green color for icons */
+            font-size: 32px;
+            transition: color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: #76c776; /* Brighter green on hover */
+        }
     </style>
 </head>
-<div class="container">
+<body>
+    <div class="container">
         <h1 class="title">Fiellavin</h1>
+
+        <!-- Play button under the title -->
+        <button id="play-button" onclick="toggleMusic()">Start Music</button>
+
         <div class="social-icons">
             <a href="https://www.youtube.com/@fiellavin" target="_blank" aria-label="YouTube">
                 <i class="fab fa-youtube"></i>
@@ -93,34 +93,34 @@ body {
             </a>
         </div>
 
-        <!-- Play button under the title -->
-        <button id="play-button" onclick="playMusic()" style="display: none;">Play Music</button>
- <!-- Audio element -->
-    <audio id="background-music" autoplay loop muted>
-        <source src="song.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
+        <!-- Audio element -->
+        <audio id="background-music" loop>
+            <source src="song.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
 
     <script>
         const audio = document.getElementById("background-music");
         const playButton = document.getElementById("play-button");
 
-        // Function to play music and hide the play button
-        function playMusic() {
-            audio.play();
-            audio.muted = false; // Unmute when playing manually
-            playButton.style.display = "none";
+        // Function to toggle music and update button text
+        function toggleMusic() {
+            if (audio.paused) {
+                audio.play();
+                playButton.textContent = "Stop Music";
+            } else {
+                audio.pause();
+                playButton.textContent = "Start Music";
+            }
         }
 
-        // Attempt to autoplay and unmute the audio after it begins playing
+        // Check autoplay on page load and show button if blocked
         window.addEventListener("load", () => {
-            audio.play().then(() => {
-                // Wait a bit and unmute if autoplay is successful
-                setTimeout(() => audio.muted = false, 500);
-            }).catch(() => {
-                // Show the play button if autoplay fails
-                playButton.style.display = "block";
+            audio.play().catch(() => {
+                playButton.textContent = "Start Music";
             });
         });
     </script>
+</body>
 </html>
