@@ -79,24 +79,24 @@
             margin-bottom: 5px; 
         }
         /* Logo overlay styling */
-        .textarea-container {
+        .textarea-container, .rating-item, .extra-input {
             position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
         .logo-overlay {
             position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 40px; /* Increased logo size */
+            height: 40px;
             display: flex;
             justify-content: center;
             align-items: center;
             pointer-events: none;
-            opacity: 0.4; /* Slightly increased opacity */
-            transition: width 0.2s, height 0.2s; /* Smooth transition for resizing */
+            opacity: 0.2; /* Slightly increased opacity */
         }
         .logo-overlay img { 
-            width: 50%; /* Logo takes up 50% of the textarea height */
-            height: auto; /* Maintain aspect ratio */
+            max-width: 100%; 
+            max-height: 100%; 
         }
         /* Button Styling */
         .btn-success {
@@ -206,12 +206,7 @@
 
         <h3>Generated BBCode</h3>
         <div style="position: relative; display: inline-block; width: 100%;">
-            <div class="textarea-container">
-                <textarea id="output" readonly></textarea>
-                <div class="logo-overlay">
-                    <img src="seal.png" alt="Logo">
-                </div>
-            </div>
+            <textarea id="output" readonly></textarea>
             <button class="btn-copy" onclick="copyToClipboard()">
                 📋 Copy to Clipboard
             </button>
@@ -246,18 +241,21 @@
 
                 categories[section].forEach(category => {
                     const div = document.createElement('div');
-                    div.classList.add('rating-item');
+                    div.className = 'rating-item';
+                    const categoryId = category.replace(/\s+/g, '');
+
                     div.innerHTML = `
-                        <label>${category}</label>
-                        <select class="rating" id="${category.replace(/ /g, "_")}">
-                            <option value="N/O">N/O</option>
+                        <label>${category} — Rating:</label>
+                        <select class="rating" id="${categoryId}">
+                            <option value="">Select Rating</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
-                            <option value="4">4</option>
+                            <option value="N/O">N/O</option>
                         </select>
                         <div class="extra-input">
-                            <textarea placeholder="Add additional comments..."></textarea>
+                            <label>Comments (optional):</label>
+                            <textarea placeholder="Additional comments..."></textarea>
                         </div>
                     `;
                     ratingsDiv.appendChild(div);
@@ -269,49 +267,80 @@
         document.addEventListener('change', (event) => {
             if (event.target.classList.contains('rating')) {
                 const extraInput = event.target.closest('.rating-item').querySelector('.extra-input');
-                extraInput.style.display = (event.target.value === "N/O") ? 'block' : 'none';
+                const incidentTaskInput = document.getElementById('incidentTaskInput');
+                const trainingRemediationInput = document.getElementById('trainingRemediationInput');
+
+                // Check the selected value
+                const selectedValue = event.target.value;
+
+                // Show or hide the extra input based on selected value
+                extraInput.style.display = (selectedValue === "N/O") ? 'block' : 'none';
+
+                // Show incident/task and training/remediation inputs if value is not N/O or 3
+                if (selectedValue !== "N/O" && selectedValue !== "3") {
+                    incidentTaskInput.style.display = 'block';
+                    trainingRemediationInput.style.display = 'block';
+                } else {
+                    incidentTaskInput.style.display = 'none';
+                    trainingRemediationInput.style.display = 'none';
+                }
             }
         });
 
-        // Generate BBCode
+        // Generate BBCode output
         function generateBBCode() {
-            const ftoName = document.getElementById('ftoName').value;
-            const ppoName = document.getElementById('ppoName').value;
-            const serial = document.getElementById('serial').value;
-            const division = document.getElementById('division').value;
-            const phase = document.getElementById('phase').value;
-            const patrolDate = document.getElementById('patrolDate').value;
-            const comments = document.getElementById('comments').value;
+            let bbcode = `[b]Daily Observation Report[/b]\n`;
+            bbcode += `[b]Field Training Officer:[/b] ${document.getElementById('ftoName').value}\n`;
+            bbcode += `[b]Probationary Officer:[/b] ${document.getElementById('ppoName').value}\n`;
+            bbcode += `[b]Serial No.:[/b] ${document.getElementById('serial').value}\n`;
+            bbcode += `[b]Division:[/b] ${document.getElementById('division').value}\n`;
+            bbcode += `[b]Phase Covered:[/b] ${document.getElementById('phase').value}\n`;
+            bbcode += `[b]Date of Patrol:[/b] ${document.getElementById('patrolDate').value}\n\n`;
 
-            let bbcode = `[b]Field Training Officer:[/b] ${ftoName}\n`;
-            bbcode += `[b]Probationary Police Officer:[/b] ${ppoName}\n`;
-            bbcode += `[b]Serial No:[/b] ${serial}\n`;
-            bbcode += `[b]Division:[/b] ${division}\n`;
-            bbcode += `[b]Phase Covered:[/b] ${phase}\n`;
-            bbcode += `[b]Date of Patrol:[/b] ${patrolDate}\n\n`;
-            bbcode += `[b]Ratings:[/b]\n`;
+            // Add ratings
+            const ratings = document.querySelectorAll('.rating-item');
+            ratings.forEach(item => {
+                const ratingSelect = item.querySelector('.rating');
+                const comments = item.querySelector('textarea').value;
+                const category = item.querySelector('label').innerText;
 
-            document.querySelectorAll('.rating').forEach(select => {
-                const label = select.previousElementSibling.textContent;
-                const value = select.value;
-                const extraComment = select.closest('.rating-item').querySelector('textarea').value;
-                bbcode += `[b]${label}:[/b] ${value}${extraComment ? ' - ' + extraComment : ''}\n`;
+                if (ratingSelect.value) {
+                    bbcode += `[b]${category}:[/b] ${ratingSelect.value}\n`;
+                    if (comments) {
+                        bbcode += `[b]Comments:[/b] ${comments}\n`;
+                    }
+                    bbcode += '\n';
+                }
             });
 
-            bbcode += `\n[b]Additional Comments:[/b] ${comments}\n`;
+            // Add additional comments
+            const additionalComments = document.getElementById('comments').value;
+            if (additionalComments) {
+                bbcode += `[b]Additional Comments:[/b] ${additionalComments}\n`;
+            }
 
+            // Display BBCode
             document.getElementById('output').value = bbcode;
         }
 
-        // Copy to clipboard function
+        // Copy to clipboard
         function copyToClipboard() {
             const output = document.getElementById('output');
             output.select();
             document.execCommand('copy');
-            alert('BBCode copied to clipboard!');
+            alert("BBCode copied to clipboard!");
         }
 
-        createRatingFields();
+        // Initialize rating fields
+        window.onload = createRatingFields;
     </script>
+
+    <div class="section">
+        <label>Incident/Task:</label>
+        <textarea id="incidentTaskInput" class="extra-input" placeholder="Describe the incident or task..."></textarea>
+
+        <label>Training/Remediation:</label>
+        <textarea id="trainingRemediationInput" class="extra-input" placeholder="Describe the training or remediation..."></textarea>
+    </div>
 </body>
 </html>
