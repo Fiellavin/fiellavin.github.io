@@ -27,16 +27,17 @@
         }
         .section { margin-bottom: 20px; }
         textarea, .textarea-input {
-            width: 100%;
-            height: 80px; /* Compact size for the main text areas */
+            width: 95%;
+            height: 60px;
             margin-top: 10px;
             font-size: 14px;
-            padding: 10px;
+            padding: 8px;
             resize: vertical;
+            position: relative;
         }
         .rating-item { margin: 10px 0; position: relative; }
         .extra-input { display: none; margin-top: 10px; }
-        .extra-input textarea { width: 95%; height: 60px; padding: 8px; } /* Smaller task and remediation fields */
+        .extra-input textarea { width: 90%; height: 50px; padding: 8px; margin-bottom: 5px; }
 
         /* Logo overlay styling */
         .textarea-container, .rating-item, .extra-input {
@@ -44,10 +45,10 @@
         }
         .logo-overlay {
             position: absolute;
-            top: 10px; /* Center the logo more effectively */
+            top: 10px;
             left: 10px;
-            width: 60px; /* Slightly larger logo */
-            height: 60px;
+            width: 40px; /* Smaller logo */
+            height: 40px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -111,7 +112,6 @@
     </div>
 
     <script>
-        // Category definitions for ratings
         const categories = {
             "Appearance": ["General Appearance"],
             "Attitude": ["Acceptance of Criticism/Response", "Attitude Toward Public Service"],
@@ -128,7 +128,6 @@
             "(( Out of Character ))": ["Overall Mindset", "Character Portrayal", "Roleplay: General/Passive"]
         };
 
-        // Create rating fields with logo overlay
         function createRatingFields() {
             const ratingsDiv = document.getElementById('ratings');
             Object.keys(categories).forEach(section => {
@@ -151,22 +150,54 @@
                         </select><br>
                         <div id="${categoryId}-extra" class="extra-input">
                             <label>Incident/Task:</label><br>
-                            <textarea id="${categoryId}-task" placeholder="Describe the task..."></textarea>
-                            <div class="logo-overlay"><img src="seal.png" alt="Logo"></div><br>
+                            <div class="textarea-container">
+                                <textarea id="${categoryId}-task" placeholder="Describe the task..."></textarea>
+                                <div class="logo-overlay"><img src="seal.png" alt="Logo"></div>
+                            </div><br>
                             <label>Training/Remediation:</label><br>
-                            <textarea id="${categoryId}-remediation" placeholder="Describe the remediation..."></textarea>
-                            <div class="logo-overlay"><img src="seal.png" alt="Logo"></div>
+                            <div class="textarea-container">
+                                <textarea id="${categoryId}-remediation" placeholder="Describe the remediation..."></textarea>
+                                <div class="logo-overlay"><img src="seal.png" alt="Logo"></div>
+                            </div>
                         </div>`;
                     ratingsDiv.appendChild(div);
                 });
             });
         }
 
-        // Show/hide extra input fields and logos based on the rating
         function toggleExtraInput(categoryId) {
             const rating = document.getElementById(categoryId).value;
             const extraInputDiv = document.getElementById(`${categoryId}-extra`);
             extraInputDiv.style.display = (rating === '1' || rating === '2' || rating === '4') ? 'block' : 'none';
+        }
+
+        function generateBBCode() {
+            const ftoName = document.getElementById('ftoName').value;
+            const ppoName = document.getElementById('ppoName').value;
+            const serial = document.getElementById('serial').value;
+            const division = document.getElementById('division').value;
+            const phase = document.getElementById('phase').value;
+            const patrolDate = document.getElementById('patrolDate').value;
+            const comments = document.getElementById('comments').value;
+
+            let bbcode = `[b]Field Training Officer:[/b] ${ftoName}\n[b]Probationary Officer:[/b] ${ppoName}\n[b]Serial:[/b] ${serial}\n[b]Division:[/b] ${division}\n[b]Phase:[/b] ${phase}\n[b]Date:[/b] ${patrolDate}\n\n[b]Comments:[/b] ${comments}\n\n[b]Ratings:[/b]\n`;
+
+            Object.keys(categories).forEach(section => {
+                bbcode += `\n[b]${section}[/b]\n`;
+                categories[section].forEach(category => {
+                    const categoryId = category.replace(/\s+/g, '');
+                    const rating = document.getElementById(categoryId).value;
+                    const task = document.getElementById(`${categoryId}-task`).value;
+                    const remediation = document.getElementById(`${categoryId}-remediation`).value;
+
+                    bbcode += `\n[b]${category}[/b] — Rating: ${rating}\n`;
+                    if (task || remediation) {
+                        bbcode += `[b]Incident/Task:[/b] ${task}\n[b]Training/Remediation:[/b] ${remediation}\n`;
+                    }
+                });
+            });
+
+            document.getElementById('output').value = bbcode;
         }
 
         createRatingFields();
