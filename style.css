@@ -1,0 +1,54 @@
+/* General Styles */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+/* Header Styling */
+header {
+    background-color: #182c3c;
+    color: #ffffff;
+    text-align: center;
+    padding: 20px;
+    position: relative;
+}
+
+header .badge {
+    width: 100px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5em;
+}
+
+/* Main Content Styling */
+main {
+    padding: 20px;
+}
+
+section h2 {
+    color: #182c3c;
+}
+
+/* Footer Styling */
+footer {
+    background-color: #182c3c;
+    color: #ffffff;
+    text-align: center;
+    padding: 10px;
+    position: relative;
+}
+
+footer .seal {
+    width: 80px;
+}
+
+footer p {
+    margin: 10px 0 0;
+}
