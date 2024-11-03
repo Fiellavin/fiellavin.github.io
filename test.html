@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
         <style type="text/css">
-            body, html {
+           /* Full-page dark green gradient background */
+body, html {
     margin: 0;
     padding: 0;
     height: 100%;
@@ -18,50 +19,38 @@
     justify-content: center;
     align-items: center;
 }
-            .container {
+
+/* Main container styling */
+.container {
     text-align: center;
-}
-         /* Centered Content Styling */
-.centered-content {
-    text-align: center;
-    margin-top: -100px; /* Adjusts vertical positioning */
 }
 
-/* Fancy Title Styling */
+/* Title styling with a fancier look */
 .title {
-    font-size: 72px; /* Larger text */
-    font-weight: 400;
+    font-size: 64px;
+    font-weight: 600;
+    color: #ffffff;
     font-family: 'Pacifico', cursive;
-    letter-spacing: 3px;
-    background: linear-gradient(135deg, #a8e6a2, #56ab2f); /* Light to dark green gradient */
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent; /* Makes the gradient visible within text */
-    text-shadow: 4px 4px 12px rgba(0, 0, 0, 0.3); /* Soft shadow for depth */
     margin-bottom: 20px;
-    transition: transform 0.3s ease; /* Animation for subtle scaling */
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Add shadow for depth */
 }
 
-.title:hover {
-    transform: scale(1.05); /* Slightly enlarge on hover */
-}
-
-/* Social Icon Styling */
+/* Social icon styling */
 .social-icons {
     display: flex;
     justify-content: center;
     gap: 20px;
-    margin-top: 10px;
 }
 
 .social-icons a {
     color: #c5c5c5;
     font-size: 32px;
-    transition: color 0.3s ease, transform 0.3s ease;
+    transition: color 0.3s ease;
 }
 
 .social-icons a:hover {
     color: #ffffff;
-    transform: scale(1.1); /* Slightly enlarge icons on hover */
 }
     </style>
 </head>
