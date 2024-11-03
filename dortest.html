@@ -15,25 +15,44 @@
     <link rel="icon" href="favicon.png">
 
     <style type="text/css">
-        body { font-family: Arial, sans-serif; text-align: center; }
-        .cons1 {
-            background: #0f2940;
-            position: relative;
-            width: 100%;
-            text-align: center;
-            padding: 20px 0;
+        body { font-family: Arial, sans-serif; }
+        .header {
+            background: #182c3c; /* Your specified hex color */
             color: white;
-            font-weight: 700;
+            padding: 20px;
+            text-align: center;
         }
-        .section { margin-bottom: 20px; }
-        textarea { width: 100%; height: 300px; margin-top: 10px; }
+        .container {
+            margin: 20px auto;
+            padding: 20px;
+            max-width: 800px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            margin-top: 10px;
+            resize: none;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
         .rating-item { margin: 10px 0; }
         .extra-input { display: none; margin-top: 10px; }
-        .extra-input textarea { width: 95%; height: 100px; } /* Smaller text areas for task and remediation */
+        .extra-input textarea { height: 100px; } /* Smaller text areas for task and remediation */
+        .btn {
+            background-color: #182c3c; /* Match button color to your theme */
+            color: white;
+        }
+        .btn:hover {
+            background-color: #154052; /* Darker shade for hover effect */
+        }
     </style>
 </head>
 <body>
-    <div class="cons1">
+    <div class="header">
         <h2>BBCode Formatter for Daily Observation Report</h2>
         <a href="index.html" style="color: white;">Back to Home</a>
     </div>
@@ -41,27 +60,32 @@
     <div class="container">
         <div id="form">
             <div class="section">
-                <label>Field Training Officer's Name:</label><br>
-                <input type="text" id="ftoName" placeholder="FTO, First, Last"><br>
-                <label>Probationary Police Officer's Name:</label><br>
-                <input type="text" id="ppoName" placeholder="PO1 First, Last"><br>
-                <label>Serial No.:</label><br>
-                <input type="text" id="serial" placeholder="PO1 Serial"><br>
-                <label>Division:</label><br>
-                <select id="division">
+                <label>Field Training Officer's Name:</label>
+                <input type="text" id="ftoName" placeholder="FTO, First, Last" class="form-control">
+                
+                <label>Probationary Police Officer's Name:</label>
+                <input type="text" id="ppoName" placeholder="PO1 First, Last" class="form-control">
+                
+                <label>Serial No.:</label>
+                <input type="text" id="serial" placeholder="PO1 Serial" class="form-control">
+                
+                <label>Division:</label>
+                <select id="division" class="form-control">
                     <option value="HARBOR PATROL DIVISION">HARBOR PATROL DIVISION</option>
                     <option value="VICTORIA PATROL DIVISION">VICTORIA PATROL DIVISION</option>
                     <option value="CENTRAL TRAFFIC DIVISION">CENTRAL TRAFFIC DIVISION</option>
                     <option value="Metro">METROPOLITAN DIVISION</option>
-                </select><br>
-                <label>Phase Covered:</label><br>
-                <select id="phase">
+                </select>
+                
+                <label>Phase Covered:</label>
+                <select id="phase" class="form-control">
                     <option value="II-1">II-1</option>
                     <option value="II-2">II-2</option>
                     <option value="III">III</option>
-                </select><br>
-                <label>Date of Patrol (DD/MMM/YYYY):</label><br>
-                <input type="text" id="patrolDate"><br>
+                </select>
+                
+                <label>Date of Patrol (DD/MMM/YYYY):</label>
+                <input type="text" id="patrolDate" class="form-control">
             </div>
 
             <div class="section">
@@ -70,8 +94,8 @@
             </div>
 
             <div class="section">
-                <label>Additional Comments:</label><br>
-                <textarea id="comments" placeholder="Additional comments here..."></textarea>
+                <label>Additional Comments:</label>
+                <textarea id="comments" placeholder="Additional comments here..." class="form-control"></textarea>
             </div>
 
             <button onclick="generateBBCode()" class="btn btn-success">Generate BBCode</button>
@@ -112,18 +136,18 @@
                     div.className = 'rating-item';
                     const categoryId = category.replace(/\s+/g, '');
                     div.innerHTML = `<label>${category} — Rating:</label>
-                        <select id="${categoryId}" onchange="toggleExtraInput('${categoryId}')">
+                        <select id="${categoryId}" onchange="toggleExtraInput('${categoryId}')" class="form-control">
                             <option value="N/O">N/O</option>
                             <option value="1">1 (Below Standard)</option>
                             <option value="2">2 (Improvement Required)</option>
                             <option value="3">3 (Standard)</option>
                             <option value="4">4 (Above Standard)</option>
-                        </select><br>
+                        </select>
                         <div id="${categoryId}-extra" class="extra-input">
-                            <label>Incident/Task:</label><br>
-                            <textarea id="${categoryId}-task" placeholder="Describe the task..."></textarea><br>
-                            <label>Training/Remediation:</label><br>
-                            <textarea id="${categoryId}-remediation" placeholder="Describe the remediation..."></textarea>
+                            <label>Incident/Task:</label>
+                            <textarea id="${categoryId}-task" placeholder="Describe the task..." class="form-control"></textarea>
+                            <label>Training/Remediation:</label>
+                            <textarea id="${categoryId}-remediation" placeholder="Describe the remediation..." class="form-control"></textarea>
                         </div>`;
                     ratingsDiv.appendChild(div);
                 });
@@ -162,42 +186,27 @@
                     if (rating === '1' || rating === '2' || rating === '4') {
                         const task = document.getElementById(`${categoryId}-task`).value;
                         const remediation = document.getElementById(`${categoryId}-remediation`).value;
-                        narrativeBBCode += `[*][b]Evaluation Category:[/b] ${itemNumber}\n[b]Incident/Task:[/b] ${task}\n[b]Training/Remediation:[/b] ${remediation}\n[br]\n`;
+                        narrativeBBCode += `[*][b]Evaluation Category:[/b] ${itemNumber}\n[b]Incident/Task:[/b] ${task}\n[b]Training/Remediation:[/b] ${remediation}\n\n`;
                     }
                     itemNumber++;
                 });
             });
 
-            narrativeBBCode += '[/list]';
-
-            const bbcode = `[font=Arial][divbox=#eee font=#2E3168][center]Los Santos Police Department
-[b]PROBATIONARY POLICE OFFICER
-DAILY OBSERVATION REPORT[/b][/center]
-[hr][/hr]
-
-[size=95][b]Field Training Officer's Name[/b][/size]: ${ftoName}
-[size=95][b]Probationary Police Officer's Name[/b][/size]: ${ppoName}
-[size=95][b]Serial No.[/b][/size] ${serial}
-[size=95][b]Division:[/b][/size] ${division}
-[size=95][b]Date of Patrol:[/b][/size] ${patrolDate}
-[size=95][b]Phase Covered:[/b][/size] ${phase}
-[br]
-
-[size=95][b]INSTRUCTIONS:[/b] See [url=https://police.lsgov.us/viewtopic.php?p=17517#p17517]Appendix 1, Standardized Evaluation Guidelines (SEGs)[/url] for how to rate observable behaviors. A rating of 3 (Standard) is the [i]minimum[/i] acceptable score within each category to meet the standard for solo patrol officer. Ratings of 1 (Below Standard), 2 (Improvement Required), or 4 (Above Standard) [u]require[/u] a Documented Situation (DS); thus, describe the related event in the accompanying Event Narrative. Check N/O if behavior is Not Observed.[/size][br]
-
-[center][b][size=110]EVALUATION CATEGORIES[/size][/b][/center]
-
-${ratingsBBCode}
-
-[center][b][size=110]EVALUATION NARRATIVE[/size][/b][/center]
-
-${narrativeBBCode}
-
-[center][b][size=110]ADDITIONAL COMMENTS[/size][/b][/center]
-
-[list=none]${comments}[/list]
-
-[/divbox][/font]`;
+            narrativeBBCode += '[/list]\n';
+            const bbcode = `[size=110][b]DAILY OBSERVATION REPORT[/b][/size]\n\n` +
+                `[size=95][b]Field Training Officer's Name:[/b] ${ftoName}\n` +
+                `[b]Probationary Police Officer's Name:[/b] ${ppoName}\n` +
+                `[b]Serial No.[/b] ${serial}\n` +
+                `[b]Division:[/b] ${division}\n` +
+                `[b]Date of Patrol:[/b] ${patrolDate}\n` +
+                `[b]Phase Covered:[/b] ${phase}[/size]\n\n` +
+                `[size=95][b]INSTRUCTIONS:[/b] See [url=https://police.lsgov.us/viewtopic.php?p=17517#p17517]Appendix 1, Standardized Evaluation Guidelines (SEGs)[/url] for how to rate observable behaviors. A rating of 3 (Standard) is the [i]minimum[/i] acceptable score within each category to meet the standard for solo patrol officer. Ratings of 1 (Below Standard), 2 (Improvement Required), or 4 (Above Standard) [u]require[/u] a Documented Situation (DS); thus, describe the related event in the accompanying Event Narrative. Check N/O if behavior is Not Observed.[/size]\n\n` +
+                `[center][b][size=110]EVALUATION CATEGORIES[/size][/b][/center]\n` +
+                ratingsBBCode +
+                `[center][b][size=110]EVALUATION NARRATIVE[/size][/b][/center]\n` +
+                narrativeBBCode +
+                `[center][b][size=110]ADDITIONAL COMMENTS[/size][/b][/center]\n` +
+                `[list=none]${comments}[/list]`;
 
             document.getElementById('output').value = bbcode;
         }
