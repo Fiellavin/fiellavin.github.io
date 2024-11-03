@@ -63,42 +63,19 @@
         textarea {
             height: 80px; /* Compact size */
             resize: vertical;
+            position: relative; /* Required for logo positioning */
         }
         .rating-item { 
             margin: 10px 0; 
-            position: relative; 
-        }
-        .extra-input { 
-            display: none; 
-            margin-top: 10px; 
-        }
-        .extra-input textarea { 
-            width: 90%; 
-            height: 60px; 
-            padding: 8px; 
-            margin-bottom: 5px; 
-        }
-        /* Logo overlay styling */
-        .textarea-container, .rating-item, .extra-input {
-            position: relative;
         }
         .logo-overlay {
             position: absolute;
-            top: 8px;
-            right: 8px;
+            top: 5px; /* Adjust for better positioning */
+            right: 5px;
             width: 30px; /* Smaller logo */
             height: 30px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             pointer-events: none;
-            opacity: 0.2; /* Slightly increased opacity */
         }
-        .logo-overlay img { 
-            max-width: 100%; 
-            max-height: 100%; 
-        }
-        /* Centered logo styling for specific sections */
         .centered-logo {
             display: flex;
             justify-content: center;
@@ -197,9 +174,7 @@
                 <label>Additional Comments:</label>
                 <div class="textarea-container">
                     <textarea id="comments" placeholder="Additional comments here..."></textarea>
-                    <div class="centered-logo">
-                        <img src="seal.png" alt="Logo" class="logo-overlay">
-                    </div>
+                    <img src="seal.png" alt="Logo" class="logo-overlay">
                 </div>
             </div>
 
@@ -262,14 +237,6 @@
                         <option value="N/O">N/O</option>
                     `;
                     ratingItem.appendChild(select);
-
-                    const logoOverlay = document.createElement('div');
-                    logoOverlay.className = 'logo-overlay';
-                    const logoImage = document.createElement('img');
-                    logoImage.src = "seal.png"; // Specify your logo path
-                    logoImage.alt = "Logo";
-                    logoOverlay.appendChild(logoImage);
-                    ratingItem.appendChild(logoOverlay);
 
                     ratingsDiv.appendChild(ratingItem);
                 });
