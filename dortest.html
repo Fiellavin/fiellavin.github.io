@@ -15,173 +15,78 @@
     <link rel="icon" href="favicon.png">
 
     <style type="text/css">
-        body { 
-            font-family: Arial, sans-serif; 
-            text-align: center; 
-            background-color: #f4f4f4; 
-            padding: 20px;
-        }
+        body { font-family: Arial, sans-serif; text-align: center; }
         .cons1 {
             background: #0f2940;
+            position: relative;
             width: 100%;
             text-align: center;
             padding: 20px 0;
             color: white;
             font-weight: 700;
-            margin-bottom: 20px;
         }
-        .cons1 a {
-            color: white;
-            text-decoration: underline;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        .section { 
-            margin-bottom: 20px; 
-            text-align: left;
-        }
-        label { 
-            display: block; 
-            margin-bottom: 5px; 
-            font-weight: bold; 
-        }
-        input[type="text"], select, textarea {
+        .section { margin-bottom: 20px; }
+        .rating-item { margin: 10px 0; }
+        .textarea-container {
+            position: relative;
             width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
-            font-size: 14px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
+            margin-top: 10px;
         }
         textarea {
-            height: 80px; /* Compact size */
-            resize: vertical;
-        }
-        .rating-item { 
-            margin: 10px 0; 
-            position: relative; 
-        }
-        .extra-input { 
-            display: none; 
-            margin-top: 10px; 
-        }
-        .extra-input textarea { 
-            width: 90%; 
-            height: 60px; 
-            padding: 8px; 
-            margin-bottom: 5px; 
-        }
-        /* Centered Logo Overlay Styling */
-        .textarea-container, .extra-input, #output-container {
-            position: relative;
+            width: 100%;
+            height: 100px; /* Set a fixed height for all textareas */
+            font-size: 14px; /* Font size */
+            resize: none; /* Disable resizing */
         }
         .logo-overlay {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 40px;
-            height: 40px;
-            opacity: 0.2;
-            pointer-events: none;
+            z-index: 1;
+            pointer-events: none; /* Allows clicks to pass through to the textarea */
         }
-        .logo-overlay img { 
-            max-width: 100%; 
-            max-height: 100%; 
+        .logo-overlay img {
+            max-width: 40px; /* Increase the size of the logo */
+            max-height: 40px; /* Maintain aspect ratio */
         }
-        /* Button Styling */
-        .btn-success {
-            background-color: #28a745;
-            border: none;
-            color: white;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 14px;
-            margin: 5px 2px;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-        .btn-success:hover {
-            background-color: #218838;
-        }
-        /* Copy Button */
-        .btn-copy {
-            background-color: #28a745;
-            border: none;
-            color: white;
-            padding: 8px 12px;
-            font-size: 14px;
-            cursor: pointer;
-            border-radius: 4px;
-            display: inline-flex;
-            align-items: center;
-            margin-left: 10px;
-        }
-        .btn-copy:hover {
-            background-color: #218838;
-        }
-        .btn-copy img {
-            margin-right: 5px;
-            width: 16px;
-            height: 16px;
-        }
-        /* Generated BBCode textarea */
-        #output {
-            width: 100%;
-            height: 150px; /* Larger than input textboxes */
-            padding: 8px;
-            font-size: 14px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            resize: vertical;
-            box-sizing: border-box;
+        .extra-input { display: none; margin-top: 10px; }
+        .extra-input textarea { width: 95%; height: 100px; } /* Smaller text areas for task and remediation */
+        .generated-bbcode {
+            height: 150px; /* Make the generated BBCode box larger */
         }
     </style>
 </head>
 <body>
     <div class="cons1">
         <h2>BBCode Formatter for Daily Observation Report</h2>
-        <a href="index.html">Back to Home</a>
+        <a href="index.html" style="color: white;">Back to Home</a>
     </div>
 
     <div class="container">
         <div id="form">
             <div class="section">
-                <label>Field Training Officer's Name:</label>
-                <input type="text" id="ftoName" placeholder="FTO, First, Last">
-
-                <label>Probationary Police Officer's Name:</label>
-                <input type="text" id="ppoName" placeholder="PO1 First, Last">
-
-                <label>Serial No.:</label>
-                <input type="text" id="serial" placeholder="PO1 Serial">
-
-                <label>Division:</label>
+                <label>Field Training Officer's Name:</label><br>
+                <input type="text" id="ftoName" placeholder="FTO, First, Last"><br>
+                <label>Probationary Police Officer's Name:</label><br>
+                <input type="text" id="ppoName" placeholder="PO1 First, Last"><br>
+                <label>Serial No.:</label><br>
+                <input type="text" id="serial" placeholder="PO1 Serial"><br>
+                <label>Division:</label><br>
                 <select id="division">
                     <option value="HARBOR PATROL DIVISION">HARBOR PATROL DIVISION</option>
                     <option value="VICTORIA PATROL DIVISION">VICTORIA PATROL DIVISION</option>
                     <option value="CENTRAL TRAFFIC DIVISION">CENTRAL TRAFFIC DIVISION</option>
                     <option value="Metro">METROPOLITAN DIVISION</option>
-                </select>
-
-                <label>Phase Covered:</label>
+                </select><br>
+                <label>Phase Covered:</label><br>
                 <select id="phase">
                     <option value="II-1">II-1</option>
                     <option value="II-2">II-2</option>
                     <option value="III">III</option>
-                </select>
-
-                <label>Date of Patrol (DD/MMM/YYYY):</label>
-                <input type="text" id="patrolDate">
+                </select><br>
+                <label>Date of Patrol (DD/MMM/YYYY):</label><br>
+                <input type="text" id="patrolDate"><br>
             </div>
 
             <div class="section">
@@ -190,7 +95,7 @@
             </div>
 
             <div class="section">
-                <label>Additional Comments:</label>
+                <label>Additional Comments:</label><br>
                 <div class="textarea-container">
                     <textarea id="comments" placeholder="Additional comments here..."></textarea>
                     <div class="logo-overlay">
@@ -203,19 +108,16 @@
         </div>
 
         <h3>Generated BBCode</h3>
-        <div id="output-container" style="position: relative; display: inline-block; width: 100%;">
-            <textarea id="output" readonly></textarea>
+        <div class="textarea-container">
+            <textarea id="output" readonly class="generated-bbcode"></textarea>
             <div class="logo-overlay">
                 <img src="seal.png" alt="Logo">
             </div>
-            <button class="btn-copy" onclick="copyToClipboard()">
-                📋 Copy to Clipboard
-            </button>
         </div>
+        <button onclick="copyToClipboard()" class="btn btn-success">📋 Copy to Clipboard</button>
     </div>
 
     <script>
-        // Category definitions for ratings
         const categories = {
             "Appearance": ["General Appearance"],
             "Attitude": ["Acceptance of Criticism/Response", "Attitude Toward Public Service"],
@@ -232,47 +134,43 @@
             "(( Out of Character ))": ["Overall Mindset", "Character Portrayal", "Roleplay: General/Passive"]
         };
 
-        // Create rating fields with logo overlay
         function createRatingFields() {
             const ratingsDiv = document.getElementById('ratings');
             Object.keys(categories).forEach(section => {
                 const header = document.createElement('h4');
-                                header.textContent = section;
+                header.textContent = section.toUpperCase();
                 ratingsDiv.appendChild(header);
 
-                categories[section].forEach(rating => {
-                    const ratingItem = document.createElement('div');
-                    ratingItem.className = 'rating-item';
-                    ratingItem.innerHTML = `
-                        <label>${rating} — Rating:</label>
-                        <input type="text" placeholder="1-4 or N/O">
+                categories[section].forEach(category => {
+                    const div = document.createElement('div');
+                    div.className = 'rating-item';
+                    const categoryId = category.replace(/\s+/g, '');
+                    div.innerHTML = `<label>${category} — Rating:</label>
+                        <input type="text" placeholder="1-4 or N/O" onchange="toggleExtraInput('${categoryId}')">
                         <div class="logo-overlay">
                             <img src="seal.png" alt="Logo">
-                        </div>
-                    `;
-                    ratingsDiv.appendChild(ratingItem);
+                        </div>`;
+                    ratingsDiv.appendChild(div);
                 });
             });
         }
 
-        // Function to generate BBCode
         function generateBBCode() {
             const ftoName = document.getElementById('ftoName').value;
             const ppoName = document.getElementById('ppoName').value;
             const serial = document.getElementById('serial').value;
             const division = document.getElementById('division').value;
-            const phase = document.getElementById('phase').value;
             const patrolDate = document.getElementById('patrolDate').value;
             const comments = document.getElementById('comments').value;
+
             let bbcode = `[b]Daily Observation Report[/b]\n\n`;
             bbcode += `[b]FTO:[/b] ${ftoName}\n`;
             bbcode += `[b]PPO:[/b] ${ppoName}\n`;
             bbcode += `[b]Serial No:[/b] ${serial}\n`;
             bbcode += `[b]Division:[/b] ${division}\n`;
-            bbcode += `[b]Phase Covered:[/b] ${phase}\n`;
             bbcode += `[b]Date of Patrol:[/b] ${patrolDate}\n`;
             bbcode += `[b]Additional Comments:[/b] ${comments}\n`;
-            
+
             // Append ratings to BBCode
             const ratingInputs = document.querySelectorAll('#ratings input');
             ratingInputs.forEach(input => {
@@ -285,7 +183,6 @@
             document.getElementById('output').value = bbcode;
         }
 
-        // Function to copy BBCode to clipboard
         function copyToClipboard() {
             const output = document.getElementById('output');
             output.select();
