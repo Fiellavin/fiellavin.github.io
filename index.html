@@ -9,7 +9,7 @@
     <style type="text/css">
         @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&display=swap');
 
-        /* General Styles */
+        /* General */
         body {
             margin: 0;
             font-family: Arial, sans-serif;
@@ -21,7 +21,7 @@
             min-height: 100vh;
         }
 
-        /* Centered Content Styling */
+        /* Centered Content */
         .container {
             display: flex;
             flex-direction: column;
@@ -29,7 +29,7 @@
             text-align: center;
         }
 
-        /* Fancy Title Styling */
+        /* Fancy Title */
         .title {
             font-size: 72px;
             font-weight: 700;
@@ -40,7 +40,7 @@
             margin-bottom: 10px;
         }
 
-        /* Play Button Styling */
+        /* Play Button */
         #play-button {
             padding: 10px 20px;
             background-color: #4caf50; /* Green background */
@@ -57,7 +57,7 @@
             background-color: #388e3c; /* Darker green on hover */
         }
 
-        /* Social Icon Styling */
+        /* Social Icon */
         .social-icons {
             display: flex;
             justify-content: center;
@@ -79,7 +79,7 @@
     <div class="container">
         <h1 class="title">Fiellavin</h1>
 
-        <!-- Play button under the title -->
+        <!-- Play button under title -->
         <button id="play-button" onclick="toggleMusic()">Start Music</button>
 
         <div class="social-icons">
@@ -104,10 +104,9 @@
         const audio = document.getElementById("background-music");
         const playButton = document.getElementById("play-button");
 
-        // Set default volume to low
-        audio.volume = 0.2; // Set to 20% volume
+        audio.volume = 0.2; // set to 20% volume
 
-        // Function to toggle music and update button text
+        // tog music
         function toggleMusic() {
             if (audio.paused) {
                 audio.play();
@@ -118,10 +117,10 @@
             }
         }
 
-        // Check autoplay on page load and show button if blocked
+        // Check autoplay on page load
         window.addEventListener("load", () => {
             audio.play().then(() => {
-                // Wait a bit and unmute if autoplay is successful
+                // wait and unmute
                 setTimeout(() => audio.muted = false, 500);
             }).catch(() => {
                 playButton.textContent = "Start Music";
