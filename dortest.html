@@ -357,10 +357,6 @@ ${narrativeBBCode}
             const outputTextarea = document.getElementById('output');
             outputTextarea.select();
             outputTextarea.setSelectionRange(0, 99999); // For mobile devices
-                        if (!ftoName || !ppoName || !serial || !patrolDate) {
-                alert("Please fill out all required fields before generating the BBCode.");
-                return;
-            }
 
             navigator.clipboard.writeText(outputTextarea.value)
                 .then(() => {
