@@ -1,14 +1,15 @@
-/* General Styles */
-body {
+/* General Reset and Background Styling */
+body, html {
     margin: 0;
+    padding: 0;
+    min-height: 100vh;
     font-family: Arial, sans-serif;
-    background-color: #182c3c;
-    color: #ffffff;
+    background: linear-gradient(135deg, #0b1b28, #182c3c);
+    color: #c5c5c5;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    min-height: 100vh;
 }
 
 /* Centered Content Styling */
@@ -17,10 +18,40 @@ body {
     margin-top: 50px;
 }
 
+.container {
+    text-align: center;
+}
+
+/* Title Styling */
+.title {
+    font-size: 64px;
+    font-weight: 400;
+    color: #c5c5c5;
+    font-family: 'Pacifico', cursive;
+    margin-bottom: 20px;
+}
+
 /* Badge Styling */
 .badge {
     width: 150px; /* Adjust size as needed */
     margin-bottom: 20px;
+}
+
+/* Social Icons Styling */
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.social-icons a {
+    color: #c5c5c5;
+    font-size: 32px;
+    transition: color 0.3s ease;
+}
+
+.social-icons a:hover {
+    color: #ffffff;
 }
 
 /* Links Styling Below Badge */
@@ -37,7 +68,7 @@ body {
 }
 
 .links a:hover {
-    color: #2677ce; /* for hover effect */
+    color: #2677ce; /* Hover effect */
 }
 
 /* Footer Styling */
@@ -59,45 +90,4 @@ footer .seal {
 footer p {
     margin-top: 5px;
     font-size: 0.9em;
-}
-
-/* Full-page reset and dark gradient background */
-body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #0b1b28, #182c3c);
-    color: #c5c5c5;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.container {
-    text-align: center;
-}
-
-.title {
-    font-size: 64px;
-    font-weight: 400;
-    color: #c5c5c5;
-    font-family: 'Pacifico', cursive;
-    margin-bottom: 20px;
-}
-
-.social-icons {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-}
-
-.social-icons a {
-    color: #c5c5c5;
-    font-size: 32px;
-    transition: color 0.3s ease;
-}
-
-.social-icons a:hover {
-    color: #ffffff;
 }
