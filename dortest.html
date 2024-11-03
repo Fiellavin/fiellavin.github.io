@@ -86,13 +86,13 @@
             position: absolute;
             top: 8px;
             right: 8px;
-            width: 40px; /* Adjusted logo size */
-            height: 40px;
+            width: 30px; /* Smaller logo */
+            height: 30px;
             display: flex;
             justify-content: center;
             align-items: center;
             pointer-events: none;
-            opacity: 0.8; /* Adjusted opacity */
+            opacity: 0.2; /* Slightly increased opacity */
         }
         .logo-overlay img { 
             max-width: 100%; 
@@ -191,16 +191,6 @@
                 <div id="ratings"></div>
             </div>
 
-            <div class="section" id="incidentSection" style="display: none;">
-                <label>Incident/Task:</label>
-                <textarea id="incidentTask" placeholder="Describe the incident/task here..."></textarea>
-            </div>
-
-            <div class="section" id="trainingSection" style="display: none;">
-                <label>Training/Remediation:</label>
-                <textarea id="trainingRemediation" placeholder="Describe the training/remediation here..."></textarea>
-            </div>
-
             <div class="section">
                 <label>Additional Comments:</label>
                 <div class="textarea-container">
@@ -254,41 +244,53 @@
                     div.className = 'rating-item';
                     const categoryId = category.replace(/\s+/g, '');
 
-                    div.innerHTML = `
+                    div.innerHTML = 
                         <label>${category} — Rating:</label>
-                        <select id="${categoryId}" onchange="handleRatingChange(this)">
-                            <option value="">Select...</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
+                        <select id="${categoryId}" onchange="toggleExtraInput('${categoryId}')">
                             <option value="N/O">N/O</option>
+                            <option value="1">1 (Below Standard)</option>
+                            <option value="2">2 (Improvement Required)</option>
+                            <option value="3">3 (Standard)</option>
+                            <option value="4">4 (Above Standard)</option>
                         </select>
-                    `;
+                        <div class="logo-overlay">
+                            <img src="seal.png" alt="Logo">
+                        </div>
+                        <div id="${categoryId}-extra" class="extra-input">
+                            <label>Incident/Task:</label>
+                            <div class="textarea-container">
+                                <textarea id="${categoryId}-task" placeholder="Describe the task..."></textarea>
+                                <div class="logo-overlay">
+                                    <img src="seal.png" alt="Logo">
+                                </div>
+                            </div>
+
+                            <label>Training/Remediation:</label>
+                            <div class="textarea-container">
+                                <textarea id="${categoryId}-remediation" placeholder="Describe the remediation..."></textarea>
+                                <div class="logo-overlay">
+                                    <img src="seal.png" alt="Logo">
+                                </div>
+                            </div>
+                        </div>
+                    ;
                     ratingsDiv.appendChild(div);
                 });
             });
         }
 
-        function handleRatingChange(selectElement) {
-            const selectedValue = selectElement.value;
-
-            // Show/Hide incident/task and training/remediation fields based on selection
-            const incidentSection = document.getElementById('incidentSection');
-            const trainingSection = document.getElementById('trainingSection');
-
-            if (selectedValue === "N/O") {
-                incidentSection.style.display = "none";
-                trainingSection.style.display = "none";
-            } else if (selectedValue === "3") {
-                incidentSection.style.display = "block";
-                trainingSection.style.display = "none";
+        // Show/hide extra input fields based on the rating
+        function toggleExtraInput(categoryId) {
+            const rating = document.getElementById(categoryId).value;
+            const extraInputDiv = document.getElementById(${categoryId}-extra);
+            if (rating === '1' || rating === '2' || rating === '4') {
+                extraInputDiv.style.display = 'block';
             } else {
-                incidentSection.style.display = "none";
-                trainingSection.style.display = "block";
+                extraInputDiv.style.display = 'none';
             }
         }
 
+        // Generate BBCode with narrative templates for ratings 1, 2, and 4
         function generateBBCode() {
             const ftoName = document.getElementById('ftoName').value;
             const ppoName = document.getElementById('ppoName').value;
@@ -298,44 +300,78 @@
             const patrolDate = document.getElementById('patrolDate').value;
             const comments = document.getElementById('comments').value;
 
-            let bbcode = `[b]Field Training Officer:[/b] ${ftoName}\n`;
-            bbcode += `[b]Probationary Police Officer:[/b] ${ppoName}\n`;
-            bbcode += `[b]Serial No.:[/b] ${serial}\n`;
-            bbcode += `[b]Division:[/b] ${division}\n`;
-            bbcode += `[b]Phase Covered:[/b] ${phase}\n`;
-            bbcode += `[b]Date of Patrol:[/b] ${patrolDate}\n\n`;
+            let ratingsBBCode = '';
+            let narrativeBBCode = '[list=1]\n';
+            let itemNumber = 1;
 
-            // Collect ratings and incidents
             Object.keys(categories).forEach(section => {
+                ratingsBBCode += [b]${section.toUpperCase()}[/b]\n\n;
+
                 categories[section].forEach(category => {
                     const categoryId = category.replace(/\s+/g, '');
                     const rating = document.getElementById(categoryId).value;
-                    bbcode += `[b]${category}:[/b] ${rating}\n`;
+                    ratingsBBCode += ${itemNumber}. ${category} — [b]Rating:[/b] ${rating}\n\n;
 
-                    // Include incident/task or training/remediation if applicable
-                    if (rating === "3") {
-                        const incidentTask = document.getElementById('incidentTask').value;
-                        bbcode += `  [b]Incident/Task:[/b] ${incidentTask}\n`;
-                    } else if (rating !== "N/O") {
-                        const trainingRemediation = document.getElementById('trainingRemediation').value;
-                        bbcode += `  [b]Training/Remediation:[/b] ${trainingRemediation}\n`;
+                    if (rating === '1' || rating === '2' || rating === '4') {
+                        const task = document.getElementById(${categoryId}-task).value;
+                        const remediation = document.getElementById(${categoryId}-remediation).value;
+                        narrativeBBCode += [*][b]Evaluation Category:[/b] ${itemNumber}\n[b]Incident/Task:[/b] ${task}\n[b]Training/Remediation:[/b] ${remediation}\n[br]\n;
                     }
+                    itemNumber++;
                 });
             });
 
-            bbcode += `[b]Additional Comments:[/b] ${comments}\n`;
+            narrativeBBCode += '[/list]';
+
+            const bbcode = [font=Arial][divbox=#eee font=#2E3168][center]Los Santos Police Department
+[b]PROBATIONARY POLICE OFFICER
+DAILY OBSERVATION REPORT[/b][/center]
+[hr][/hr]
+
+[size=95][b]Field Training Officer's Name[/b][/size]: ${ftoName}
+[size=95][b]Probationary Police Officer's Name[/b][/size]: ${ppoName}
+[size=95][b]Serial No.[/b][/size]: ${serial}
+[size=95][b]Division:[/b][/size]: ${division}
+[size=95][b]Date of Patrol:[/b][/size]: ${patrolDate}
+[size=95][b]Phase Covered:[/b][/size]: ${phase}
+[br]
+
+[size=95][b]INSTRUCTIONS:[/b] See [url=https://police.lsgov.us/viewtopic.php?p=17517#p17517]Appendix 1, Standardized Evaluation Guidelines (SEGs)[/url] for how to rate observable behaviors. A rating of 3 (Standard) is the [i]minimum[/i] acceptable score within each category to meet the standard for solo patrol officer. Ratings of 1 (Below Standard), 2 (Improvement Required), or 4 (Above Standard) [u]require[/u] a Documented Situation (DS); thus, describe the related event in the accompanying Event Narrative. Check N/O if behavior is Not Observed.[/size][br]
+
+[center][b][size=110]EVALUATION CATEGORIES[/size][/b][/center]
+
+${ratingsBBCode}
+
+[center][b][size=110]EVALUATION NARRATIVE[/size][/b][/center]
+
+${narrativeBBCode}
+
+[center][b][size=110]ADDITIONAL COMMENTS[/size][/b][/center]
+
+[list=none]${comments}[/list]
+
+[/divbox][/font];
+
             document.getElementById('output').value = bbcode;
         }
 
+        // Copy BBCode to clipboard
         function copyToClipboard() {
-            const output = document.getElementById('output');
-            output.select();
-            document.execCommand('copy');
-            alert('BBCode copied to clipboard!');
+            const outputTextarea = document.getElementById('output');
+            outputTextarea.select();
+            outputTextarea.setSelectionRange(0, 99999); // For mobile devices
+
+            navigator.clipboard.writeText(outputTextarea.value)
+                .then(() => {
+                    alert('BBCode copied to clipboard!');
+                })
+                .catch(err => {
+                    alert('Failed to copy BBCode.');
+                    console.error('Error copying to clipboard:', err);
+                });
         }
 
-        // Initialize rating fields on page load
-        window.onload = createRatingFields;
+        createRatingFields();
     </script>
 </body>
 </html>
