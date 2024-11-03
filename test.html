@@ -100,10 +100,12 @@
             Your browser does not support the audio element.
         </audio>
     </div>
-
-    <script>
+        <script>
         const audio = document.getElementById("background-music");
         const playButton = document.getElementById("play-button");
+
+        // Set default volume to low
+        audio.volume = 0.5; // Set to 20% volume
 
         // Function to toggle music and update button text
         function toggleMusic() {
@@ -118,7 +120,10 @@
 
         // Check autoplay on page load and show button if blocked
         window.addEventListener("load", () => {
-            audio.play().catch(() => {
+            audio.play().then(() => {
+                // Wait a bit and unmute if autoplay is successful
+                setTimeout(() => audio.muted = false, 500);
+            }).catch(() => {
                 playButton.textContent = "Start Music";
             });
         });
