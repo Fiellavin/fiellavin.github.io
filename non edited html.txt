@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Los Santos Police Department</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="badge.png"/>
+</head>
+<body>
+
+    <!-- Centered Badge and Links Section -->
+    <div class="centered-content">
+        <h1>Fiellavin's LSPD Generator Links</h1>
+        <img src="badge.png" alt="LSPD Badge" class="badge">
+        
+        <!-- Links Section Below Badge -->
+        <div class="links">
+            <a href="dor">Field Training Program DOR Generator</a>
+            <a href="TBA">TBA</a>
+            <a href="TBA">TBA</a>
+        </div>
+    </div>
+
+    <!-- Footer Section with Seal -->
+    <footer>
+        <img src="seal.png" alt="LSPD Seal" class="seal">
+        <p>© Los Santos Police Department</p>
+    </footer>
+
+</body>
+</html>
