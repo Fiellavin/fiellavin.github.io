@@ -89,46 +89,35 @@ body {
         </div>
     </div>
 </body>
-<audio id="background-music" autoplay loop muted>
-    <source src="song.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-</audio>
+ <!-- Audio element -->
+    <audio id="background-music" autoplay loop muted>
+        <source src="song.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
 
-<button id="play-button" onclick="playMusic()" style="display: none;">Play Music</button>
+    <!-- Fallback Play Button -->
+    <button id="play-button" onclick="playMusic()" style="display: none;">Play Music</button>
 
-<script>
-    const audio = document.getElementById("background-music");
-    const playButton = document.getElementById("play-button");
+    <script>
+        const audio = document.getElementById("background-music");
+        const playButton = document.getElementById("play-button");
 
-    // Function to play music
-    function playMusic() {
-        audio.play();
-        playButton.style.display = "none"; // Hide play button after starting
-    }
+        // Function to play music and hide the play button
+        function playMusic() {
+            audio.play();
+            audio.muted = false; // Unmute when playing manually
+            playButton.style.display = "none";
+        }
 
-    // Try to play on load
-    window.addEventListener("load", () => {
-        audio.play().catch(() => {
-            // Show the play button if autoplay is blocked
-            playButton.style.display = "block";
+        // Attempt to autoplay and unmute the audio after it begins playing
+        window.addEventListener("load", () => {
+            audio.play().then(() => {
+                // Wait a bit and unmute if autoplay is successful
+                setTimeout(() => audio.muted = false, 500);
+            }).catch(() => {
+                // Show the play button if autoplay fails
+                playButton.style.display = "block";
+            });
         });
-    });
-</script>
-<script>
-    const audio = document.getElementById("background-music");
-
-    // Attempt to unmute shortly after autoplay
-    audio.addEventListener("play", () => {
-        setTimeout(() => {
-            audio.muted = false; // Unmute after it starts
-        }, 500); // Adjust delay if necessary
-    });
-
-    // Try playing again on page load
-    window.addEventListener("load", () => {
-        audio.play().catch((error) => {
-            console.log("Autoplay blocked:", error);
-        });
-    });
-</script>
+    </script>
 </html>
