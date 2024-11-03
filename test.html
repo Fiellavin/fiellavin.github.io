@@ -57,24 +57,29 @@ body {
 #background-music {
     display: none;
 }
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}     
 #play-button {
     padding: 10px 20px;
-    background-color: #2677ce;
+    background-color: #4caf50; /* Green background */
     color: #ffffff;
     border: none;
     border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
-    margin-top: 20px;
+    transition: background-color 0.3s ease;
 }
 
 #play-button:hover {
-    background-color: #1a5ea6;
+    background-color: #388e3c; /* Darker green on hover */
 }
     </style>
 </head>
-<body>
-    <div class="container">
+<div class="container">
         <h1 class="title">Fiellavin</h1>
         <div class="social-icons">
             <a href="https://www.youtube.com/@fiellavin" target="_blank" aria-label="YouTube">
@@ -87,16 +92,14 @@ body {
                 <i class="fab fa-steam"></i>
             </a>
         </div>
-    </div>
-</body>
+
+        <!-- Play button under the title -->
+        <button id="play-button" onclick="playMusic()" style="display: none;">Play Music</button>
  <!-- Audio element -->
     <audio id="background-music" autoplay loop muted>
         <source src="song.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
-
-    <!-- Fallback Play Button -->
-    <button id="play-button" onclick="playMusic()" style="display: none;">Play Music</button>
 
     <script>
         const audio = document.getElementById("background-music");
