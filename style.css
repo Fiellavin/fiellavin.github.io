@@ -1,15 +1,14 @@
-/* General Reset and Background Styling */
-body, html {
+/* General Styles */
+body {
     margin: 0;
-    padding: 0;
-    min-height: 100vh;
     font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #0b1b28, #182c3c);
-    color: #c5c5c5;
+    background-color: #182c3c;
+    color: #ffffff;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+    min-height: 100vh;
 }
 
 /* Centered Content Styling */
@@ -18,40 +17,10 @@ body, html {
     margin-top: 50px;
 }
 
-.container {
-    text-align: center;
-}
-
-/* Title Styling */
-.title {
-    font-size: 64px;
-    font-weight: 400;
-    color: #c5c5c5;
-    font-family: 'Pacifico', cursive;
-    margin-bottom: 20px;
-}
-
 /* Badge Styling */
 .badge {
     width: 150px; /* Adjust size as needed */
     margin-bottom: 20px;
-}
-
-/* Social Icons Styling */
-.social-icons {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-}
-
-.social-icons a {
-    color: #c5c5c5;
-    font-size: 32px;
-    transition: color 0.3s ease;
-}
-
-.social-icons a:hover {
-    color: #ffffff;
 }
 
 /* Links Styling Below Badge */
@@ -68,7 +37,7 @@ body, html {
 }
 
 .links a:hover {
-    color: #2677ce; /* Hover effect */
+    color: #2677ce; /* for hover effect */
 }
 
 /* Footer Styling */
