@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="asapdev">
     <meta name="description" content="BBCode Formatter for Daily Observation Report">
-    <title>BBCode Formatter</title>
+    <title>Daily Observation Report Formatter</title>
     <meta name="keywords" content="BBCode, Formatter, Daily Observation Report">
 
     <link rel="stylesheet" href="css/bootstrap.css" crossorigin="anonymous">
@@ -156,7 +156,7 @@
     <div class="cons1">
         <img src="ftp.png" alt="FTP Logo" class="logo">
         <h2>BBCode Formatter for Daily Observation Report</h2>
-        <a href="index.html">Back to Home</a>
+        <a href="https://fiellavin.github.io">Back to Home</a>
     </div>
 
     <div class="container">
@@ -220,19 +220,19 @@
     <script>
         // Category definitions for ratings
         const categories = {
-            "Appearance": ["General Appearance"],
-            "Attitude": ["Acceptance of Criticism/Response", "Attitude Toward Public Service"],
-            "Knowledge": ["Department Policies/Procedures", "Law, Search and Seizure", "Penal and Vehicle Codes"],
-            "Performance": [
-                "Driving Skill: Normal Patrol Conditions", "Driving Skill: Moderate and Stress Conditions",
-                "Report Writing", "Field Performance: Non-Stress Conditions", "Field Performance: Stress Conditions",
-                "Self-Initiated Field Activities", "Officer Safety: General", "Officer Safety: Suspects/Prisoners",
-                "Control of Conflict: Voice Command", "Control of Conflict: Physical Skill",
-                "Use of Common Sense and Good Judgement", "Radio Usage: Articulation of Transmissions/Listens/Comprehends/Appropriate Use of Codes",
-                "Mobile Data Terminal (MDT): Use/Comprehension/Articulation"
+            "[list=none][u]Appearance[u]": ["[list=none]General Appearance"],
+            "[u]Attitude[u]": ["[list=none]Acceptance of Criticism/Response", "[list=none]Attitude Toward Public Service"],
+            "[u]Knowledge[u]": ["[list=none]Department Policies/Procedures", "[list=none]Law, Search and Seizure", "[list=none]Penal and Vehicle Codes"],
+            "[u]Performance[u]": [
+                "[list=none]Driving Skill: Normal Patrol Conditions", "[list=none]Driving Skill: Moderate and Stress Conditions",
+                "[list=none]Report Writing", "[list=none]Field Performance: Non-Stress Conditions", "[list=none]Field Performance: Stress Conditions",
+                "[list=none]Self-Initiated Field Activities", "[list=none]Officer Safety: General", "[list=none]Officer Safety: Suspects/Prisoners",
+                "[list=none]Control of Conflict: Voice Command", "[list=none]Control of Conflict: Physical Skill",
+                "[list=none]Use of Common Sense and Good Judgement", "[list=none]Radio Usage: Articulation of Transmissions/Listens/Comprehends/Appropriate Use of Codes",
+                "[list=none]Mobile Data Terminal (MDT): Use/Comprehension/Articulation"
             ],
-            "Relationships": ["Relationships with Citizens in General", "With Others: Officers/FTO/Supervisors"],
-            "(( Out of Character ))": ["Overall Mindset", "Character Portrayal", "Roleplay: General/Passive"]
+            "[list=none][u]Relationships[u]": ["[list=none]Relationships with Citizens in General", "[list=none]With Others: Officers/FTO/Supervisors"],
+            "[list=none][u](( Out of Character ))[u]": ["[list=none]Overall Mindset", "[list=none]Character Portrayal", "[list=none]Roleplay: General/Passive"]
         };
 
         // Create rating fields with logo overlay
@@ -311,7 +311,8 @@
                 categories[section].forEach(category => {
                     const categoryId = category.replace(/\s+/g, '');
                     const rating = document.getElementById(categoryId).value;
-                    ratingsBBCode += `${itemNumber}. ${category} — [b]Rating:[/b] ${rating}\n\n`;
+                    ratingsBBCode += `${itemNumber}. ${category} — [b]Rating:[/b] ${rating}\n\n`
+                        [/list];
 
                     if (rating === '1' || rating === '2' || rating === '4') {
                         const task = document.getElementById(`${categoryId}-task`).value;
