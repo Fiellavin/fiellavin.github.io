@@ -1,91 +1,208 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BBCode Formatter with Logo Overlay</title>
-    <style>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="asapdev">
+    <meta name="description" content="BBCode Formatter for Daily Observation Report">
+    <title>BBCode Formatter</title>
+    <meta name="keywords" content="BBCode, Formatter, Daily Observation Report">
+
+    <link rel="stylesheet" href="css/bootstrap.css" crossorigin="anonymous">
+    <link href="css/sp-style.css" rel="stylesheet">
+    <link href="css/app.css" rel="stylesheet">
+    <link rel="icon" href="favicon.png">
+
+    <style type="text/css">
         body { font-family: Arial, sans-serif; text-align: center; }
-        label { font-weight: bold; }
+        .cons1 {
+            background: #0f2940;
+            position: relative;
+            width: 100%;
+            text-align: center;
+            padding: 20px 0;
+            color: white;
+            font-weight: 700;
+        }
         .section { margin-bottom: 20px; }
+        textarea { width: 100%; height: 300px; margin-top: 10px; }
         .rating-item { margin: 10px 0; }
         .extra-input { display: none; margin-top: 10px; }
-        .extra-input textarea { width: 95%; height: 100px; }
-        .textarea-container { position: relative; width: 100%; }
-        .textarea-input { width: 100%; height: 300px; margin-top: 10px; opacity: 0.9; }
-        .logo-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            pointer-events: none;
-            opacity: 0.1; /* Adjust opacity as desired for visibility */
-        }
-        .logo-overlay img { max-width: 80%; max-height: 80%; }
+        .extra-input textarea { width: 95%; height: 100px; } /* Smaller text areas for task and remediation */
     </style>
 </head>
 <body>
-<h2>BBCode Formatter for Daily Observation Report</h2>
-<a href="index.html">Back to Home</a>
-
-<div id="form">
-    <!-- Form Fields -->
-    <div class="section">
-        <label>Field Training Officer's Name:</label><br>
-        <input type="text" id="ftoName" placeholder="FTO, First, Last"><br>
-        <label>Probationary Police Officer's Name:</label><br>
-        <input type="text" id="ppoName" placeholder="PO1 First, Last"><br>
-        <label>Serial No.:</label><br>
-        <input type="text" id="serial" placeholder="PO1 Serial"><br>
-        <label>Division:</label><br>
-        <select id="division">
-            <option value="HARBOR PATROL DIVISION">HARBOR PATROL DIVISION</option>
-            <option value="VICTORIA PATROL DIVISION">VICTORIA PATROL DIVISION</option>
-            <option value="CENTRAL TRAFFIC DIVISION">CENTRAL TRAFFIC DIVISION</option>
-            <option value="Metro">METROPOLITAN DIVISION</option>
-        </select><br>
-        <label>Phase Covered:</label><br>
-        <select id="phase">
-            <option value="II-1">II-1</option>
-            <option value="II-2">II-2</option>
-            <option value="III">III</option>
-        </select><br>
-        <label>Date of Patrol (DD/MMM/YYYY):</label><br>
-        <input type="text" id="patrolDate"><br>
+    <div class="cons1">
+        <h2>BBCode Formatter for Daily Observation Report</h2>
+        <a href="index.html" style="color: white;">Back to Home</a>
     </div>
 
-    <div class="section">
-        <label>Ratings (1-4 or N/O):</label>
-        <div id="ratings"></div>
-    </div>
-
-    <!-- Additional Comments with Logo Overlay -->
-    <div class="section">
-        <label>Additional Comments:</label><br>
-        <div class="textarea-container">
-            <textarea class="form-control textarea-input" id="comments" placeholder="Additional comments here..."></textarea>
-            <div class="logo-overlay">
-                <img src="seal.png" alt="Logo">
+    <div class="container">
+        <div id="form">
+            <div class="section">
+                <label>Field Training Officer's Name:</label><br>
+                <input type="text" id="ftoName" placeholder="FTO, First, Last"><br>
+                <label>Probationary Police Officer's Name:</label><br>
+                <input type="text" id="ppoName" placeholder="PO1 First, Last"><br>
+                <label>Serial No.:</label><br>
+                <input type="text" id="serial" placeholder="PO1 Serial"><br>
+                <label>Division:</label><br>
+                <select id="division">
+                    <option value="HARBOR PATROL DIVISION">HARBOR PATROL DIVISION</option>
+                    <option value="VICTORIA PATROL DIVISION">VICTORIA PATROL DIVISION</option>
+                    <option value="CENTRAL TRAFFIC DIVISION">CENTRAL TRAFFIC DIVISION</option>
+                    <option value="Metro">METROPOLITAN DIVISION</option>
+                </select><br>
+                <label>Phase Covered:</label><br>
+                <select id="phase">
+                    <option value="II-1">II-1</option>
+                    <option value="II-2">II-2</option>
+                    <option value="III">III</option>
+                </select><br>
+                <label>Date of Patrol (DD/MMM/YYYY):</label><br>
+                <input type="text" id="patrolDate"><br>
             </div>
+
+            <div class="section">
+                <label>Ratings (1-4 or N/O):</label>
+                <div id="ratings"></div>
+            </div>
+
+            <div class="section">
+                <label>Additional Comments:</label><br>
+                <textarea id="comments" placeholder="Additional comments here..."></textarea>
+            </div>
+
+            <button onclick="generateBBCode()" class="btn btn-success">Generate BBCode</button>
         </div>
+
+        <h3>Generated BBCode</h3>
+        <textarea id="output" readonly></textarea>
     </div>
 
-    <button onclick="generateBBCode()">Generate BBCode</button>
-</div>
+    <script>
+        // Category definitions for ratings
+        const categories = {
+            "Appearance": ["General Appearance"],
+            "Attitude": ["Acceptance of Criticism/Response", "Attitude Toward Public Service"],
+            "Knowledge": ["Department Policies/Procedures", "Law, Search and Seizure", "Penal and Vehicle Codes"],
+            "Performance": [
+                "Driving Skill: Normal Patrol Conditions", "Driving Skill: Moderate and Stress Conditions",
+                "Report Writing", "Field Performance: Non-Stress Conditions", "Field Performance: Stress Conditions",
+                "Self-Initiated Field Activities", "Officer Safety: General", "Officer Safety: Suspects/Prisoners",
+                "Control of Conflict: Voice Command", "Control of Conflict: Physical Skill",
+                "Use of Common Sense and Good Judgement", "Radio Usage: Articulation of Transmissions/Listens/Comprehends/Appropriate Use of Codes",
+                "Mobile Data Terminal (MDT): Use/Comprehension/Articulation"
+            ],
+            "Relationships": ["Relationships with Citizens in General", "With Others: Officers/FTO/Supervisors"],
+            "(( Out of Character ))": ["Overall Mindset", "Character Portrayal", "Roleplay: General/Passive"]
+        };
 
-<h3>Generated BBCode</h3>
-<textarea id="output" readonly></textarea>
+        // Create rating fields based on categories
+        function createRatingFields() {
+            const ratingsDiv = document.getElementById('ratings');
+            Object.keys(categories).forEach(section => {
+                const header = document.createElement('h4');
+                header.textContent = section.toUpperCase();
+                ratingsDiv.appendChild(header);
 
-<script>
-    // BBCode generation script (from previous code)
-    function generateBBCode() {
-        // Form field processing and BBCode generation logic here...
-        // Output to `#output` textarea.
-    }
-</script>
+                categories[section].forEach(category => {
+                    const div = document.createElement('div');
+                    div.className = 'rating-item';
+                    const categoryId = category.replace(/\s+/g, '');
+                    div.innerHTML = `<label>${category} — Rating:</label>
+                        <select id="${categoryId}" onchange="toggleExtraInput('${categoryId}')">
+                            <option value="N/O">N/O</option>
+                            <option value="1">1 (Below Standard)</option>
+                            <option value="2">2 (Improvement Required)</option>
+                            <option value="3">3 (Standard)</option>
+                            <option value="4">4 (Above Standard)</option>
+                        </select><br>
+                        <div id="${categoryId}-extra" class="extra-input">
+                            <label>Incident/Task:</label><br>
+                            <textarea id="${categoryId}-task" placeholder="Describe the task..."></textarea><br>
+                            <label>Training/Remediation:</label><br>
+                            <textarea id="${categoryId}-remediation" placeholder="Describe the remediation..."></textarea>
+                        </div>`;
+                    ratingsDiv.appendChild(div);
+                });
+            });
+        }
+
+        // Show/hide extra input fields based on the rating
+        function toggleExtraInput(categoryId) {
+            const rating = document.getElementById(categoryId).value;
+            const extraInputDiv = document.getElementById(`${categoryId}-extra`);
+            extraInputDiv.style.display = (rating === '1' || rating === '2' || rating === '4') ? 'block' : 'none';
+        }
+
+        // Generate BBCode with narrative templates for ratings 1, 2, and 4
+        function generateBBCode() {
+            const ftoName = document.getElementById('ftoName').value;
+            const ppoName = document.getElementById('ppoName').value;
+            const serial = document.getElementById('serial').value;
+            const division = document.getElementById('division').value;
+            const patrolDate = document.getElementById('patrolDate').value;
+            const phase = document.getElementById('phase').value;
+            const comments = document.getElementById('comments').value;
+
+            let ratingsBBCode = '';
+            let narrativeBBCode = '[list=1]\n';
+            let itemNumber = 1;
+
+            Object.keys(categories).forEach(section => {
+                ratingsBBCode += `[b]${section.toUpperCase()}[/b]\n\n`;
+
+                categories[section].forEach(category => {
+                    const categoryId = category.replace(/\s+/g, '');
+                    const rating = document.getElementById(categoryId).value;
+                    ratingsBBCode += `${itemNumber}. ${category} — [b]Rating:[/b] ${rating}\n\n`;
+
+                    if (rating === '1' || rating === '2' || rating === '4') {
+                        const task = document.getElementById(`${categoryId}-task`).value;
+                        const remediation = document.getElementById(`${categoryId}-remediation`).value;
+                        narrativeBBCode += `[*][b]Evaluation Category:[/b] ${itemNumber}\n[b]Incident/Task:[/b] ${task}\n[b]Training/Remediation:[/b] ${remediation}\n[br]\n`;
+                    }
+                    itemNumber++;
+                });
+            });
+
+            narrativeBBCode += '[/list]';
+
+            const bbcode = `[font=Arial][divbox=#eee font=#2E3168][center]Los Santos Police Department
+[b]PROBATIONARY POLICE OFFICER
+DAILY OBSERVATION REPORT[/b][/center]
+[hr][/hr]
+
+[size=95][b]Field Training Officer's Name[/b][/size]: ${ftoName}
+[size=95][b]Probationary Police Officer's Name[/b][/size]: ${ppoName}
+[size=95][b]Serial No.[/b][/size] ${serial}
+[size=95][b]Division:[/b][/size] ${division}
+[size=95][b]Date of Patrol:[/b][/size] ${patrolDate}
+[size=95][b]Phase Covered:[/b][/size] ${phase}
+[br]
+
+[size=95][b]INSTRUCTIONS:[/b] See [url=https://police.lsgov.us/viewtopic.php?p=17517#p17517]Appendix 1, Standardized Evaluation Guidelines (SEGs)[/url] for how to rate observable behaviors. A rating of 3 (Standard) is the [i]minimum[/i] acceptable score within each category to meet the standard for solo patrol officer. Ratings of 1 (Below Standard), 2 (Improvement Required), or 4 (Above Standard) [u]require[/u] a Documented Situation (DS); thus, describe the related event in the accompanying Event Narrative. Check N/O if behavior is Not Observed.[/size][br]
+
+[center][b][size=110]EVALUATION CATEGORIES[/size][/b][/center]
+
+${ratingsBBCode}
+
+[center][b][size=110]EVALUATION NARRATIVE[/size][/b][/center]
+
+${narrativeBBCode}
+
+[center][b][size=110]ADDITIONAL COMMENTS[/size][/b][/center]
+
+[list=none]${comments}[/list]
+
+[/divbox][/font]`;
+
+            document.getElementById('output').value = bbcode;
+        }
+
+        createRatingFields();
+    </script>
 </body>
 </html>
