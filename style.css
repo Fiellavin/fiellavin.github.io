@@ -61,7 +61,7 @@ footer p {
     font-size: 0.9em;
 }
 
-/* Reset body margin and padding */
+/* Full-page reset and dark gradient background */
 body, html {
     margin: 0;
     padding: 0;
@@ -83,14 +83,16 @@ body, html {
     font-weight: 400;
     color: #c5c5c5;
     font-family: 'Pacifico', cursive;
+    margin-bottom: 20px;
 }
 
 .social-icons {
-    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
 }
 
 .social-icons a {
-    margin: 0 10px;
     color: #c5c5c5;
     font-size: 32px;
     transition: color 0.3s ease;
