@@ -1,54 +1,39 @@
-/* General Styles */
+/* Full Background Color */
 body {
     margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
-}
-
-/* Header Styling */
-header {
     background-color: #182c3c;
     color: #ffffff;
+}
+
+/* Centered Content Styling */
+.centered-content {
     text-align: center;
-    padding: 20px;
-    position: relative;
 }
 
-header .badge {
-    width: 100px;
-    position: absolute;
-    top: 10px;
-    left: 10px;
+/* Badge Styling */
+.badge {
+    width: 150px; /* Adjust size as needed */
+    margin-bottom: 20px;
 }
 
-header h1 {
-    margin: 0;
-    font-size: 2.5em;
+/* Links Styling */
+.links {
+    margin-top: 20px;
 }
 
-/* Main Content Styling */
-main {
-    padding: 20px;
-}
-
-section h2 {
-    color: #182c3c;
-}
-
-/* Footer Styling */
-footer {
-    background-color: #182c3c;
+.links a {
     color: #ffffff;
-    text-align: center;
-    padding: 10px;
-    position: relative;
+    text-decoration: none;
+    font-size: 1.2em;
+    margin: 0 15px;
+    transition: color 0.3s ease;
 }
 
-footer .seal {
-    width: 80px;
-}
-
-footer p {
-    margin: 10px 0 0;
+.links a:hover {
+    color: #c0c0c0; /* Light gray for hover effect */
 }
