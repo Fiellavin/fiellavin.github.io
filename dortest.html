@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="css/bootstrap.css" crossorigin="anonymous">
     <link href="css/sp-style.css" rel="stylesheet">
     <link href="css/app.css" rel="stylesheet">
-    <link rel="icon" href="favicon.png">
+    <link rel="icon" href="seal.png">
 
     <style type="text/css">
         body { 
@@ -244,7 +244,7 @@
                     div.className = 'rating-item';
                     const categoryId = category.replace(/\s+/g, '');
 
-                    div.innerHTML = 
+                    div.innerHTML = `
                         <label>${category} — Rating:</label>
                         <select id="${categoryId}" onchange="toggleExtraInput('${categoryId}')">
                             <option value="N/O">N/O</option>
@@ -273,7 +273,7 @@
                                 </div>
                             </div>
                         </div>
-                    ;
+                    `;
                     ratingsDiv.appendChild(div);
                 });
             });
@@ -282,7 +282,7 @@
         // Show/hide extra input fields based on the rating
         function toggleExtraInput(categoryId) {
             const rating = document.getElementById(categoryId).value;
-            const extraInputDiv = document.getElementById(${categoryId}-extra);
+            const extraInputDiv = document.getElementById(`${categoryId}-extra`);
             if (rating === '1' || rating === '2' || rating === '4') {
                 extraInputDiv.style.display = 'block';
             } else {
@@ -305,17 +305,17 @@
             let itemNumber = 1;
 
             Object.keys(categories).forEach(section => {
-                ratingsBBCode += [b]${section.toUpperCase()}[/b]\n\n;
+                ratingsBBCode += `[b]${section.toUpperCase()}[/b]\n\n`;
 
                 categories[section].forEach(category => {
                     const categoryId = category.replace(/\s+/g, '');
                     const rating = document.getElementById(categoryId).value;
-                    ratingsBBCode += ${itemNumber}. ${category} — [b]Rating:[/b] ${rating}\n\n;
+                    ratingsBBCode += `${itemNumber}. ${category} — [b]Rating:[/b] ${rating}\n\n`;
 
                     if (rating === '1' || rating === '2' || rating === '4') {
-                        const task = document.getElementById(${categoryId}-task).value;
-                        const remediation = document.getElementById(${categoryId}-remediation).value;
-                        narrativeBBCode += [*][b]Evaluation Category:[/b] ${itemNumber}\n[b]Incident/Task:[/b] ${task}\n[b]Training/Remediation:[/b] ${remediation}\n[br]\n;
+                        const task = document.getElementById(`${categoryId}-task`).value;
+                        const remediation = document.getElementById(`${categoryId}-remediation`).value;
+                        narrativeBBCode += `[*][b]Evaluation Category:[/b] ${itemNumber}\n[b]Incident/Task:[/b] ${task}\n[b]Training/Remediation:[/b] ${remediation}\n[br]\n`;
                     }
                     itemNumber++;
                 });
@@ -323,7 +323,7 @@
 
             narrativeBBCode += '[/list]';
 
-            const bbcode = [font=Arial][divbox=#eee font=#2E3168][center]Los Santos Police Department
+            const bbcode = `[font=Arial][divbox=#eee font=#2E3168][center]Los Santos Police Department
 [b]PROBATIONARY POLICE OFFICER
 DAILY OBSERVATION REPORT[/b][/center]
 [hr][/hr]
@@ -350,7 +350,7 @@ ${narrativeBBCode}
 
 [list=none]${comments}[/list]
 
-[/divbox][/font];
+[/divbox][/font]`;
 
             document.getElementById('output').value = bbcode;
         }
