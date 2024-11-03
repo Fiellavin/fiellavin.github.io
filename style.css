@@ -60,3 +60,42 @@ footer p {
     margin-top: 5px;
     font-size: 0.9em;
 }
+
+/* Reset body margin and padding */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #0b1b28, #182c3c);
+    color: #c5c5c5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    text-align: center;
+}
+
+.title {
+    font-size: 64px;
+    font-weight: 400;
+    color: #c5c5c5;
+    font-family: 'Pacifico', cursive;
+}
+
+.social-icons {
+    margin-top: 20px;
+}
+
+.social-icons a {
+    margin: 0 10px;
+    color: #c5c5c5;
+    font-size: 32px;
+    transition: color 0.3s ease;
+}
+
+.social-icons a:hover {
+    color: #ffffff;
+}
