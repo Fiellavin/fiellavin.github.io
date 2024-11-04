@@ -301,11 +301,9 @@
         const patrolDate = document.getElementById('patrolDate').value;
         const comments = document.getElementById('comments').value;
 
-        let ratingsBBCode = '';
+        let ratingsBBCode = '[list=none]\n'; // Start of the additional list
         let narrativeBBCode = '[list=1]\n';
         let itemNumber = 1;
-
-        ratingsBBCode += '[list=none]\n';  // Start of the additional list
 
         Object.keys(categories).forEach(section => {
             ratingsBBCode += `[b][u]${section.toUpperCase()}[/u][/b]\n[list=none]\n`;
@@ -313,6 +311,12 @@
             categories[section].forEach(category => {
                 const categoryId = category.replace(/\s+/g, '');
                 const rating = document.getElementById(categoryId).value;
+
+                // Append [br] before the item if it's not the first item
+                if (itemNumber > 1) {
+                    ratingsBBCode += '[br]\n';
+                }
+
                 ratingsBBCode += `[*]${itemNumber}. ${category} — [b]Rating:[/b] ${rating}\n`;
 
                 if (rating === '1' || rating === '2' || rating === '4') {
@@ -322,10 +326,6 @@
                 }
 
                 itemNumber++;
-                // Add a line break for subsequent items, excluding the first one
-                if (itemNumber > 1 && itemNumber <= categories[section].length) {
-                    ratingsBBCode += '[br]\n';
-                }
             });
 
             ratingsBBCode += '[/list]\n';
