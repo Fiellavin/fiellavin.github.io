@@ -235,63 +235,7 @@
         "(( Out of Character ))": ["Overall Mindset", "Character Portrayal", "Roleplay: General/Passive"]
     };
 
-    // Create rating fields with logo overlay
-    function createRatingFields() {
-        const ratingsDiv = document.getElementById('ratings');
-        Object.keys(categories).forEach(section => {
-            const header = document.createElement('h4');
-            header.textContent = section.toUpperCase();
-            ratingsDiv.appendChild(header);
-
-            categories[section].forEach(category => {
-                const div = document.createElement('div');
-                div.className = 'rating-item';
-                const categoryId = category.replace(/\s+/g, '');
-
-                div.innerHTML = `
-                    <label>${category} — Rating:</label>
-                    <select id="${categoryId}" onchange="toggleExtraInput('${categoryId}')">
-                        <option value="N/O">N/O</option>
-                        <option value="1">1 (Below Standard)</option>
-                        <option value="2">2 (Improvement Required)</option>
-                        <option value="3">3 (Standard)</option>
-                        <option value="4">4 (Above Standard)</option>
-                    </select>
-                    <div id="${categoryId}-extra" class="extra-input">
-                        <label>Incident/Task:</label>
-                        <div class="textarea-container">
-                            <textarea id="${categoryId}-task" placeholder="Describe the task..."></textarea>
-                            <div class="logo-overlay">
-                                <img src="seal.png" alt="Logo">
-                            </div>
-                        </div>
-
-                        <label>Training/Remediation:</label>
-                        <div class="textarea-container">
-                            <textarea id="${categoryId}-remediation" placeholder="Describe the remediation..."></textarea>
-                            <div class="logo-overlay">
-                                <img src="seal.png" alt="Logo">
-                            </div>
-                        </div>
-                    </div>
-                `;
-                ratingsDiv.appendChild(div);
-            });
-        });
-    }
-
-    // Show/hide extra input fields based on the rating
-    function toggleExtraInput(categoryId) {
-        const rating = document.getElementById(categoryId).value;
-        const extraInputDiv = document.getElementById(`${categoryId}-extra`);
-        if (rating === '1' || rating === '2' || rating === '4') {
-            extraInputDiv.style.display = 'block';
-        } else {
-            extraInputDiv.style.display = 'none';
-        }
-    }
-
-    // Generate BBCode with narrative templates for ratings 1, 2, and 4
+    // Generate BBCode with underlines for categories and single [list=none] that covers all items
     function generateBBCode() {
         const ftoName = document.getElementById('ftoName').value;
         const ppoName = document.getElementById('ppoName').value;
@@ -301,40 +245,31 @@
         const patrolDate = document.getElementById('patrolDate').value;
         const comments = document.getElementById('comments').value;
 
-        let ratingsBBCode = '[list=none]\n'; // Start of the additional list
-        let narrativeBBCode = '[list=1]\n';
+        let ratingsBBCode = '[list=none]\n';  // Start extra [list=none]
         let itemNumber = 1;
 
         Object.keys(categories).forEach(section => {
             ratingsBBCode += `[b][u]${section.toUpperCase()}[/u][/b]\n[list=none]\n`;
 
-            categories[section].forEach(category => {
+            categories[section].forEach((category, index) => {
                 const categoryId = category.replace(/\s+/g, '');
                 const rating = document.getElementById(categoryId).value;
 
-                // Append [br] before the item if it's not the first item
-                if (itemNumber > 1) {
-                    ratingsBBCode += '[br]\n';
+                // Add the [br] tag between items, but not before the first item
+                if (index > 0) {
+                    ratingsBBCode += `[br]\n`;
                 }
 
                 ratingsBBCode += `[*]${itemNumber}. ${category} — [b]Rating:[/b] ${rating}\n`;
-
-                if (rating === '1' || rating === '2' || rating === '4') {
-                    const task = document.getElementById(`${categoryId}-task`).value;
-                    const remediation = document.getElementById(`${categoryId}-remediation`).value;
-                    narrativeBBCode += `[*][b]Evaluation Category:[/b] ${itemNumber}\n[b]Incident/Task:[/b] ${task}\n[b]Training/Remediation:[/b] ${remediation}\n[br]\n`;
-                }
-
                 itemNumber++;
             });
 
-            ratingsBBCode += '[/list]\n';
+            ratingsBBCode += '[/list]\n';  // Close inner [list=none] for each category
         });
 
-        ratingsBBCode += '[/list]';  // End of the additional list
+        ratingsBBCode += '[/list]';  // Close the extra [list=none] for all items
 
-        narrativeBBCode += '[/list]';
-
+        // Construct final BBCode output
         const bbcode = `[font=Arial][divbox=#eee font=#2E3168][center]Los Santos Police Department
 [b]PROBATIONARY POLICE OFFICER
 DAILY OBSERVATION REPORT[/b][/center]
@@ -353,10 +288,6 @@ DAILY OBSERVATION REPORT[/b][/center]
 [center][b][size=110]EVALUATION CATEGORIES[/size][/b][/center]
 
 ${ratingsBBCode}
-
-[center][b][size=110]EVALUATION NARRATIVE[/size][/b][/center]
-
-${narrativeBBCode}
 
 [center][b][size=110]ADDITIONAL COMMENTS[/size][/b][/center]
 
