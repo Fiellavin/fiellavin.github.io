@@ -301,17 +301,17 @@
         const patrolDate = document.getElementById('patrolDate').value;
         const comments = document.getElementById('comments').value;
 
-        let ratingsBBCode = '';
+        let ratingsBBCode = '[list=none]\n'; // Start the overall list
         let narrativeBBCode = '[list=1]\n';
         let itemNumber = 1;
 
         Object.keys(categories).forEach(section => {
-            // Add list start for Appearance and Attitude categories
-            if (section === "Appearance" || section === "Attitude") {
-                ratingsBBCode += `[b][u]${section.toUpperCase()}[/u][/b]\n[list=none]\n`;
-            } else {
-                ratingsBBCode += `[b][u]${section.toUpperCase()}[/u][/b]\n[list=none]\n`;
-            }
+            // Underline the Appearance and Attitude categories
+            const sectionTitle = (section === "Appearance" || section === "Attitude") 
+                ? `[b][u]${section.toUpperCase()}[/u][/b]\n` 
+                : `[b]${section.toUpperCase()}[/b]\n`;
+
+            ratingsBBCode += sectionTitle;
 
             categories[section].forEach(category => {
                 const categoryId = category.replace(/\s+/g, '');
@@ -326,8 +326,12 @@
                 itemNumber++;
             });
 
-            ratingsBBCode += '[/list]\n'; // Close the list for the current category
+            ratingsBBCode += '[/list]\n'; // Close the list for the current section
         });
+
+        // Add an extra list for Appearance to Roleplay: General/Passive
+        ratingsBBCode = `[b][u]APPEARANCE[/u][/b]\n[list=none]\n${ratingsBBCode}`;
+        ratingsBBCode += `[/list]`; // Closing the extra list
 
         // Close the narrative list
         narrativeBBCode += '[/list]';
