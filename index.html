@@ -130,11 +130,9 @@
             </a>
         </div>
 
-        <!-- Audio element -->
-        <audio id="background-music" loop>
-            <source src="song.mp3" type="audio/mpeg">
-            Your browser does not support the audio element.
-        </audio>
+        
+        <!-- Audio element with autoplay and muted attributes -->
+        <audio id="background-music" autoplay muted loop></audio>
     </div>
 
     <script>
@@ -171,13 +169,15 @@
         // Select a random song and attempt to autoplay on load
         window.addEventListener("load", () => {
             setRandomSong();
-            audio.play().then(() => {
-                // Unmute after a short delay for autoplay compatibility
-                setTimeout(() => audio.muted = false, 500);
-            }).catch(() => {
-                // If autoplay fails, change button text to indicate user interaction is needed
-                playButton.textContent = "Start Music";
-            });
+            // Start playing with a small delay and then unmute
+            setTimeout(() => {
+                audio.muted = false;
+                audio.play().then(() => {
+                    playButton.textContent = "Stop Music";
+                }).catch(() => {
+                    playButton.textContent = "Start Music";
+                });
+            }, 500); // 500ms delay to try and trigger autoplay
         });
     </script>
 </body>
