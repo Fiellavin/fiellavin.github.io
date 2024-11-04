@@ -136,41 +136,49 @@
     </div>
 
     <script>
-        const playButton = document.getElementById("play-button");
-        const audio = document.getElementById("background-music");
+    const playButton = document.getElementById("play-button");
+    const audio = document.getElementById("background-music");
+    let hasInteracted = false; // Flag to check if there has been user interaction
 
-        audio.volume = 0.2;
+    audio.volume = 0.2;
 
-        // Array of song sources
-        const songs = [
-            "songs/song1.mp3",
-            "songs/song2.mp3",
-            "songs/song3.mp3",
-            "songs/song4.mp3",
-            "songs/song5.mp3"
-        ];
+    // Array of song sources
+    const songs = [
+        "songs/song1.mp3",
+        "songs/song2.mp3",
+        "songs/song3.mp3",
+        "songs/song4.mp3",
+        "songs/song5.mp3"
+    ];
 
-        // select a random song
-        function setRandomSong() {
-            const randomIndex = Math.floor(Math.random() * songs.length);
-            audio.src = songs[randomIndex];
+    // Select a random song
+    function setRandomSong() {
+        const randomIndex = Math.floor(Math.random() * songs.length);
+        audio.src = songs[randomIndex];
+    }
+
+    // Toggle play/pause
+    function toggleMusic() {
+        hasInteracted = true; // Set the interaction flag to true
+        if (audio.paused) {
+            audio.play();
+            playButton.textContent = "Stop Music";
+        } else {
+            audio.pause();
+            playButton.textContent = "Start Music";
         }
+    }
 
-        // toggle play/pause
-        function toggleMusic() {
-            if (audio.paused) {
-                audio.play();
-                playButton.textContent = "Stop Music";
-            } else {
-                audio.pause();
-                playButton.textContent = "Start Music";
-            }
-        }
-
-        // Select a random song, autoplay
-        window.addEventListener("load", () => {
-            setRandomSong();
-            // playing with a small delay
+    // Select a random song, autoplay
+    window.addEventListener("load", () => {
+        setRandomSong();
+        // Check if the user has interacted
+        if (hasInteracted) {
+            audio.muted = false; // Unmute the audio
+            audio.play(); // Play the audio
+            playButton.textContent = "Stop Music";
+        } else {
+            // Playing with a small delay and muted initially
             setTimeout(() => {
                 audio.muted = false;
                 audio.play().then(() => {
@@ -179,7 +187,11 @@
                     playButton.textContent = "Start Music";
                 });
             }, 500); // 500ms delay to try
-        });
-    </script>
+        }
+    });
+
+    // Add event listener for button click to allow unmuted autoplay
+    playButton.addEventListener("click", toggleMusic);
+</script>
 </body>
 </html>
