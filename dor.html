@@ -217,114 +217,126 @@
         </div>
     </div>
 
-    <script>
-        // Category definitions for ratings
-        const categories = {
-            "Appearance": ["General Appearance"],
-            "Attitude": ["Acceptance of Criticism/Response", "Attitude Toward Public Service"],
-            "Knowledge": ["Department Policies/Procedures", "Law, Search and Seizure", "Penal and Vehicle Codes"],
-            "Performance": [
-                "Driving Skill: Normal Patrol Conditions", "Driving Skill: Moderate and Stress Conditions",
-                "Report Writing", "Field Performance: Non-Stress Conditions", "Field Performance: Stress Conditions",
-                "Self-Initiated Field Activities", "Officer Safety: General", "Officer Safety: Suspects/Prisoners",
-                "Control of Conflict: Voice Command", "Control of Conflict: Physical Skill",
-                "Use of Common Sense and Good Judgement", "Radio Usage: Articulation of Transmissions/Listens/Comprehends/Appropriate Use of Codes",
-                "Mobile Data Terminal (MDT): Use/Comprehension/Articulation"
-            ],
-            "Relationships": ["Relationships with Citizens in General", "With Others: Officers/FTO/Supervisors"],
-            "(( Out of Character ))": ["Overall Mindset", "Character Portrayal", "Roleplay: General/Passive"]
-        };
+<script>
+    // Category definitions for ratings
+    const categories = {
+        "Appearance": ["General Appearance"],
+        "Attitude": ["Acceptance of Criticism/Response", "Attitude Toward Public Service"],
+        "Knowledge": ["Department Policies/Procedures", "Law, Search and Seizure", "Penal and Vehicle Codes"],
+        "Performance": [
+            "Driving Skill: Normal Patrol Conditions", "Driving Skill: Moderate and Stress Conditions",
+            "Report Writing", "Field Performance: Non-Stress Conditions", "Field Performance: Stress Conditions",
+            "Self-Initiated Field Activities", "Officer Safety: General", "Officer Safety: Suspects/Prisoners",
+            "Control of Conflict: Voice Command", "Control of Conflict: Physical Skill",
+            "Use of Common Sense and Good Judgement", "Radio Usage: Articulation of Transmissions/Listens/Comprehends/Appropriate Use of Codes",
+            "Mobile Data Terminal (MDT): Use/Comprehension/Articulation"
+        ],
+        "Relationships": ["Relationships with Citizens in General", "With Others: Officers/FTO/Supervisors"],
+        "(( Out of Character ))": ["Overall Mindset", "Character Portrayal", "Roleplay: General/Passive"]
+    };
 
-        // Create rating fields with logo overlay
-        function createRatingFields() {
-            const ratingsDiv = document.getElementById('ratings');
-            Object.keys(categories).forEach(section => {
-                const header = document.createElement('h4');
-                header.textContent = section.toUpperCase();
-                ratingsDiv.appendChild(header);
+    // Create rating fields with logo overlay
+    function createRatingFields() {
+        const ratingsDiv = document.getElementById('ratings');
+        Object.keys(categories).forEach(section => {
+            const header = document.createElement('h4');
+            header.textContent = section.toUpperCase();
+            ratingsDiv.appendChild(header);
 
-                categories[section].forEach(category => {
-                    const div = document.createElement('div');
-                    div.className = 'rating-item';
-                    const categoryId = category.replace(/\s+/g, '');
+            categories[section].forEach(category => {
+                const div = document.createElement('div');
+                div.className = 'rating-item';
+                const categoryId = category.replace(/\s+/g, '');
 
-                    div.innerHTML = `
-                        <label>${category} — Rating:</label>
-                        <select id="${categoryId}" onchange="toggleExtraInput('${categoryId}')">
-                            <option value="N/O">N/O</option>
-                            <option value="1">1 (Below Standard)</option>
-                            <option value="2">2 (Improvement Required)</option>
-                            <option value="3">3 (Standard)</option>
-                            <option value="4">4 (Above Standard)</option>
-                        </select>
-                        <div id="${categoryId}-extra" class="extra-input">
-                            <label>Incident/Task:</label>
-                            <div class="textarea-container">
-                                <textarea id="${categoryId}-task" placeholder="Describe the task..."></textarea>
-                                <div class="logo-overlay">
-                                    <img src="seal.png" alt="Logo">
-                                </div>
-                            </div>
-
-                            <label>Training/Remediation:</label>
-                            <div class="textarea-container">
-                                <textarea id="${categoryId}-remediation" placeholder="Describe the remediation..."></textarea>
-                                <div class="logo-overlay">
-                                    <img src="seal.png" alt="Logo">
-                                </div>
+                div.innerHTML = `
+                    <label>${category} — Rating:</label>
+                    <select id="${categoryId}" onchange="toggleExtraInput('${categoryId}')">
+                        <option value="N/O">N/O</option>
+                        <option value="1">1 (Below Standard)</option>
+                        <option value="2">2 (Improvement Required)</option>
+                        <option value="3">3 (Standard)</option>
+                        <option value="4">4 (Above Standard)</option>
+                    </select>
+                    <div id="${categoryId}-extra" class="extra-input">
+                        <label>Incident/Task:</label>
+                        <div class="textarea-container">
+                            <textarea id="${categoryId}-task" placeholder="Describe the task..."></textarea>
+                            <div class="logo-overlay">
+                                <img src="seal.png" alt="Logo">
                             </div>
                         </div>
-                    `;
-                    ratingsDiv.appendChild(div);
-                });
+
+                        <label>Training/Remediation:</label>
+                        <div class="textarea-container">
+                            <textarea id="${categoryId}-remediation" placeholder="Describe the remediation..."></textarea>
+                            <div class="logo-overlay">
+                                <img src="seal.png" alt="Logo">
+                            </div>
+                        </div>
+                    </div>
+                `;
+                ratingsDiv.appendChild(div);
             });
+        });
+    }
+
+    // Show/hide extra input fields based on the rating
+    function toggleExtraInput(categoryId) {
+        const rating = document.getElementById(categoryId).value;
+        const extraInputDiv = document.getElementById(`${categoryId}-extra`);
+        if (rating === '1' || rating === '2' || rating === '4') {
+            extraInputDiv.style.display = 'block';
+        } else {
+            extraInputDiv.style.display = 'none';
         }
+    }
 
-        // Show/hide extra input fields based on the rating
-        function toggleExtraInput(categoryId) {
-            const rating = document.getElementById(categoryId).value;
-            const extraInputDiv = document.getElementById(`${categoryId}-extra`);
-            if (rating === '1' || rating === '2' || rating === '4') {
-                extraInputDiv.style.display = 'block';
-            } else {
-                extraInputDiv.style.display = 'none';
-            }
-        }
+    // Generate BBCode with narrative templates for ratings 1, 2, and 4
+    function generateBBCode() {
+        const ftoName = document.getElementById('ftoName').value;
+        const ppoName = document.getElementById('ppoName').value;
+        const serial = document.getElementById('serial').value;
+        const division = document.getElementById('division').value;
+        const phase = document.getElementById('phase').value;
+        const patrolDate = document.getElementById('patrolDate').value;
+        const comments = document.getElementById('comments').value;
 
-        // Generate BBCode with narrative templates for ratings 1, 2, and 4
-        function generateBBCode() {
-            const ftoName = document.getElementById('ftoName').value;
-            const ppoName = document.getElementById('ppoName').value;
-            const serial = document.getElementById('serial').value;
-            const division = document.getElementById('division').value;
-            const phase = document.getElementById('phase').value;
-            const patrolDate = document.getElementById('patrolDate').value;
-            const comments = document.getElementById('comments').value;
+        let ratingsBBCode = '[list=none]\n'; // Start of the additional list
+        let narrativeBBCode = '[list=1]\n';
+        let itemNumber = 1;
 
-            let ratingsBBCode = '';
-            let narrativeBBCode = '[list=1]\n';
-            let itemNumber = 1;
+        Object.keys(categories).forEach(section => {
+            ratingsBBCode += `[b][u]${section.toUpperCase()}[/u][/b]\n[list=none]\n`;
 
-            Object.keys(categories).forEach(section => {
-                ratingsBBCode += `[b]${section.toUpperCase()}[/b]\n\n`;
+            categories[section].forEach((category, index) => {
+                const categoryId = category.replace(/\s+/g, '');
+                const rating = document.getElementById(categoryId).value;
 
-                categories[section].forEach(category => {
-                    const categoryId = category.replace(/\s+/g, '');
-                    const rating = document.getElementById(categoryId).value;
-                    ratingsBBCode += `${itemNumber}. ${category} — [b]Rating:[/b] ${rating}\n\n`;
+                // Add the item without [br] if it's the first item, else add [br] before it
+                if (index > 0) {
+                    ratingsBBCode += `[br]\n`;
+                }
 
-                    if (rating === '1' || rating === '2' || rating === '4') {
-                        const task = document.getElementById(`${categoryId}-task`).value;
-                        const remediation = document.getElementById(`${categoryId}-remediation`).value;
-                        narrativeBBCode += `[*][b]Evaluation Category:[/b] ${itemNumber}\n[b]Incident/Task:[/b] ${task}\n[b]Training/Remediation:[/b] ${remediation}\n[br]\n`;
-                    }
-                    itemNumber++;
-                });
+                ratingsBBCode += `[*]${itemNumber}. ${category} — [b]Rating:[/b] ${rating}\n`;
+
+                // For ratings of 1, 2, or 4, add a narrative section
+                if (rating === '1' || rating === '2' || rating === '4') {
+                    const task = document.getElementById(`${categoryId}-task`).value;
+                    const remediation = document.getElementById(`${categoryId}-remediation`).value;
+                    narrativeBBCode += `[*][b]Evaluation Category:[/b] ${itemNumber}\n[b]Incident/Task:[/b] ${task}\n[b]Training/Remediation:[/b] ${remediation}\n[br]\n`;
+                }
+
+                itemNumber++;
             });
 
-            narrativeBBCode += '[/list]';
+            ratingsBBCode += '[/list]\n'; // End the inner [list=none] for the category
+        });
 
-            const bbcode = `[font=Arial][divbox=#eee font=#2E3168][center]Los Santos Police Department
+        ratingsBBCode += '[/list]';  // End of the additional list
+
+        narrativeBBCode += '[/list]';
+
+        const bbcode = `[font=Arial][divbox=#eee font=#2E3168][center]Los Santos Police Department
 [b]PROBATIONARY POLICE OFFICER
 DAILY OBSERVATION REPORT[/b][/center]
 [hr][/hr]
@@ -353,9 +365,8 @@ ${narrativeBBCode}
 
 [/divbox][/font]`;
 
-            document.getElementById('output').value = bbcode;
-        }
-
+        document.getElementById('output').value = bbcode;
+    }
         // Copy BBCode to clipboard
         function copyToClipboard() {
             const outputTextarea = document.getElementById('output');
