@@ -293,38 +293,40 @@
 
         // Generate BBCode with narrative templates for ratings 1, 2, and 4
         function generateBBCode() {
-            const ftoName = document.getElementById('ftoName').value;
-            const ppoName = document.getElementById('ppoName').value;
-            const serial = document.getElementById('serial').value;
-            const division = document.getElementById('division').value;
-            const phase = document.getElementById('phase').value;
-            const patrolDate = document.getElementById('patrolDate').value;
-            const comments = document.getElementById('comments').value;
+    const ftoName = document.getElementById('ftoName').value;
+    const ppoName = document.getElementById('ppoName').value;
+    const serial = document.getElementById('serial').value;
+    const division = document.getElementById('division').value;
+    const phase = document.getElementById('phase').value;
+    const patrolDate = document.getElementById('patrolDate').value;
+    const comments = document.getElementById('comments').value;
 
-            let ratingsBBCode = '';
-            let narrativeBBCode = '[list=1]\n';
-            let itemNumber = 1;
+    let ratingsBBCode = '';
+    let narrativeBBCode = '[list=1]\n';
+    let itemNumber = 1;
 
-            Object.keys(categories).forEach(section => {
-                ratingsBBCode += `[b]${section.toUpperCase()}[/b]\n\n`;
+    Object.keys(categories).forEach(section => {
+        ratingsBBCode += `[b][u]${section.toUpperCase()}[/u][/b]\n[list=none]\n`;
 
-                categories[section].forEach(category => {
-                    const categoryId = category.replace(/\s+/g, '');
-                    const rating = document.getElementById(categoryId).value;
-                    ratingsBBCode += `${itemNumber}. ${category} — [b]Rating:[/b] ${rating}\n\n`;
+        categories[section].forEach(category => {
+            const categoryId = category.replace(/\s+/g, '');
+            const rating = document.getElementById(categoryId).value;
+            ratingsBBCode += `[*]${itemNumber}. ${category} — [b]Rating:[/b] ${rating}\n`;
 
-                    if (rating === '1' || rating === '2' || rating === '4') {
-                        const task = document.getElementById(`${categoryId}-task`).value;
-                        const remediation = document.getElementById(`${categoryId}-remediation`).value;
-                        narrativeBBCode += `[*][b]Evaluation Category:[/b] ${itemNumber}\n[b]Incident/Task:[/b] ${task}\n[b]Training/Remediation:[/b] ${remediation}\n[br]\n`;
-                    }
-                    itemNumber++;
-                });
-            });
+            if (rating === '1' || rating === '2' || rating === '4') {
+                const task = document.getElementById(`${categoryId}-task`).value;
+                const remediation = document.getElementById(`${categoryId}-remediation`).value;
+                narrativeBBCode += `[*][b]Evaluation Category:[/b] ${itemNumber}\n[b]Incident/Task:[/b] ${task}\n[b]Training/Remediation:[/b] ${remediation}\n[br]\n`;
+            }
+            itemNumber++;
+        });
 
-            narrativeBBCode += '[/list]';
+        ratingsBBCode += '[/list]\n';
+    });
 
-            const bbcode = `[font=Arial][divbox=#eee font=#2E3168][center]Los Santos Police Department
+    narrativeBBCode += '[/list]';
+
+    const bbcode = `[font=Arial][divbox=#eee font=#2E3168][center]Los Santos Police Department
 [b]PROBATIONARY POLICE OFFICER
 DAILY OBSERVATION REPORT[/b][/center]
 [hr][/hr]
@@ -353,8 +355,8 @@ ${narrativeBBCode}
 
 [/divbox][/font]`;
 
-            document.getElementById('output').value = bbcode;
-        }
+    document.getElementById('output').value = bbcode;
+}
 
         // Copy BBCode to clipboard
         function copyToClipboard() {
