@@ -357,5 +357,24 @@ ${narrativeBBCode}
 
     document.getElementById('output').value = bbcode;
 }
+
+        // Copy BBCode to clipboard
+        function copyToClipboard() {
+            const outputTextarea = document.getElementById('output');
+            outputTextarea.select();
+            outputTextarea.setSelectionRange(0, 99999); // For mobile devices
+
+            navigator.clipboard.writeText(outputTextarea.value)
+                .then(() => {
+                    alert('BBCode copied to clipboard!');
+                })
+                .catch(err => {
+                    alert('Failed to copy BBCode.');
+                    console.error('Error copying to clipboard:', err);
+                });
+        }
+
+        createRatingFields();
+    </script>
 </body>
 </html>
