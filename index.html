@@ -23,7 +23,7 @@
             position: relative;
         }
 
-        /* Softer Neon Background */
+        /* Neon Background */
         body::before {
             content: '';
             position: absolute;
@@ -34,7 +34,7 @@
             background: radial-gradient(circle at center, rgba(30, 255, 30, 0.15), rgba(5, 5, 5, 0.85) 70%);
             animation: neonGlow 6s ease-in-out infinite;
             z-index: 0;
-            opacity: 0.9; /* Reduced opacity for softer effect */
+            opacity: 0.9;
         }
 
         @keyframes neonGlow {
@@ -46,7 +46,7 @@
             }
         }
 
-        /* Centered Content */
+        /* Center */
         .container {
             display: flex;
             flex-direction: column;
@@ -55,7 +55,7 @@
             z-index: 1;
         }
 
-        /* Fancy Title */
+        /* Title */
         .title {
             font-size: 72px;
             font-weight: 700;
@@ -67,7 +67,7 @@
             animation: fadeIn 2s ease-out;
         }
 
-        /* Button Style */
+        /* Button */
         #play-button {
             padding: 10px 20px;
             background-color: #4caf50;
@@ -85,7 +85,7 @@
             transform: scale(1.05);
         }
 
-        /* Social Icons */
+        /* Icons */
         .social-icons {
             display: flex;
             justify-content: center;
@@ -115,7 +115,7 @@
     <div class="container">
         <h1 class="title">Fiellavin</h1>
 
-        <!-- Play button under title -->
+        <!-- Play button -->
         <button id="play-button" onclick="toggleMusic()">Start Music</button>
 
         <div class="social-icons">
@@ -131,7 +131,7 @@
         </div>
 
         
-        <!-- Audio element with autoplay and muted attributes -->
+        <!-- Audio element -->
         <audio id="background-music" autoplay muted loop></audio>
     </div>
 
@@ -139,23 +139,22 @@
         const playButton = document.getElementById("play-button");
         const audio = document.getElementById("background-music");
 
-        // Set volume level
         audio.volume = 0.2;
 
-        // Array of song URLs
+        // Array of song sources
         const songs = [
             "song1.mp3",
             "song2.mp3",
             "song3.mp3"
         ];
 
-        // Function to select a random song
+        // select a random song
         function setRandomSong() {
             const randomIndex = Math.floor(Math.random() * songs.length);
             audio.src = songs[randomIndex];
         }
 
-        // Function to toggle play/pause
+        // toggle play/pause
         function toggleMusic() {
             if (audio.paused) {
                 audio.play();
@@ -166,10 +165,10 @@
             }
         }
 
-        // Select a random song and attempt to autoplay on load
+        // Select a random song, autoplay
         window.addEventListener("load", () => {
             setRandomSong();
-            // Start playing with a small delay and then unmute
+            // playing with a small delay
             setTimeout(() => {
                 audio.muted = false;
                 audio.play().then(() => {
@@ -177,7 +176,7 @@
                 }).catch(() => {
                     playButton.textContent = "Start Music";
                 });
-            }, 500); // 500ms delay to try and trigger autoplay
+            }, 500); // 500ms delay to try
         });
     </script>
 </body>
