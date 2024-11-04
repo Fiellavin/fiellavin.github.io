@@ -23,7 +23,7 @@
             position: relative;
         }
 
-        /* Shiny Neon Background */
+        /* Shiny Neon Green Background */
         body::before {
             content: '';
             position: absolute;
@@ -31,17 +31,17 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at center, rgba(30, 255, 30, 0.3), rgba(5, 5, 5, 0.9) 70%);
-            animation: neonGlow 6s ease-in-out infinite;
+            background: radial-gradient(circle at center, rgba(0, 255, 0, 0.3), rgba(0, 77, 0, 0.9) 70%);
+            animation: neonGlowGreen 4s ease-in-out infinite alternate;
             z-index: 0;
         }
 
-        @keyframes neonGlow {
-            0%, 100% {
-                filter: hue-rotate(0deg) brightness(1.2);
+        @keyframes neonGlowGreen {
+            0% {
+                filter: brightness(1);
             }
-            50% {
-                filter: hue-rotate(180deg) brightness(1.5);
+            100% {
+                filter: brightness(1.5);
             }
         }
 
