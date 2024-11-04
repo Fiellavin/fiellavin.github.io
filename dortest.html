@@ -301,22 +301,21 @@
         const patrolDate = document.getElementById('patrolDate').value;
         const comments = document.getElementById('comments').value;
 
-        let ratingsBBCode = '[list=none]\n'; // Start the overall list
+        let ratingsBBCode = '';
         let narrativeBBCode = '[list=1]\n';
         let itemNumber = 1;
 
-        Object.keys(categories).forEach(section => {
-            // Underline the Appearance and Attitude categories
-            const sectionTitle = (section === "Appearance" || section === "Attitude") 
-                ? `[b][u]${section.toUpperCase()}[/u][/b]\n` 
-                : `[b]${section.toUpperCase()}[/b]\n`;
+        // Start the additional list for ratings
+        let additionalListBBCode = '[list=none]\n';
 
-            ratingsBBCode += sectionTitle;
+        Object.keys(categories).forEach(section => {
+            ratingsBBCode += `[b][u]${section.toUpperCase()}[/u][/b]\n[list=none]\n`;
 
             categories[section].forEach(category => {
                 const categoryId = category.replace(/\s+/g, '');
                 const rating = document.getElementById(categoryId).value;
                 ratingsBBCode += `[*]${itemNumber}. ${category} — [b]Rating:[/b] ${rating}\n`;
+                additionalListBBCode += `[*]${itemNumber}. ${category} — [b]Rating:[/b] ${rating}\n`;
 
                 if (rating === '1' || rating === '2' || rating === '4') {
                     const task = document.getElementById(`${categoryId}-task`).value;
@@ -326,14 +325,12 @@
                 itemNumber++;
             });
 
-            ratingsBBCode += '[/list]\n'; // Close the list for the current section
+            ratingsBBCode += '[/list]\n';
         });
 
-        // Add an extra list for Appearance to Roleplay: General/Passive
-        ratingsBBCode = `[b][u]APPEARANCE[/u][/b]\n[list=none]\n${ratingsBBCode}`;
-        ratingsBBCode += `[/list]`; // Closing the extra list
+        // Close the additional list
+        additionalListBBCode += '[/list]\n';
 
-        // Close the narrative list
         narrativeBBCode += '[/list]';
 
         const bbcode = `[font=Arial][divbox=#eee font=#2E3168][center]Los Santos Police Department
@@ -353,7 +350,7 @@ DAILY OBSERVATION REPORT[/b][/center]
 
 [center][b][size=110]EVALUATION CATEGORIES[/size][/b][/center]
 
-${ratingsBBCode}
+${additionalListBBCode}${ratingsBBCode}
 
 [center][b][size=110]EVALUATION NARRATIVE[/size][/b][/center]
 
