@@ -169,28 +169,21 @@
         }
     }
 
-    // Select a random song, autoplay
+    // Select a random song and set it to the audio
     window.addEventListener("load", () => {
         setRandomSong();
         // Check if the user has interacted
         if (hasInteracted) {
             audio.muted = false; // Unmute the audio
-            audio.play(); // Play the audio
-            playButton.textContent = "Stop Music";
+            audio.play().catch(err => console.log("Audio playback failed: ", err));
         } else {
-            // Playing with a small delay and muted initially
-            setTimeout(() => {
-                audio.muted = false;
-                audio.play().then(() => {
-                    playButton.textContent = "Stop Music";
-                }).catch(() => {
-                    playButton.textContent = "Start Music";
-                });
-            }, 500); // 500ms delay to try
+            // Muted initial playback to bypass autoplay restrictions
+            audio.muted = true; // Initially muted
+            audio.play().catch(err => console.log("Audio playback failed: ", err));
         }
     });
 
-    // Add event listener for button click to allow unmuted autoplay
+    // Add event listener for button click to allow unmuted playback
     playButton.addEventListener("click", toggleMusic);
 </script>
 </body>
