@@ -116,7 +116,7 @@
         <h1 class="title">Fiellavin</h1>
 
         <!-- Play button -->
-        <button id="play-button" onclick="toggleMusic()">Start Music</button>
+        <button id="play-button">Start Music</button>
 
         <div class="social-icons">
             <a href="https://www.youtube.com/@fiellavin" target="_blank" aria-label="YouTube">
@@ -130,61 +130,53 @@
             </a>
         </div>
 
-        
         <!-- Audio element -->
-        <audio id="background-music" autoplay muted loop></audio>
+        <audio id="background-music" loop></audio>
     </div>
 
     <script>
-    const playButton = document.getElementById("play-button");
-    const audio = document.getElementById("background-music");
-    let hasInteracted = false; // Flag to check if there has been user interaction
+        const playButton = document.getElementById("play-button");
+        const audio = document.getElementById("background-music");
+        let hasInteracted = false; // Flag to check if there has been user interaction
 
-    audio.volume = 0.2;
+        audio.volume = 0.2;
 
-    // Array of song sources
-    const songs = [
-        "songs/song1.mp3",
-        "songs/song2.mp3",
-        "songs/song3.mp3",
-        "songs/song4.mp3",
-        "songs/song5.mp3"
-    ];
+        // Array of song sources
+        const songs = [
+            "songs/song1.mp3",
+            "songs/song2.mp3",
+            "songs/song3.mp3",
+            "songs/song4.mp3",
+            "songs/song5.mp3"
+        ];
 
-    // Select a random song
-    function setRandomSong() {
-        const randomIndex = Math.floor(Math.random() * songs.length);
-        audio.src = songs[randomIndex];
-    }
-
-    // Toggle play/pause
-    function toggleMusic() {
-        hasInteracted = true; // Set the interaction flag to true
-        if (audio.paused) {
-            audio.play();
-            playButton.textContent = "Stop Music";
-        } else {
-            audio.pause();
-            playButton.textContent = "Start Music";
+        // Select a random song
+        function setRandomSong() {
+            const randomIndex = Math.floor(Math.random() * songs.length);
+            audio.src = songs[randomIndex];
         }
-    }
 
-    // Select a random song and set it to the audio
-    window.addEventListener("load", () => {
-        setRandomSong();
-        // Check if the user has interacted
-        if (hasInteracted) {
-            audio.muted = false; // Unmute the audio
-            audio.play().catch(err => console.log("Audio playback failed: ", err));
-        } else {
-            // Muted initial playback to bypass autoplay restrictions
-            audio.muted = true; // Initially muted
-            audio.play().catch(err => console.log("Audio playback failed: ", err));
+        // Toggle play/pause
+        function toggleMusic() {
+            hasInteracted = true; // Set the interaction flag to true
+            if (audio.paused) {
+                audio.play();
+                playButton.textContent = "Stop Music";
+            } else {
+                audio.pause();
+                playButton.textContent = "Start Music";
+            }
         }
-    });
 
-    // Add event listener for button click to allow unmuted playback
-    playButton.addEventListener("click", toggleMusic);
-</script>
+        // On page load
+        window.addEventListener("load", () => {
+            setRandomSong(); // Set a random song
+            audio.muted = true; // Start muted to comply with autoplay policies
+            audio.play().catch(err => console.log("Audio playback failed: ", err));
+        });
+
+        // Add event listener for button click to allow unmuted playback
+        playButton.addEventListener("click", toggleMusic);
+    </script>
 </body>
 </html>
