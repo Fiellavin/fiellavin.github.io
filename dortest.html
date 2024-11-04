@@ -320,7 +320,12 @@
                     const remediation = document.getElementById(`${categoryId}-remediation`).value;
                     narrativeBBCode += `[*][b]Evaluation Category:[/b] ${itemNumber}\n[b]Incident/Task:[/b] ${task}\n[b]Training/Remediation:[/b] ${remediation}\n[br]\n`;
                 }
+
                 itemNumber++;
+                // Add a line break for subsequent items, excluding the first one
+                if (itemNumber > 1 && itemNumber <= categories[section].length) {
+                    ratingsBBCode += '[br]\n';
+                }
             });
 
             ratingsBBCode += '[/list]\n';
