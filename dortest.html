@@ -1,43 +1,221 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BBCode Generator</title>
-    <style>
-        body { font-family: Arial, sans-serif; }
-        .output { white-space: pre-wrap; }
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="asapdev">
+    <meta name="description" content="BBCode Formatter for Daily Observation Report">
+    <title>Daily Observation Report Formatter</title>
+    <meta name="keywords" content="BBCode, Formatter, Daily Observation Report">
+
+    <link rel="stylesheet" href="css/bootstrap.css" crossorigin="anonymous">
+    <link href="css/sp-style.css" rel="stylesheet">
+    <link href="css/app.css" rel="stylesheet">
+    <link rel="icon" href="seal.png">
+
+    <style type="text/css">
+        body { 
+            font-family: Arial, sans-serif; 
+            text-align: center; 
+            background-color: #0f2940;
+            padding: 20px;
+        }
+        .cons1 {
+            background: #2971b173; 
+            width: 100%;
+            text-align: center;
+            padding: 20px 0;
+            color: white;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        .cons1 a {
+            color: white;
+            text-decoration: underline;
+        }
+        .cons1 a:hover {
+        color: #2677ce; /* for hover effect */
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .section { 
+            margin-bottom: 20px; 
+            text-align: left;
+        }
+        label { 
+            display: block; 
+            margin-bottom: 5px; 
+            font-weight: bold; 
+        }
+        input[type="text"], select, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        textarea {
+            height: 80px; /* Compact size */
+            resize: vertical;
+        }
+        .rating-item { 
+            margin: 10px 0; 
+            position: relative; 
+        }
+        .extra-input { 
+            display: none; 
+            margin-top: 10px; 
+        }
+        .extra-input textarea { 
+            width: 90%; 
+            height: 60px; 
+            padding: 8px; 
+            margin-bottom: 5px; 
+        }
+        /* Logo overlay styling */
+        .textarea-container, .rating-item, .extra-input {
+            position: relative;
+        }
+        .logo-overlay {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 30px; /* Smaller logo */
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            pointer-events: none;
+            opacity: 0.2; /* Slightly increased opacity */
+        }
+        .logo-overlay img { 
+            max-width: 100%; 
+            max-height: 100%; 
+        }
+        /* Button Styling */
+        .btn-success {
+            background-color: #28a745;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 5px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .btn-success:hover {
+            background-color: #218838;
+        }
+        /* Copy Button */
+        .btn-copy {
+            background-color: #28a745;
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            margin-left: 10px;
+        }
+        .btn-copy:hover {
+            background-color: #218838;
+        }
+        .btn-copy img {
+            margin-right: 5px;
+            width: 16px;
+            height: 16px;
+        }
+        /* Generated BBCode textarea */
+        #output {
+            width: 100%;
+            height: 150px; /* Larger than input textboxes */
+            padding: 8px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+            box-sizing: border-box;
+        }
     </style>
 </head>
 <body>
-    <h1>Daily Observation Report BBCode Generator</h1>
-    <form id="reportForm">
-        <label for="ftoName">Field Training Officer's Name:</label><br>
-        <input type="text" id="ftoName"><br>
+    <div class="cons1">
+        <img src="ftp.png" alt="FTP Logo" class="logo">
+        <h2>BBCode Formatter for Daily Observation Report</h2>
+        <a href="/lspd">Back to Home</a>
+    </div>
 
-        <label for="poName">Probationary Police Officer's Name:</label><br>
-        <input type="text" id="poName"><br>
+    <div class="container">
+        <div id="form">
+            <div class="section">
+                <label>Field Training Officer's Name:</label>
+                <input type="text" id="ftoName" placeholder="FTO, First, Last">
 
-        <label for="serialNo">Serial No:</label><br>
-        <input type="text" id="serialNo"><br>
+                <label>Probationary Police Officer's Name:</label>
+                <input type="text" id="ppoName" placeholder="PO1 First, Last">
 
-        <label for="division">Division:</label><br>
-        <input type="text" id="division"><br>
+                <label>Serial No.:</label>
+                <input type="text" id="serial" placeholder="PO1 Serial">
 
-        <label for="patrolDate">Date of Patrol:</label><br>
-        <input type="text" id="patrolDate"><br>
+                <label>Division:</label>
+                <select id="division">
+                    <option value="HARBOR PATROL DIVISION">HARBOR PATROL DIVISION</option>
+                    <option value="VICTORIA PATROL DIVISION">VICTORIA PATROL DIVISION</option>
+                    <option value="CENTRAL TRAFFIC DIVISION">CENTRAL TRAFFIC DIVISION</option>
+                    <option value="Metro">METROPOLITAN DIVISION</option>
+                </select>
 
-        <label for="phase">Phase Covered:</label><br>
-        <input type="text" id="phase"><br>
+                <label>Phase Covered:</label>
+                <select id="phase">
+                    <option value="II-1">II-1</option>
+                    <option value="II-2">II-2</option>
+                    <option value="III">III</option>
+                </select>
 
-        <label for="comments">Additional Comments:</label><br>
-        <textarea id="comments" rows="4"></textarea><br>
+                <label>Date of Patrol (DD/MMM/YYYY):</label>
+                <input type="text" id="patrolDate">
+            </div>
 
-        <button type="button" onclick="generateBBCode()">Generate BBCode</button>
-    </form>
+            <div class="section">
+                <label>Ratings (1-4 or N/O):</label>
+                <div id="ratings"></div>
+            </div>
 
-    <h2>Output</h2>
-    <div class="output" id="output"></div>
+            <div class="section">
+                <label>Additional Comments:</label>
+                <div class="textarea-container">
+                    <textarea id="comments" placeholder="Additional comments here..."></textarea>
+                    <div class="logo-overlay">
+                        <img src="seal.png" alt="Logo">
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="generateBBCode()" class="btn btn-success">Generate BBCode</button>
+        </div>
+
+        <h3>Generated BBCode</h3>
+        <div style="position: relative; display: inline-block; width: 100%;">
+            <textarea id="output" readonly></textarea>
+            <button class="btn-copy" onclick="copyToClipboard()">
+                📋 Copy to Clipboard
+            </button>
+        </div>
+    </div>
 
     <script>
         function generateBBCode() {
