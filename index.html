@@ -65,19 +65,19 @@
             text-shadow: 0px 0px 6px rgba(0, 255, 0, 0.6);
             margin-bottom: 10px;
             animation: fadeIn 2s ease-out;
-            position: relative;
         }
 
-        /* Hidden message with fade-in effect */
+        /* Hidden message below title */
         .hidden-message {
             opacity: 0;
             font-size: 24px;
             color: #a8f1a8;
             text-shadow: 0px 0px 6px rgba(0, 255, 0, 0.6);
             transition: opacity 1.5s ease-in-out;
+            margin-top: 10px;
         }
 
-        .title:hover .hidden-message {
+        .title:hover + .hidden-message {
             opacity: 1;
         }
 
@@ -133,9 +133,8 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="title">Fiellavin
-            <span class="hidden-message">Welcome to the hidden world!</span>
-        </h1>
+        <h1 class="title">Fiellavin</h1>
+        <div class="hidden-message">The world is yours, is it though?</div>
 
         <!-- Play button -->
         <button id="play-button" onclick="toggleMusic()">Start Music</button>
