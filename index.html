@@ -1,86 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fiellavin</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="icon" href="logos/flogo.jpg">
-    <style type="text/css">
-        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&display=swap');
+      }
 
-        /* General */
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #0b3d0b;
-            color: #ffffff;
+        #play-button:hover {
+            background-color: #388e3c;
+            transform: scale(1.05);
+        }
+
+        /* Icons */
+        .social-icons {
             display: flex;
-            align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            overflow: hidden;
-            position: relative;
+            gap: 20px;
         }
 
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            z-index: 1;
-        }
-
-        /* Title */
-        .title {
-            font-size: 72px;
-            font-weight: 700;
-            color: #c5ffc5;
-            font-family: 'Dancing Script', 'Great Vibes', cursive;
+        .social-icons a {
+            color: #a8f1a8;
+            font-size: 32px;
+            transition: color 0.3s ease, transform 0.3s ease;
             text-shadow: 0px 0px 6px rgba(0, 255, 0, 0.6);
-            margin-bottom: 10px;
         }
 
-        /* Hidden Game Styles */
-        #game {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: rgba(0, 0, 0, 0.9);
-            z-index: 10;
-            overflow: hidden;
+        .social-icons a:hover {
+            color: #76c776;
+            transform: scale(1.15);
         }
 
-        .player {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            width: 50px;
-            height: 50px;
-            background-color: lime;
-            border-radius: 50%;
-            transform: translateX(-50%);
-        }
-
-        .falling-object {
-            position: absolute;
-            width: 30px;
-            height: 30px;
-            background-color: red;
-            border-radius: 50%;
-            animation: fall linear infinite;
-        }
-
-        @keyframes fall {
-            from {
-                top: -50px;
-            }
-            to {
-                top: 100vh;
-            }
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
@@ -103,11 +50,7 @@
             </a>
         </div>
 
-        <!-- Hidden Game -->
-        <div id="game">
-            <div class="player" id="player"></div>
-        </div>
-
+        
         <!-- Audio element -->
         <audio id="background-music" autoplay muted loop></audio>
     </div>
@@ -115,8 +58,6 @@
     <script>
         const playButton = document.getElementById("play-button");
         const audio = document.getElementById("background-music");
-        const game = document.getElementById("game");
-        const player = document.getElementById("player");
 
         audio.volume = 0.2;
 
@@ -129,13 +70,13 @@
             "songs/song5.mp3"
         ];
 
-        // Select a random song
+        // select a random song
         function setRandomSong() {
             const randomIndex = Math.floor(Math.random() * songs.length);
             audio.src = songs[randomIndex];
         }
 
-        // Toggle play/pause
+        // toggle play/pause
         function toggleMusic() {
             if (audio.paused) {
                 audio.play();
@@ -146,42 +87,10 @@
             }
         }
 
-        // Trigger hidden game with a specific key
-        document.addEventListener("keydown", (event) => {
-            if (event.key.toLowerCase() === 'f') {
-                game.style.display = "block";
-                startGame();
-            }
-        });
-
-        // Game logic
-        function startGame() {
-            document.addEventListener("mousemove", (event) => {
-                let x = event.clientX - player.offsetWidth / 2;
-                player.style.left = `${x}px`;
-            });
-
-            createFallingObject();
-        }
-
-        function createFallingObject() {
-            const object = document.createElement("div");
-            object.classList.add("falling-object");
-            object.style.left = `${Math.random() * 100}vw`;
-            object.style.animationDuration = `${2 + Math.random() * 3}s`;
-
-            game.appendChild(object);
-
-            // Remove the object after it falls
-            object.addEventListener("animationend", () => {
-                game.removeChild(object);
-                createFallingObject(); // Create a new falling object
-            });
-        }
-
-        // Select a random song and autoplay
+        // Select a random song, autoplay
         window.addEventListener("load", () => {
             setRandomSong();
+            // playing with a small delay
             setTimeout(() => {
                 audio.muted = false;
                 audio.play().then(() => {
@@ -189,7 +98,7 @@
                 }).catch(() => {
                     playButton.textContent = "Start Music";
                 });
-            }, 500);
+            }, 500); // 500ms delay to try
         });
     </script>
 </body>
