@@ -65,6 +65,20 @@
             text-shadow: 0px 0px 6px rgba(0, 255, 0, 0.6);
             margin-bottom: 10px;
             animation: fadeIn 2s ease-out;
+            position: relative;
+        }
+
+        /* Hidden message */
+        .hidden-message {
+            display: none;
+            font-size: 24px;
+            color: #a8f1a8;
+            text-shadow: 0px 0px 6px rgba(0, 255, 0, 0.6);
+        }
+
+        .title:hover .hidden-message {
+            display: block;
+            margin-top: 10px;
         }
 
         /* Button */
@@ -113,7 +127,9 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="title">Fiellavin</h1>
+        <h1 class="title">Fiellavin
+            <span class="hidden-message">Welcome to the hidden world!</span>
+        </h1>
 
         <!-- Play button -->
         <button id="play-button" onclick="toggleMusic()">Start Music</button>
@@ -130,7 +146,6 @@
             </a>
         </div>
 
-        
         <!-- Audio element -->
         <audio id="background-music" autoplay muted loop></audio>
     </div>
@@ -150,13 +165,13 @@
             "songs/song5.mp3"
         ];
 
-        // select a random song
+        // Select a random song
         function setRandomSong() {
             const randomIndex = Math.floor(Math.random() * songs.length);
             audio.src = songs[randomIndex];
         }
 
-        // toggle play/pause
+        // Toggle play/pause
         function toggleMusic() {
             if (audio.paused) {
                 audio.play();
@@ -167,10 +182,19 @@
             }
         }
 
-        // Select a random song, autoplay
+        // Light show effect when "F" is pressed
+        document.addEventListener("keydown", (event) => {
+            if (event.key.toLowerCase() === 'f') {
+                document.body.classList.add('light-show');
+                setTimeout(() => {
+                    document.body.classList.remove('light-show');
+                }, 3000); // Duration of the light show in ms
+            }
+        });
+
+        // Select a random song and autoplay
         window.addEventListener("load", () => {
             setRandomSong();
-            // playing with a small delay
             setTimeout(() => {
                 audio.muted = false;
                 audio.play().then(() => {
@@ -178,7 +202,7 @@
                 }).catch(() => {
                     playButton.textContent = "Start Music";
                 });
-            }, 500); // 500ms delay to try
+            }, 500);
         });
     </script>
 </body>
