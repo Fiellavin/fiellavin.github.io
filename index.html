@@ -68,17 +68,17 @@
             position: relative;
         }
 
-        /* Hidden message */
+        /* Hidden message with fade-in effect */
         .hidden-message {
-            display: none;
+            opacity: 0;
             font-size: 24px;
             color: #a8f1a8;
             text-shadow: 0px 0px 6px rgba(0, 255, 0, 0.6);
+            transition: opacity 1.5s ease-in-out;
         }
 
         .title:hover .hidden-message {
-            display: block;
-            margin-top: 10px;
+            opacity: 1;
         }
 
         /* Button */
@@ -118,10 +118,16 @@
             transform: scale(1.15);
         }
 
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Light show animation */
+        @keyframes lightShow {
+            0%, 100% { background-color: #0b3d0b; }
+            25% { background-color: #ff0000; }
+            50% { background-color: #00ff00; }
+            75% { background-color: #0000ff; }
+        }
+
+        .light-show {
+            animation: lightShow 1s linear infinite;
         }
     </style>
 </head>
