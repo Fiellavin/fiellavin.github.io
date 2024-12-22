@@ -11,6 +11,7 @@
             color: white;
             margin: 0;
             padding: 0;
+            overflow: hidden;
         }
 
         .header {
@@ -20,12 +21,13 @@
 
         .badge-container {
             display: flex;
-            justify-content: center;
             flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
         }
 
         .badge {
-            margin: 10px;
             width: 150px;
             cursor: pointer;
             opacity: 0.8;
@@ -38,18 +40,13 @@
 
         .badge img {
             width: 100%;
+            height: auto;
         }
 
         #badge {
             text-align: center;
             margin-top: 20px;
-        }
-
-        #badgeNumberMessage {
-            font-size: 1.5vh;
-            color: #fff;
-            display: none;
-            margin-top: 10px;
+            position: relative;
         }
 
         #serialInputField {
@@ -88,6 +85,31 @@
             background-color: transparent;
             border: 0;
         }
+
+        #badgeNumberMessage {
+            font-size: 1.5vh;
+            color: #fff;
+            display: none;
+            margin-top: 10px;
+        }
+
+        .download {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .download button {
+            background-color: #24275E;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .download button:hover {
+            background-color: #1a1a5e;
+        }
     </style>
 </head>
 <body>
@@ -114,6 +136,10 @@
         </div>
         <div id="serial"></div>
         <div id="badgeNumberMessage"></div>
+    </div>
+
+    <div class="download">
+        <button onclick="downloadBadge()">Download Badge</button>
     </div>
 
     <script>
@@ -150,6 +176,36 @@
             if (badgeSupportsNumber) {
                 serialElement.textContent = serialInput.value;
             }
+        }
+
+        // Function to download the badge with number
+        function downloadBadge() {
+            const badgeElement = document.getElementById('selectedBadge');
+            const serialElement = document.getElementById('serial');
+
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const img = new Image();
+
+            img.onload = () => {
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctx.drawImage(img, 0, 0);
+
+                if (badgeSupportsNumber) {
+                    ctx.font = "bold 48px 'serif'";
+                    ctx.fillStyle = 'gold';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(serialElement.textContent, canvas.width / 2, canvas.height - 30); // Place at bottom
+                }
+
+                const link = document.createElement('a');
+                link.download = 'badge.png';
+                link.href = canvas.toDataURL();
+                link.click();
+            };
+
+            img.src = badgeElement.src;
         }
     </script>
 </body>
