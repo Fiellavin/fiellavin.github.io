@@ -129,7 +129,11 @@
         }
 
         .visible {
-            display: block;
+            display: block !important;
+        }
+
+        .invisible {
+            display: none !important;
         }
     </style>
 </head>
@@ -156,10 +160,10 @@
             <div class="right">
                 <div id="badge">
                     <img id="selectedBadge" src="" alt="Selected Badge">
-                    <div id="serialInputField">
+                    <div id="serialInputField" class="invisible">
                         <input type="text" id="serialInput" placeholder="Enter Badge Number" oninput="updateBadgeNumber()">
                     </div>
-                    <div id="badgeNumberMessage"></div>
+                    <div id="badgeNumberMessage" class="invisible"></div>
                     <div id="serial"></div>
                 </div>
                 <div class="download">
