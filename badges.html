@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Badge Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+
+        .badge {
+            margin: 20px auto;
+            width: 200px;
+            height: 200px;
+            background: url('badge-placeholder.png') center/contain no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .badge-text {
+            position: absolute;
+            bottom: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #000;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 14px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Badge Generator</h1>
+
+        <label for="badgeSelect">Select Badge:</label>
+        <select id="badgeSelect">
+            <option value="badge1.png">Badge 1</option>
+            <option value="badge2.png">Badge 2</option>
+            <option value="badge3.png">Badge 3</option>
+        </select>
+
+        <label for="badgeText">Enter Text:</label>
+        <input type="text" id="badgeText" placeholder="Enter badge serial number">
+
+        <button id="generateButton">Generate Badge</button>
+
+        <div class="badge" id="badgePreview">
+            <div class="badge-text" id="previewText"></div>
+        </div>
+    </div>
+
+    <script>
+        const badgeSelect = document.getElementById('badgeSelect');
+        const badgeText = document.getElementById('badgeText');
+        const badgePreview = document.getElementById('badgePreview');
+        const previewText = document.getElementById('previewText');
+        const generateButton = document.getElementById('generateButton');
+
+        generateButton.addEventListener('click', () => {
+            const selectedBadge = badgeSelect.value;
+            const enteredText = badgeText.value;
+
+            badgePreview.style.backgroundImage = `url(${selectedBadge})`;
+            previewText.textContent = enteredText;
+        });
+    </script>
+</body>
+</html>
