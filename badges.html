@@ -54,7 +54,7 @@
 
         .left .badge {
             width: 100%;
-            max-width: 150px; /* Set max width for the badge images */
+            max-width: 150px;
             opacity: 0.8;
             cursor: pointer;
             transition: opacity 0.2s, transform 0.2s;
@@ -72,18 +72,18 @@
         }
 
         #badge img {
-            max-height: 40vh; /* Set max height for the selected badge image */
+            max-height: 40vh;
             width: auto;
             margin-bottom: 20px;
         }
 
         #serial {
             position: absolute;
-            bottom: 10%;
+            bottom: 5%;
             left: 50%;
             transform: translateX(-50%);
             font-size: 5vh;
-            color: #24275E;
+            color: gold;
             font-weight: bold;
             display: none;
         }
@@ -108,6 +108,38 @@
         button:hover {
             background-color: #1a1a5e;
         }
+
+        #badgeNumberMessage {
+            font-size: 1.5vh;
+            color: #fff;
+            margin-top: 10px;
+            display: none;
+        }
+
+        #badgeNumberMessage.visible {
+            display: block;
+        }
+
+        #serialInputWrapper {
+            position: relative;
+            margin-top: 20px;
+        }
+
+        #serialInput {
+            padding: 10px;
+            font-size: 2vh;
+            width: 80%;
+            text-align: center;
+            border: 2px solid #24275E;
+            background-color: #1e1e1e;
+            color: white;
+            border-radius: 10px;
+            display: none;
+        }
+
+        #serialInputWrapper.visible #serialInput {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -119,21 +151,25 @@
         <div class="content">
             <div class="left">
                 <div class="badges">
-                    <img src="logos/Chief of Police.png" alt="Chief of Police" class="badge" onclick="selectBadge('logos/Chief of Police.png', true)">
-                    <img src="logos/Assistant Chief.png" alt="Assistant Chief" class="badge" onclick="selectBadge('logos/Assistant Chief.png', false)">
-                    <img src="logos/Deputy Chief.png" alt="Deputy Chief" class="badge" onclick="selectBadge('logos/Deputy Chief.png', false)">
-                    <img src="logos/Commander.png" alt="Commander" class="badge" onclick="selectBadge('logos/Commander.png', false)">
-                    <img src="logos/Captain.png" alt="Captain" class="badge" onclick="selectBadge('logos/Captain.png', false)">
-                    <img src="logos/Lieutenant.png" alt="Lieutenant" class="badge" onclick="selectBadge('logos/Lieutenant.png', false)">
-                    <img src="logos/Sergeant.png" alt="Sergeant" class="badge" onclick="selectBadge('logos/Sergeant.png', false)">
-                    <img src="logos/Detective.png" alt="Detective" class="badge" onclick="selectBadge('logos/Detective.png', false)">
-                    <img src="logos/Police Officer.png" alt="Police Officer" class="badge" onclick="selectBadge('logos/Police Officer.png', false)">
+                    <img src="logos/Chief of Police.png" alt="Chief of Police" class="badge" onclick="selectBadge('Chief of Police.png', false)">
+                    <img src="logos/Assistant Chief.png" alt="Assistant Chief" class="badge" onclick="selectBadge('Assistant Chief.png', false)">
+                    <img src="logos/Deputy Chief.png" alt="Deputy Chief" class="badge" onclick="selectBadge('Deputy Chief.png', false)">
+                    <img src="logos/Commander.png" alt="Commander" class="badge" onclick="selectBadge('Commander.png', false)">
+                    <img src="logos/Captain.png" alt="Captain" class="badge" onclick="selectBadge('Captain.png', true)">
+                    <img src="logos/Lieutenant.png" alt="Lieutenant" class="badge" onclick="selectBadge('Lieutenant.png', true)">
+                    <img src="logos/Sergeant.png" alt="Sergeant" class="badge" onclick="selectBadge('Sergeant.png', true)">
+                    <img src="logos/Detective.png" alt="Detective" class="badge" onclick="selectBadge('Detective.png', true)">
+                    <img src="logos/Police Officer.png" alt="Police Officer" class="badge" onclick="selectBadge('Police Officer.png', true)">
                 </div>
             </div>
             <div class="right">
                 <div id="badge">
                     <img id="selectedBadge" src="" alt="Selected Badge">
-                    <input type="text" id="serial" placeholder="Badge Number">
+                    <div id="serialInputWrapper">
+                        <input type="text" id="serialInput" placeholder="Enter Badge Number" oninput="updateBadgeNumber()">
+                    </div>
+                    <div id="badgeNumberMessage"></div>
+                    <div id="serial" class="visible"></div>
                 </div>
                 <div class="download">
                     <button onclick="downloadBadge()">Download Badge</button>
@@ -143,14 +179,41 @@
     </div>
     <script>
         let serialVisible = false;
+        let badgeSupportsNumber = false;
 
         function selectBadge(badgeSrc, showSerial) {
             const badgeElement = document.getElementById('selectedBadge');
             const serialElement = document.getElementById('serial');
+            const serialInputWrapper = document.getElementById('serialInputWrapper');
+            const badgeNumberMessage = document.getElementById('badgeNumberMessage');
+            const serialInput = document.getElementById('serialInput');
 
             badgeElement.src = badgeSrc;
-            serialVisible = showSerial;
-            serialElement.style.display = showSerial ? 'block' : 'none';
+
+            // Handle badge number logic
+            if (showSerial) {
+                serialVisible = true;
+                badgeSupportsNumber = true;
+                serialElement.style.display = 'block';
+                serialInputWrapper.style.display = 'block';
+                badgeNumberMessage.style.display = 'none'; // Hide message
+            } else {
+                serialVisible = false;
+                badgeSupportsNumber = false;
+                serialElement.style.display = 'none';
+                serialInputWrapper.style.display = 'none';
+                badgeNumberMessage.textContent = "This badge type doesn't support badge number";
+                badgeNumberMessage.style.display = 'block';
+            }
+        }
+
+        function updateBadgeNumber() {
+            const serialInput = document.getElementById('serialInput');
+            const serialElement = document.getElementById('serial');
+
+            if (badgeSupportsNumber) {
+                serialElement.textContent = serialInput.value;
+            }
         }
 
         function downloadBadge() {
@@ -166,11 +229,11 @@
                 canvas.height = img.height;
                 ctx.drawImage(img, 0, 0);
 
-                if (serialVisible) {
+                if (serialVisible && badgeSupportsNumber) {
                     ctx.font = "bold 48px 'Bebas Neue', sans-serif";
-                    ctx.fillStyle = '#24275E';
+                    ctx.fillStyle = 'gold';
                     ctx.textAlign = 'center';
-                    ctx.fillText(serialElement.value, canvas.width / 2, canvas.height - 50);
+                    ctx.fillText(serialElement.textContent, canvas.width / 2, canvas.height - 30); // Place at bottom
                 }
 
                 const link = document.createElement('a');
