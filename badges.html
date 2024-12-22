@@ -53,7 +53,9 @@
         }
 
         .left .badge {
-            opacity: 0.5;
+            width: 100%;
+            max-width: 150px; /* Set max width for the badge images */
+            opacity: 0.8;
             cursor: pointer;
             transition: opacity 0.2s, transform 0.2s;
         }
@@ -70,8 +72,8 @@
         }
 
         #badge img {
-            max-height: 50vh;
-            max-width: 100%;
+            max-height: 40vh; /* Set max height for the selected badge image */
+            width: auto;
             margin-bottom: 20px;
         }
 
@@ -117,15 +119,15 @@
         <div class="content">
             <div class="left">
                 <div class="badges">
-                    <img src="logos/Chief of Police.png" alt="Chief of Police" class="badge" onclick="selectBadge('Chief of Police.png', true)">
-                    <img src="logos/Assistant Chief.png" alt="Assistant Chief" class="badge" onclick="selectBadge('Assistant Chief.png', false)">
-                    <img src="logos/Deputy Chief.png" alt="Deputy Chief" class="badge" onclick="selectBadge('Deputy Chief.png', false)">
-                    <img src="logos/Commander.png" alt="Commander" class="badge" onclick="selectBadge('Commander.png', false)">
-                    <img src="logos/Captain.png" alt="Captain" class="badge" onclick="selectBadge('Captain.png', false)">
-                    <img src="logos/Lieutenant.png" alt="Lieutenant" class="badge" onclick="selectBadge('Lieutenant.png', false)">
-                    <img src="logos/Sergeant.png" alt="Sergeant" class="badge" onclick="selectBadge('Sergeant.png', false)">
-                    <img src="logos/Detective.png" alt="Detective" class="badge" onclick="selectBadge('Detective.png', false)">
-                    <img src="logos/Police Officer.png" alt="Police Officer" class="badge" onclick="selectBadge('Police Officer.png', false)">
+                    <img src="logos/Chief of Police.png" alt="Chief of Police" class="badge" onclick="selectBadge('logos/Chief of Police.png', true)">
+                    <img src="logos/Assistant Chief.png" alt="Assistant Chief" class="badge" onclick="selectBadge('logos/Assistant Chief.png', false)">
+                    <img src="logos/Deputy Chief.png" alt="Deputy Chief" class="badge" onclick="selectBadge('logos/Deputy Chief.png', false)">
+                    <img src="logos/Commander.png" alt="Commander" class="badge" onclick="selectBadge('logos/Commander.png', false)">
+                    <img src="logos/Captain.png" alt="Captain" class="badge" onclick="selectBadge('logos/Captain.png', false)">
+                    <img src="logos/Lieutenant.png" alt="Lieutenant" class="badge" onclick="selectBadge('logos/Lieutenant.png', false)">
+                    <img src="logos/Sergeant.png" alt="Sergeant" class="badge" onclick="selectBadge('logos/Sergeant.png', false)">
+                    <img src="logos/Detective.png" alt="Detective" class="badge" onclick="selectBadge('logos/Detective.png', false)">
+                    <img src="logos/Police Officer.png" alt="Police Officer" class="badge" onclick="selectBadge('logos/Police Officer.png', false)">
                 </div>
             </div>
             <div class="right">
