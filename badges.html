@@ -3,203 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Los Santos Police Department - Badge Generator</title>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <title>Badge Generator</title>
     <style>
         body {
-            margin: 0;
-            font-family: 'Bebas Neue', sans-serif;
+            font-family: Arial, sans-serif;
             background-color: #1e1e1e;
             color: white;
-            overflow: hidden;
+            margin: 0;
+            padding: 0;
         }
 
         .header {
             text-align: center;
-            padding: 20px;
+            margin: 20px;
         }
 
-        .header span {
-            display: block;
-            font-size: 4vh;
-            text-transform: uppercase;
-            transition: color 0.2s linear;
-        }
-
-        .header span:hover {
-            color: #00f;
-        }
-
-        .content {
+        .badge-container {
             display: flex;
-            justify-content: space-between;
-            padding: 20px;
-            height: 80vh;
-            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
-        .left {
-            flex: 1;
-            padding-right: 10px;
-            overflow-y: auto;
-        }
-
-        .left .badges {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-        }
-
-        .left .badge {
-            width: 100%;
-            max-width: 150px;
+        .badge {
+            margin: 10px;
+            width: 150px;
+            cursor: pointer;
             opacity: 0.8;
-            cursor: pointer;
-            transition: opacity 0.2s, transform 0.2s;
+            transition: opacity 0.2s;
         }
 
-        .left .badge:hover {
+        .badge:hover {
             opacity: 1;
-            transform: scale(1.1);
         }
 
-        .right {
-            flex: 1;
-            position: relative;
+        .badge img {
+            width: 100%;
+        }
+
+        #badge {
             text-align: center;
-        }
-
-        #badge img {
-            max-height: 40vh;
-            width: auto;
-            margin-bottom: 20px;
-        }
-
-        #serial {
-            position: absolute;
-            bottom: 5%;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 5vh;
-            color: gold;
-            font-weight: bold;
-            display: none;
-        }
-
-        #serialInputField {
-            position: absolute;
-            text-align: center;
-            width: 15vw;
-            z-index: 2;
-            font-family: "serif";
-            color: #24275E;
-            font-weight: 800;
-            font-size: 5vh;
-            left: 4.3vw;
-            bottom: 11.3vh;
-            background-color: transparent;
-            border: 0;
-            display: none;
-        }
-
-        .download {
             margin-top: 20px;
-        }
-
-        button {
-            background-color: #24275E;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        button:hover {
-            background-color: #1a1a5e;
         }
 
         #badgeNumberMessage {
             font-size: 1.5vh;
             color: #fff;
+            display: none;
             margin-top: 10px;
+        }
+
+        #serialInputField {
+            font-size: 3vh;
+            padding: 10px;
+            width: 15vw;
             display: none;
         }
 
-        .visible {
-            display: block !important;
-        }
-
-        .invisible {
-            display: none !important;
+        #serial {
+            font-size: 5vh;
+            color: gold;
+            font-weight: bold;
+            margin-top: 10px;
+            display: none;
         }
     </style>
 </head>
 <body>
-    <div class="wrapper">
-        <div class="header">
-            <span>Los Santos Police Department</span>
-            <span class="sub-header">Badge Generator</span>
-        </div>
-        <div class="content">
-            <div class="left">
-                <div class="badges">
-                    <img src="logos/Chief of Police.png" alt="Chief of Police" class="badge" onclick="selectBadge('logos/Chief of Police.png', false)">
-                    <img src="logos/Assistant Chief.png" alt="Assistant Chief" class="badge" onclick="selectBadge('logos/Assistant Chief.png', false)">
-                    <img src="logos/Deputy Chief.png" alt="Deputy Chief" class="badge" onclick="selectBadge('logos/Deputy Chief.png', false)">
-                    <img src="logos/Commander.png" alt="Commander" class="badge" onclick="selectBadge('logos/Commander.png', false)">
-                    <img src="logos/Captain.png" alt="Captain" class="badge" onclick="selectBadge('logos/Captain.png', true)">
-                    <img src="logos/Lieutenant.png" alt="Lieutenant" class="badge" onclick="selectBadge('logos/Lieutenant.png', true)">
-                    <img src="logos/Sergeant.png" alt="Sergeant" class="badge" onclick="selectBadge('logos/Sergeant.png', true)">
-                    <img src="logos/Detective.png" alt="Detective" class="badge" onclick="selectBadge('logos/Detective.png', true)">
-                    <img src="logos/Police Officer.png" alt="Police Officer" class="badge" onclick="selectBadge('logos/Police Officer.png', true)">
-                </div>
-            </div>
-            <div class="right">
-                <div id="badge">
-                    <img id="selectedBadge" src="" alt="Selected Badge">
-                    <div id="serialInputField" class="invisible">
-                        <input type="text" id="serialInput" placeholder="Enter Badge Number" oninput="updateBadgeNumber()">
-                    </div>
-                    <div id="badgeNumberMessage" class="invisible"></div>
-                    <div id="serial"></div>
-                </div>
-                <div class="download">
-                    <button onclick="downloadBadge()">Download Badge</button>
-                </div>
-            </div>
-        </div>
+    <div class="header">
+        <h1>Los Santos Police Department - Badge Generator</h1>
     </div>
+
+    <div class="badge-container">
+        <img src="logos/Chief of Police.png" alt="Chief of Police" class="badge" onclick="selectBadge('Chief of Police', false)">
+        <img src="logos/Assistant Chief.png" alt="Assistant Chief" class="badge" onclick="selectBadge('Assistant Chief', false)">
+        <img src="logos/Deputy Chief.png" alt="Deputy Chief" class="badge" onclick="selectBadge('Deputy Chief', false)">
+        <img src="logos/Commander.png" alt="Commander" class="badge" onclick="selectBadge('Commander', false)">
+        <img src="logos/Captain.png" alt="Captain" class="badge" onclick="selectBadge('Captain', true)">
+        <img src="logos/Lieutenant.png" alt="Lieutenant" class="badge" onclick="selectBadge('Lieutenant', true)">
+        <img src="logos/Sergeant.png" alt="Sergeant" class="badge" onclick="selectBadge('Sergeant', true)">
+        <img src="logos/Detective.png" alt="Detective" class="badge" onclick="selectBadge('Detective', true)">
+        <img src="logos/Police Officer.png" alt="Police Officer" class="badge" onclick="selectBadge('Police Officer', true)">
+    </div>
+
+    <div id="badge">
+        <img id="selectedBadge" src="" alt="Selected Badge">
+        <div id="serialInputField">
+            <input type="text" id="serialInput" placeholder="Enter Badge Number" oninput="updateBadgeNumber()">
+        </div>
+        <div id="serial"></div>
+        <div id="badgeNumberMessage"></div>
+    </div>
+
     <script>
         let badgeSupportsNumber = false;
 
-        // Function to select badge and toggle visibility of the input field
-        function selectBadge(badgeSrc, showSerial) {
-            const badgeElement = document.getElementById('selectedBadge');
-            const serialElement = document.getElementById('serial');
-            const badgeNumberMessage = document.getElementById('badgeNumberMessage');
+        // Function to select badge and toggle visibility of input field/message
+        function selectBadge(badgeName, showSerial) {
+            const selectedBadge = document.getElementById('selectedBadge');
             const serialInputField = document.getElementById('serialInputField');
-            const serialInput = document.getElementById('serialInput');
+            const badgeNumberMessage = document.getElementById('badgeNumberMessage');
+            const serialElement = document.getElementById('serial');
 
-            badgeElement.src = badgeSrc;
+            selectedBadge.src = `logos/${badgeName}.png`; // Assume badge images are named accordingly
 
             if (showSerial) {
                 badgeSupportsNumber = true;
+                serialInputField.style.display = 'block';
+                badgeNumberMessage.style.display = 'none';
                 serialElement.style.display = 'block';
-                serialInputField.classList.add('visible'); // Show input field
-                badgeNumberMessage.style.display = 'none'; // Hide message
             } else {
                 badgeSupportsNumber = false;
+                serialInputField.style.display = 'none';
+                badgeNumberMessage.style.display = 'block';
+                badgeNumberMessage.textContent = "This badge does not require a badge number.";
                 serialElement.style.display = 'none';
-                serialInputField.classList.remove('visible'); // Hide input field
-                badgeNumberMessage.textContent = "This badge type doesn't support badge number";
-                badgeNumberMessage.style.display = 'block'; // Show message
             }
         }
 
-        // Function to update the badge number
+        // Function to update badge number as it's typed
         function updateBadgeNumber() {
             const serialInput = document.getElementById('serialInput');
             const serialElement = document.getElementById('serial');
@@ -207,36 +128,6 @@
             if (badgeSupportsNumber) {
                 serialElement.textContent = serialInput.value;
             }
-        }
-
-        // Function to download the badge
-        function downloadBadge() {
-            const badgeElement = document.getElementById('selectedBadge');
-            const serialElement = document.getElementById('serial');
-
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            const img = new Image();
-
-            img.onload = () => {
-                canvas.width = img.width;
-                canvas.height = img.height;
-                ctx.drawImage(img, 0, 0);
-
-                if (badgeSupportsNumber) {
-                    ctx.font = "bold 48px 'Bebas Neue', sans-serif";
-                    ctx.fillStyle = 'gold';
-                    ctx.textAlign = 'center';
-                    ctx.fillText(serialElement.textContent, canvas.width / 2, canvas.height - 30); // Place at bottom
-                }
-
-                const link = document.createElement('a');
-                link.download = 'badge.png';
-                link.href = canvas.toDataURL();
-                link.click();
-            };
-
-            img.src = badgeElement.src;
         }
     </script>
 </body>
