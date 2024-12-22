@@ -195,13 +195,13 @@
                 serialVisible = true;
                 badgeSupportsNumber = true;
                 serialElement.style.display = 'block';
-                serialInputWrapper.style.display = 'block';
+                serialInputWrapper.classList.add('visible');
                 badgeNumberMessage.style.display = 'none'; // Hide message
             } else {
                 serialVisible = false;
                 badgeSupportsNumber = false;
                 serialElement.style.display = 'none';
-                serialInputWrapper.style.display = 'none';
+                serialInputWrapper.classList.remove('visible');
                 badgeNumberMessage.textContent = "This badge type doesn't support badge number";
                 badgeNumberMessage.style.display = 'block';
             }
