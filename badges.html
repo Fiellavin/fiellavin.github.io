@@ -6,108 +6,144 @@
     <title>Badge Generator</title>
     <style>
         body {
+            background-color: #1a1a1a;
+            color: #ffffff;
             font-family: Arial, sans-serif;
             text-align: center;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 0;
+            padding: 20px;
         }
 
-        .container {
-            max-width: 600px;
-            margin: 50px auto;
-            padding: 20px;
-            background: white;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
+        .badge-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
         }
 
         .badge {
-            margin: 20px auto;
-            width: 200px;
-            height: 200px;
-            background: url('badge-placeholder.png') center/contain no-repeat;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-
-        .badge-text {
-            position: absolute;
-            bottom: 15px;
-            font-size: 16px;
-            font-weight: bold;
-            color: #000;
-        }
-
-        label {
-            display: block;
-            margin: 10px 0 5px;
-            font-size: 14px;
-        }
-
-        input[type="text"],
-        select {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 14px;
-        }
-
-        button {
-            padding: 10px 20px;
-            font-size: 14px;
-            color: white;
-            background-color: #007bff;
-            border: none;
-            border-radius: 5px;
+            width: 100px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: transform 0.3s;
         }
 
-        button:hover {
+        .badge:hover {
+            transform: scale(1.1);
+        }
+
+        .output-container {
+            margin-top: 20px;
+        }
+
+        #generated-badge {
+            margin: 20px auto;
+            display: none;
+        }
+
+        .input-number {
+            display: none;
+            margin-top: 10px;
+        }
+
+        .input-number input {
+            font-size: 18px;
+            padding: 5px;
+        }
+
+        .download-button {
+            display: none;
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            cursor: pointer;
+        }
+
+        .download-button:hover {
             background-color: #0056b3;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Badge Generator</h1>
+    <h1>Los Santos Police Department</h1>
+    <h2>Badge Generator</h2>
 
-        <label for="badgeSelect">Select Badge:</label>
-        <select id="badgeSelect">
-            <option value="badge1.png">Badge 1</option>
-            <option value="badge2.png">Badge 2</option>
-            <option value="badge3.png">Badge 3</option>
-        </select>
+    <div class="badge-container">
+        <img src="ChiefOfPolice.png" alt="Chief of Police" class="badge" data-rank="Chief of Police">
+        <img src="AssistantChief.png" alt="Assistant Chief of Police" class="badge" data-rank="Assistant Chief">
+        <img src="DeputyChief.png" alt="Deputy Chief of Police" class="badge" data-rank="Deputy Chief">
+        <img src="Commander.png" alt="Police Commander" class="badge" data-rank="Commander">
+        <img src="Captain.png" alt="Captain" class="badge" data-rank="Captain">
+        <img src="Lieutenant.png" alt="Lieutenant" class="badge" data-rank="Lieutenant">
+        <img src="Sergeant.png" alt="Sergeant" class="badge" data-rank="Sergeant">
+        <img src="Detective.png" alt="Detective" class="badge" data-rank="Detective">
+        <img src="PoliceOfficer.png" alt="Police Officer" class="badge" data-rank="Police Officer">
+    </div>
 
-        <label for="badgeText">Enter Text:</label>
-        <input type="text" id="badgeText" placeholder="Enter badge serial number">
+    <div class="output-container">
+        <canvas id="generated-badge" width="400" height="500"></canvas>
 
-        <button id="generateButton">Generate Badge</button>
-
-        <div class="badge" id="badgePreview">
-            <div class="badge-text" id="previewText"></div>
+        <div class="input-number" id="badge-number-input">
+            <label for="badgeNumber">Enter Badge Number:</label>
+            <input type="text" id="badgeNumber" placeholder="12345">
         </div>
+
+        <button class="download-button" id="downloadBadge">Download Badge</button>
     </div>
 
     <script>
-        const badgeSelect = document.getElementById('badgeSelect');
-        const badgeText = document.getElementById('badgeText');
-        const badgePreview = document.getElementById('badgePreview');
-        const previewText = document.getElementById('previewText');
-        const generateButton = document.getElementById('generateButton');
+        const badges = document.querySelectorAll('.badge');
+        const canvas = document.getElementById('generated-badge');
+        const ctx = canvas.getContext('2d');
+        const badgeNumberInput = document.getElementById('badge-number-input');
+        const badgeNumberField = document.getElementById('badgeNumber');
+        const downloadButton = document.getElementById('downloadBadge');
 
-        generateButton.addEventListener('click', () => {
-            const selectedBadge = badgeSelect.value;
-            const enteredText = badgeText.value;
+        let selectedBadge = null;
 
-            badgePreview.style.backgroundImage = `url(${selectedBadge})`;
-            previewText.textContent = enteredText;
+        badges.forEach(badge => {
+            badge.addEventListener('click', () => {
+                const rank = badge.getAttribute('data-rank');
+
+                selectedBadge = rank;
+                badgeNumberInput.style.display = ['Chief of Police', 'Assistant Chief', 'Deputy Chief', 'Commander'].includes(rank) ? 'none' : 'block';
+                generateBadge(badge.src, rank);
+            });
         });
+
+        badgeNumberField.addEventListener('input', () => {
+            if (selectedBadge) {
+                const badgeSrc = document.querySelector(`img[data-rank="${selectedBadge}"]`).src;
+                generateBadge(badgeSrc, selectedBadge, badgeNumberField.value);
+            }
+        });
+
+        downloadButton.addEventListener('click', () => {
+            const link = document.createElement('a');
+            link.download = `${selectedBadge || 'Badge'}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        });
+
+        function generateBadge(src, rank, badgeNumber = '') {
+            const img = new Image();
+            img.src = src;
+            img.onload = () => {
+                canvas.style.display = 'block';
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                if (badgeNumber) {
+                    ctx.font = '30px Arial';
+                    ctx.fillStyle = '#ffffff';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(badgeNumber, canvas.width / 2, canvas.height - 50);
+                }
+
+                downloadButton.style.display = 'block';
+            };
+        }
     </script>
 </body>
 </html>
