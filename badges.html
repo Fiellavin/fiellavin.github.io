@@ -25,21 +25,22 @@
         .badge {
             margin: 20px auto;
             width: 200px;
-            height: 300px;
+            height: 200px;
             background: url('badge-placeholder.png') center/contain no-repeat;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
-            border: 1px solid #ccc;
         }
 
         .badge-text {
             position: absolute;
-            bottom: 10%;
-            font-size: 20px;
+            bottom: 15px;
+            font-size: 16px;
             font-weight: bold;
             color: #000;
+            text-align: center;
+            width: 100%;
         }
 
         label {
@@ -84,9 +85,9 @@
 
         <label for="badgeSelect">Select Badge:</label>
         <select id="badgeSelect">
-            <option value="badge1.png">Badge 1</option>
-            <option value="badge2.png">Badge 2</option>
-            <option value="badge3.png">Badge 3</option>
+            <option value="logos/Chief of Police.png">Badge 1</option>
+            <option value="logos/Assistant Chief.png">Badge 2</option>
+            <option value="logos/Deputy Chief.png">Badge 3</option>
         </select>
 
         <label for="badgeText">Enter Text:</label>
@@ -127,17 +128,17 @@
             const img = new Image();
 
             img.onload = () => {
-                canvas.width = img.width;
-                canvas.height = img.height;
+                canvas.width = 200; // Badge width
+                canvas.height = 200; // Badge height
 
-                // Draw badge image
-                ctx.drawImage(img, 0, 0);
+                // Draw the badge
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-                // Add badge text
-                ctx.font = "20px Arial";
+                // Add text to badge
+                ctx.font = "16px Arial";
                 ctx.fillStyle = "#000";
                 ctx.textAlign = "center";
-                ctx.fillText(badgeText.value, canvas.width / 2, canvas.height - 30);
+                ctx.fillText(badgeText.value, canvas.width / 2, canvas.height - 15);
 
                 // Trigger download
                 const link = document.createElement('a');
@@ -146,7 +147,7 @@
                 link.click();
             };
 
-            img.src = badgePreview.style.backgroundImage.slice(5, -2);
+            img.src = badgePreview.style.backgroundImage.slice(5, -2); // Extract the URL
         });
     </script>
 </body>
