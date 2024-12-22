@@ -11,7 +11,9 @@
             color: white;
             margin: 0;
             padding: 0;
-            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .header {
@@ -44,9 +46,15 @@
         }
 
         #badge {
+            position: relative;
             text-align: center;
             margin-top: 20px;
-            position: relative;
+        }
+
+        #selectedBadge {
+            width: 200px; /* Adjust size of the badge */
+            height: auto;
+            margin: 0 auto;
         }
 
         #serialInputField {
@@ -55,8 +63,9 @@
             width: 15vw;
             display: none;
             position: absolute;
-            left: 4.3vw;
-            bottom: 11.3vh;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 15%;
             z-index: 2;
             text-align: center;
             background-color: transparent;
@@ -80,8 +89,9 @@
             color: #24275E;
             font-weight: 800;
             font-size: 5vh;
-            left: 4.3vw;
-            bottom: 11.3vh;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 15%;
             background-color: transparent;
             border: 0;
         }
