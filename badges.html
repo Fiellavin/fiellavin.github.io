@@ -88,8 +88,20 @@
             display: none;
         }
 
-        #serial.visible {
-            display: block;
+        #serialInputField {
+            position: absolute;
+            text-align: center;
+            width: 15vw;
+            z-index: 2;
+            font-family: "serif";
+            color: #24275E;
+            font-weight: 800;
+            font-size: 5vh;
+            left: 4.3vw;
+            bottom: 11.3vh;
+            background-color: transparent;
+            border: 0;
+            display: none;
         }
 
         .download {
@@ -116,49 +128,7 @@
             display: none;
         }
 
-        #badgeNumberMessage.visible {
-            display: block;
-        }
-
-        #serialInputWrapper {
-            position: relative;
-            margin-top: 20px;
-        }
-
-        #serialInput {
-            padding: 10px;
-            font-size: 2vh;
-            width: 80%;
-            text-align: center;
-            border: 2px solid #24275E;
-            background-color: #1e1e1e;
-            color: white;
-            border-radius: 10px;
-            display: none;
-        }
-
-        #serialInputWrapper.visible #serialInput {
-            display: block;
-        }
-
-        /* New Styles for Badge Number Input */
-        #serialInputField {
-            position: absolute;
-            text-align: center;
-            width: 15vw;
-            z-index: 2;
-            font-family: "serif";
-            color: #24275E;
-            font-weight: 800;
-            font-size: 5vh;
-            left: 4.3vw;
-            bottom: 11.3vh;
-            background-color: transparent;
-            border: 0;
-            display: none;
-        }
-
-        #serialInputField.visible {
+        .visible {
             display: block;
         }
     </style>
@@ -190,7 +160,7 @@
                         <input type="text" id="serialInput" placeholder="Enter Badge Number" oninput="updateBadgeNumber()">
                     </div>
                     <div id="badgeNumberMessage"></div>
-                    <div id="serial" class="visible"></div>
+                    <div id="serial"></div>
                 </div>
                 <div class="download">
                     <button onclick="downloadBadge()">Download Badge</button>
@@ -199,9 +169,9 @@
         </div>
     </div>
     <script>
-        let serialVisible = false;
         let badgeSupportsNumber = false;
 
+        // Function to select badge and toggle visibility of the input field
         function selectBadge(badgeSrc, showSerial) {
             const badgeElement = document.getElementById('selectedBadge');
             const serialElement = document.getElementById('serial');
@@ -211,23 +181,21 @@
 
             badgeElement.src = badgeSrc;
 
-            // Handle badge number logic
             if (showSerial) {
-                serialVisible = true;
                 badgeSupportsNumber = true;
                 serialElement.style.display = 'block';
-                serialInputField.classList.add('visible'); // Add the 'visible' class
-                badgeNumberMessage.style.display = 'none'; // Hide the message
+                serialInputField.classList.add('visible'); // Show input field
+                badgeNumberMessage.style.display = 'none'; // Hide message
             } else {
-                serialVisible = false;
                 badgeSupportsNumber = false;
                 serialElement.style.display = 'none';
-                serialInputField.classList.remove('visible'); // Remove the 'visible' class
+                serialInputField.classList.remove('visible'); // Hide input field
                 badgeNumberMessage.textContent = "This badge type doesn't support badge number";
-                badgeNumberMessage.style.display = 'block';
+                badgeNumberMessage.style.display = 'block'; // Show message
             }
         }
 
+        // Function to update the badge number
         function updateBadgeNumber() {
             const serialInput = document.getElementById('serialInput');
             const serialElement = document.getElementById('serial');
@@ -237,6 +205,7 @@
             }
         }
 
+        // Function to download the badge
         function downloadBadge() {
             const badgeElement = document.getElementById('selectedBadge');
             const serialElement = document.getElementById('serial');
@@ -250,7 +219,7 @@
                 canvas.height = img.height;
                 ctx.drawImage(img, 0, 0);
 
-                if (serialVisible && badgeSupportsNumber) {
+                if (badgeSupportsNumber) {
                     ctx.font = "bold 48px 'Bebas Neue', sans-serif";
                     ctx.fillStyle = 'gold';
                     ctx.textAlign = 'center';
