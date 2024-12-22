@@ -3,154 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Los Santos Police Department - Badge Generator</title>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <title>Badge Generator</title>
     <style>
         body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f9;
             margin: 0;
-            font-family: 'Bebas Neue', sans-serif;
-            background-color: #1e1e1e;
-            color: white;
-            overflow: hidden;
+            padding: 0;
         }
 
-        .header {
-            text-align: center;
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
             padding: 20px;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
         }
 
-        .header span {
-            display: block;
-            font-size: 4vh;
-            text-transform: uppercase;
-            transition: color 0.2s linear;
-        }
-
-        .header span:hover {
-            color: #00f;
-        }
-
-        .content {
+        .badge {
+            margin: 20px auto;
+            width: 200px;
+            height: 300px;
+            background: url('badge-placeholder.png') center/contain no-repeat;
             display: flex;
-            justify-content: space-between;
-            padding: 20px;
-        }
-
-        .left {
-            flex: 1;
-            padding-right: 10px;
-        }
-
-        .left .badges {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-        }
-
-        .left .badge {
-            opacity: 0.2;
-            cursor: pointer;
-            transition: opacity 0.2s, transform 0.2s;
-        }
-
-        .left .badge:hover {
-            opacity: 1;
-            transform: scale(1.1);
-        }
-
-        .right {
-            flex: 1;
+            align-items: center;
+            justify-content: center;
             position: relative;
-            text-align: center;
+            border: 1px solid #ccc;
         }
 
-        #badge img {
-            max-height: 60vh;
-            max-width: 80%;
-        }
-
-        #serial {
+        .badge-text {
             position: absolute;
-            bottom: 20%;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 5vh;
-            color: #24275E;
+            bottom: 10%;
+            font-size: 20px;
             font-weight: bold;
-            display: none;
+            color: #000;
         }
 
-        #serial.visible {
+        label {
             display: block;
+            margin: 10px 0 5px;
+            font-size: 14px;
         }
 
-        .download {
-            margin-top: 20px;
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
         }
 
         button {
-            background-color: #24275E;
-            color: white;
-            border: none;
             padding: 10px 20px;
+            font-size: 14px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: background-color 0.3s ease;
         }
 
         button:hover {
-            background-color: #1a1a5e;
+            background-color: #0056b3;
+        }
+
+        .download-container {
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <div class="wrapper">
-        <div class="header">
-            <span>Los Santos Police Department</span>
-            <span class="sub-header">Badge Generator</span>
+    <div class="container">
+        <h1>Badge Generator</h1>
+
+        <label for="badgeSelect">Select Badge:</label>
+        <select id="badgeSelect">
+            <option value="badge1.png">Badge 1</option>
+            <option value="badge2.png">Badge 2</option>
+            <option value="badge3.png">Badge 3</option>
+        </select>
+
+        <label for="badgeText">Enter Text:</label>
+        <input type="text" id="badgeText" placeholder="Enter badge serial number">
+
+        <button id="generateButton">Generate Badge</button>
+
+        <div class="badge" id="badgePreview">
+            <div class="badge-text" id="previewText"></div>
         </div>
-        <div class="content">
-            <div class="left">
-                <div class="badges">
-                    <img src="logos/Chief of Police.png" alt="Chief of Police" class="badge" onclick="selectBadge('Chief of Police.png', true)">
-                    <img src="logos/Assistant Chief.png" alt="Assistant Chief" class="badge" onclick="selectBadge('Assistant Chief.png', false)">
-                    <img src="logos/Deputy Chief.png" alt="Deputy Chief" class="badge" onclick="selectBadge('Deputy Chief.png', false)">
-                    <img src="logos/Commander.png" alt="Commander" class="badge" onclick="selectBadge('Commander.png', false)">
-                    <img src="logos/Captain.png" alt="Captain" class="badge" onclick="selectBadge('Captain.png', false)">
-                    <img src="logos/Lieutenant.png" alt="Lieutenant" class="badge" onclick="selectBadge('Lieutenant.png', false)">
-                    <img src="logos/Sergeant.png" alt="Sergeant" class="badge" onclick="selectBadge('Sergeant.png', false)">
-                    <img src="logos/Detective.png" alt="Detective" class="badge" onclick="selectBadge('Detective.png', false)">
-                    <img src="logos/Police Officer.png" alt="Police Officer" class="badge" onclick="selectBadge('Police Officer.png', false)">
-                </div>
-            </div>
-            <div class="right">
-                <div id="badge">
-                    <img id="selectedBadge" src="" alt="Selected Badge">
-                    <input type="text" id="serial" placeholder="Badge Number">
-                </div>
-                <div class="download">
-                    <button onclick="downloadBadge()">Download Badge</button>
-                </div>
-            </div>
+
+        <div class="download-container">
+            <button id="downloadButton">Download Badge</button>
         </div>
     </div>
+
     <script>
-        let serialVisible = false;
+        const badgeSelect = document.getElementById('badgeSelect');
+        const badgeText = document.getElementById('badgeText');
+        const badgePreview = document.getElementById('badgePreview');
+        const previewText = document.getElementById('previewText');
+        const generateButton = document.getElementById('generateButton');
+        const downloadButton = document.getElementById('downloadButton');
 
-        function selectBadge(badgeSrc, showSerial) {
-            const badgeElement = document.getElementById('selectedBadge');
-            const serialElement = document.getElementById('serial');
+        // Generate badge preview
+        generateButton.addEventListener('click', () => {
+            const selectedBadge = badgeSelect.value;
+            const enteredText = badgeText.value;
 
-            badgeElement.src = badgeSrc;
-            serialVisible = showSerial;
-            serialElement.style.display = showSerial ? 'block' : 'none';
-        }
+            badgePreview.style.backgroundImage = `url(${selectedBadge})`;
+            previewText.textContent = enteredText;
+        });
 
-        function downloadBadge() {
-            const badgeElement = document.getElementById('selectedBadge');
-            const serialElement = document.getElementById('serial');
-
+        // Download the badge
+        downloadButton.addEventListener('click', () => {
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
             const img = new Image();
@@ -158,23 +129,25 @@
             img.onload = () => {
                 canvas.width = img.width;
                 canvas.height = img.height;
+
+                // Draw badge image
                 ctx.drawImage(img, 0, 0);
 
-                if (serialVisible) {
-                    ctx.font = "bold 48px 'Bebas Neue', sans-serif";
-                    ctx.fillStyle = '#24275E';
-                    ctx.textAlign = 'center';
-                    ctx.fillText(serialElement.value, canvas.width / 2, canvas.height - 50);
-                }
+                // Add badge text
+                ctx.font = "20px Arial";
+                ctx.fillStyle = "#000";
+                ctx.textAlign = "center";
+                ctx.fillText(badgeText.value, canvas.width / 2, canvas.height - 30);
 
+                // Trigger download
                 const link = document.createElement('a');
                 link.download = 'badge.png';
                 link.href = canvas.toDataURL();
                 link.click();
             };
 
-            img.src = badgeElement.src;
-        }
+            img.src = badgePreview.style.backgroundImage.slice(5, -2);
+        });
     </script>
 </body>
 </html>
