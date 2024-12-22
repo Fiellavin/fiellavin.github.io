@@ -205,10 +205,9 @@
         function selectBadge(badgeSrc, showSerial) {
             const badgeElement = document.getElementById('selectedBadge');
             const serialElement = document.getElementById('serial');
-            const serialInputWrapper = document.getElementById('serialInputWrapper');
             const badgeNumberMessage = document.getElementById('badgeNumberMessage');
-            const serialInput = document.getElementById('serialInput');
             const serialInputField = document.getElementById('serialInputField');
+            const serialInput = document.getElementById('serialInput');
 
             badgeElement.src = badgeSrc;
 
@@ -217,13 +216,13 @@
                 serialVisible = true;
                 badgeSupportsNumber = true;
                 serialElement.style.display = 'block';
-                serialInputField.classList.add('visible');
-                badgeNumberMessage.style.display = 'none'; // Hide message
+                serialInputField.classList.add('visible'); // Add the 'visible' class
+                badgeNumberMessage.style.display = 'none'; // Hide the message
             } else {
                 serialVisible = false;
                 badgeSupportsNumber = false;
                 serialElement.style.display = 'none';
-                serialInputField.classList.remove('visible');
+                serialInputField.classList.remove('visible'); // Remove the 'visible' class
                 badgeNumberMessage.textContent = "This badge type doesn't support badge number";
                 badgeNumberMessage.style.display = 'block';
             }
