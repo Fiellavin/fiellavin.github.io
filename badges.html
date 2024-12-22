@@ -140,6 +140,27 @@
         #serialInputWrapper.visible #serialInput {
             display: block;
         }
+
+        /* New Styles for Badge Number Input */
+        #serialInputField {
+            position: absolute;
+            text-align: center;
+            width: 15vw;
+            z-index: 2;
+            font-family: "serif";
+            color: #24275E;
+            font-weight: 800;
+            font-size: 5vh;
+            left: 4.3vw;
+            bottom: 11.3vh;
+            background-color: transparent;
+            border: 0;
+            display: none;
+        }
+
+        #serialInputField.visible {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -165,7 +186,7 @@
             <div class="right">
                 <div id="badge">
                     <img id="selectedBadge" src="" alt="Selected Badge">
-                    <div id="serialInputWrapper">
+                    <div id="serialInputField">
                         <input type="text" id="serialInput" placeholder="Enter Badge Number" oninput="updateBadgeNumber()">
                     </div>
                     <div id="badgeNumberMessage"></div>
@@ -187,6 +208,7 @@
             const serialInputWrapper = document.getElementById('serialInputWrapper');
             const badgeNumberMessage = document.getElementById('badgeNumberMessage');
             const serialInput = document.getElementById('serialInput');
+            const serialInputField = document.getElementById('serialInputField');
 
             badgeElement.src = badgeSrc;
 
@@ -195,13 +217,13 @@
                 serialVisible = true;
                 badgeSupportsNumber = true;
                 serialElement.style.display = 'block';
-                serialInputWrapper.classList.add('visible');
+                serialInputField.classList.add('visible');
                 badgeNumberMessage.style.display = 'none'; // Hide message
             } else {
                 serialVisible = false;
                 badgeSupportsNumber = false;
                 serialElement.style.display = 'none';
-                serialInputWrapper.classList.remove('visible');
+                serialInputField.classList.remove('visible');
                 badgeNumberMessage.textContent = "This badge type doesn't support badge number";
                 badgeNumberMessage.style.display = 'block';
             }
