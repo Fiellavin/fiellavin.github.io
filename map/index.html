@@ -1,0 +1,148 @@
+<html>
+<head>
+    <title>Map Optimizer</title>
+    <script src="world.js"></script>
+    <script src="main.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,400i,700,900i&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .top-border {
+            width: 100%;
+            height: 10px;
+            background: #b92b27; /* fallback for old browsers */
+            background: -webkit-linear-gradient(to right, #b92b27, #1565c0); /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to right, #b92b27, #1565c0); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        }
+
+        header {
+            margin: auto;
+            width: 960px;
+            padding: 50px 0;
+        }
+
+        h1 {
+            font-weight: 900;
+            font-style: italic;
+            position: relative;
+        }
+
+        h1::before {
+            content: '';
+            width: 70px;
+            height: 15px;
+            background: #F7971E; /* fallback for old browsers */
+            background: -webkit-linear-gradient(to left, #FFD200, #F7971E); /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to left, #FFD200, #F7971E); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+            z-index: -1;
+            position: absolute;
+            bottom: 0;
+            left: -5px;
+        }
+
+        p {
+            margin: 20px 0;
+        }
+
+        p a {
+            color: blue;
+            text-decoration: none;
+        }
+
+        main {
+            margin: auto;
+            width: 960px;
+        }
+
+        main textarea {
+            width: 100%;
+            height: 200px;
+            background: #fff;
+            border: none;
+            box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, 0.2);
+            margin: 20px 0;
+            padding: 10px;
+        }
+
+        #optimize {
+            border: none;
+            background: #56ab2f; /* fallback for old browsers */
+            background: -webkit-linear-gradient(to right, #56ab2f, #a8e063); /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to right, #56ab2f, #a8e063); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            color: white;
+            padding: 10px 20px;
+            box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, 0.2);
+            font-weight: 700;
+            text-transform: uppercase;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+
+        #optimized {
+            display: none;
+        }
+
+        .middle {
+            display: flex;
+            flex-flow: row nowrap;
+            align-items: center;
+        }
+
+        #report {
+            font-weight: 700;
+            color: tomato;
+            justify-self: left;
+            margin-left: 20px;
+
+        }
+
+        footer {
+            width: 960px;
+            margin: auto;
+            color: #888;
+            text-align: right;
+            font-weight: 400;
+            font-size: .9em;
+        }
+    </style>
+</head>
+<body>
+<div class="top-border"></div>
+<header>
+    <h1>Map Optimizer</h1>
+    <p>
+        While there is no set limit on <em>RemoveBuildingForPlayers</em> calls in SA-MP, when the script begins to
+        reach around 900-1000 removed buildings, it may cause unintended side effects <sup><a
+            href="https://wiki.sa-mp.com/wiki/RemoveBuildingForPlayer" target="_blank">[1]</a></sup>.
+    </p>
+    <p>
+        This tool allows you to take advantage of the <em>fRadius</em> parameter to merge multiple calls into one,
+        reducing the total number of calls to the function. Simply paste your RemoveBuilding calls (no CreateObjects
+        please!) and I'll try to give you the most optimal version I can.
+    </p>
+</header>
+
+<main>
+    <strong>RemoveBuildingForPlayer calls</strong>
+    <textarea id="rbinput" placeholder="Paste your code here"></textarea>
+    <div class="middle">
+        <button id="optimize" onclick="optimize()">Optimize&trade;</button>
+        <span id="report"></span>
+    </div>
+    <textarea id="optimized"></textarea>
+</main>
+<footer>
+    Los Santos Roleplay 2020
+</footer>
+
+</body>
+</html>
+
