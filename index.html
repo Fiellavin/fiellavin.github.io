@@ -136,12 +136,10 @@
     </div>
 
     <script>
-        const playButton = document.getElementById("play-button");
-const audio = document.getElementById("background-music");
-
+       const audio = document.getElementById("background-music");
 audio.volume = 0.2;
-audio.muted = true; // keep muted by default
 
+// Random song setup
 const songs = [
     "songs/song1.mp3",
     "songs/song2.mp3",
@@ -155,22 +153,21 @@ const songs = [
 function setRandomSong() {
     const randomIndex = Math.floor(Math.random() * songs.length);
     audio.src = songs[randomIndex];
-}
-
-function toggleMusic() {
-    if (audio.paused) {
-        audio.muted = false;
-        audio.play();
-        playButton.textContent = "Stop Music";
-    } else {
-        audio.pause();
-        playButton.textContent = "Start Music";
-    }
+    audio.play().catch(err => {
+        console.log("Autoplay blocked until user interacts.");
+    });
 }
 
 window.addEventListener("load", () => {
-    setRandomSong(); // only set the song, don't try to play it
+    setRandomSong();
 });
+
+// Wait for first interaction to unmute
+window.addEventListener("click", () => {
+    if (audio.muted) {
+        audio.muted = false;
+    }
+}, { once: true }); // Run only once
     </script>
 </body>
 </html>
