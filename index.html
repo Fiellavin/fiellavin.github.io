@@ -165,6 +165,25 @@
         }
     }
 
+        let hasInteracted = false;
+
+function enableAudioOnInteraction() {
+    if (!hasInteracted) {
+        audio.muted = false;
+        audio.play().then(() => {
+            playButton.textContent = "Stop Music";
+        }).catch((err) => {
+            console.warn("Autoplay blocked:", err);
+        });
+        hasInteracted = true;
+    }
+}
+
+// Listen for first user interaction to enable sound
+document.addEventListener("click", enableAudioOnInteraction, { once: true });
+document.addEventListener("keydown", enableAudioOnInteraction, { once: true });
+
+
     // play song and bypass browser block
     window.addEventListener("load", () => {
         setRandomSong();
