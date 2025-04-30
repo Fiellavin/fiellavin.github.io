@@ -9,7 +9,6 @@
     <style type="text/css">
         @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&display=swap');
 
-        /* general */
         body {
             margin: 0;
             font-family: Arial, sans-serif;
@@ -23,7 +22,6 @@
             position: relative;
         }
 
-        /* neon bg */
         body::before {
             content: '';
             position: absolute;
@@ -46,7 +44,6 @@
             }
         }
 
-        /* center */
         .container {
             display: flex;
             flex-direction: column;
@@ -66,7 +63,6 @@
             animation: fadeIn 2s ease-out;
         }
 
-        /* music button */
         #play-button {
             padding: 10px 20px;
             background-color: #4caf50;
@@ -84,7 +80,6 @@
             transform: scale(1.05);
         }
 
-        /* icons in mid */
         .social-icons {
             display: flex;
             justify-content: center;
@@ -103,7 +98,6 @@
             transform: scale(1.15);
         }
 
-        /* anims */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -114,7 +108,7 @@
     <div class="container">
         <h1 class="title">Fiellavin</h1>
 
-        <!-- button -->
+        <!-- Play button -->
         <button id="play-button" onclick="toggleMusic()">Start Music</button>
 
         <div class="social-icons">
@@ -129,79 +123,71 @@
             </a>
         </div>
 
-        
-        <!-- audio volume -->
-        <audio id="background-music" autoplay muted loop></audio>
+        <!-- Audio element -->
+        <audio id="background-music" autoplay loop></audio>
     </div>
 
     <script>
-    const playButton = document.getElementById("play-button");
-    const audio = document.getElementById("background-music");
-    audio.volume = 0.2;
+        const playButton = document.getElementById("play-button");
+        const audio = document.getElementById("background-music");
 
-    const songs = [
-        "songs/song1.mp3",
-        "songs/song2.mp3",
-        "songs/song3.mp3",
-        "songs/song4.mp3",
-        "songs/song5.mp3",
-        "songs/song6.mp3",
-        "songs/song7.mp3"
-    ];
+        audio.volume = 0.2;
 
-    function setRandomSong() {
-        const randomIndex = Math.floor(Math.random() * songs.length);
-        audio.src = songs[randomIndex];
-        audio.load();
-    }
+        const songs = [
+            "songs/song1.mp3",
+            "songs/song2.mp3",
+            "songs/song3.mp3",
+            "songs/song4.mp3",
+            "songs/song5.mp3",
+            "songs/song6.mp3",
+            "songs/song7.mp3"
+        ];
 
-    function toggleMusic() {
-        if (audio.paused) {
-            audio.play();
-            playButton.textContent = "Stop Music";
-        } else {
-            audio.pause();
-            playButton.textContent = "Start Music";
+        function setRandomSong() {
+            const randomIndex = Math.floor(Math.random() * songs.length);
+            audio.src = songs[randomIndex];
         }
-    }
 
-        let hasInteracted = false;
-
-function enableAudioOnInteraction() {
-    if (!hasInteracted) {
-        audio.muted = false;
-        audio.play().then(() => {
-            playButton.textContent = "Stop Music";
-        }).catch((err) => {
-            console.warn("Autoplay blocked:", err);
-        });
-        hasInteracted = true;
-    }
-}
-
-// Listen for first user interaction to enable sound
-document.addEventListener("click", enableAudioOnInteraction, { once: true });
-document.addEventListener("keydown", enableAudioOnInteraction, { once: true });
-
-
-    // play song and bypass browser block
-    window.addEventListener("load", () => {
-        setRandomSong();
-        audio.play().then(() => {
-            playButton.textContent = "Stop Music";
-        }).catch(() => {
-            console.log("Autoplay with sound blocked, waiting for interaction...");
-        });
-    });
-
-    // first interaction bypass
-    window.addEventListener("click", () => {
-        if (audio.muted) {
-            audio.muted = false;
-            audio.play();
-            playButton.textContent = "Stop Music";
+        function toggleMusic() {
+            if (audio.paused) {
+                audio.play();
+                playButton.textContent = "Stop Music";
+            } else {
+                audio.pause();
+                playButton.textContent = "Start Music";
+            }
         }
-    }, { once: true });
-                </script>
-        </body>
+
+        window.addEventListener("load", () => {
+            setRandomSong();
+
+            const isRedirected = document.referrer && document.referrer !== window.location.href;
+
+            if (isRedirected) {
+                // Autoplay unmuted
+                audio.play().then(() => {
+                    playButton.textContent = "Stop Music";
+                }).catch(() => {
+                    playButton.textContent = "Start Music";
+                });
+            } else {
+                // Autoplay muted, wait for interaction to unmute
+                audio.muted = true;
+                audio.play().then(() => {
+                    playButton.textContent = "Stop Music";
+                }).catch(() => {
+                    playButton.textContent = "Start Music";
+                });
+
+                const unmute = () => {
+                    audio.muted = false;
+                    document.removeEventListener("click", unmute);
+                    document.removeEventListener("keydown", unmute);
+                };
+                document.addEventListener("click", unmute);
+                document.addEventListener("keydown", unmute);
+            }
+        });
+    </script>
+</body>
 </html>
