@@ -9,7 +9,7 @@
     <style type="text/css">
         @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&display=swap');
 
-        /* General */
+        /* general */
         body {
             margin: 0;
             font-family: Arial, sans-serif;
@@ -23,7 +23,7 @@
             position: relative;
         }
 
-        /* Neon Background */
+        /* neon bg */
         body::before {
             content: '';
             position: absolute;
@@ -46,7 +46,7 @@
             }
         }
 
-        /* Center */
+        /* center */
         .container {
             display: flex;
             flex-direction: column;
@@ -55,7 +55,6 @@
             z-index: 1;
         }
 
-        /* Title */
         .title {
             font-size: 72px;
             font-weight: 700;
@@ -67,7 +66,7 @@
             animation: fadeIn 2s ease-out;
         }
 
-        /* Button */
+        /* music button */
         #play-button {
             padding: 10px 20px;
             background-color: #4caf50;
@@ -85,7 +84,7 @@
             transform: scale(1.05);
         }
 
-        /* Icons */
+        /* icons in mid */
         .social-icons {
             display: flex;
             justify-content: center;
@@ -104,7 +103,7 @@
             transform: scale(1.15);
         }
 
-        /* Animations */
+        /* anims */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -115,7 +114,7 @@
     <div class="container">
         <h1 class="title">Fiellavin</h1>
 
-        <!-- Play button -->
+        <!-- button -->
         <button id="play-button" onclick="toggleMusic()">Start Music</button>
 
         <div class="social-icons">
@@ -131,7 +130,7 @@
         </div>
 
         
-        <!-- Audio element -->
+        <!-- audio volume -->
         <audio id="background-music" autoplay muted loop></audio>
     </div>
 
@@ -166,7 +165,7 @@
         }
     }
 
-    // Load a song and try muted autoplay
+    // play song and bypass browser block
     window.addEventListener("load", () => {
         setRandomSong();
         audio.play().then(() => {
@@ -176,7 +175,7 @@
         });
     });
 
-    // On first interaction, unmute and resume playback
+    // first interaction bypass
     window.addEventListener("click", () => {
         if (audio.muted) {
             audio.muted = false;
@@ -184,6 +183,6 @@
             playButton.textContent = "Stop Music";
         }
     }, { once: true });
-</script>
-</body>
+                </script>
+        </body>
 </html>
