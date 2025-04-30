@@ -9,6 +9,7 @@
     <style type="text/css">
         @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&display=swap');
 
+        /* General */
         body {
             margin: 0;
             font-family: Arial, sans-serif;
@@ -22,6 +23,7 @@
             position: relative;
         }
 
+        /* Neon Background */
         body::before {
             content: '';
             position: absolute;
@@ -44,6 +46,7 @@
             }
         }
 
+        /* Center */
         .container {
             display: flex;
             flex-direction: column;
@@ -52,6 +55,7 @@
             z-index: 1;
         }
 
+        /* Title */
         .title {
             font-size: 72px;
             font-weight: 700;
@@ -63,6 +67,7 @@
             animation: fadeIn 2s ease-out;
         }
 
+        /* Button */
         #play-button {
             padding: 10px 20px;
             background-color: #4caf50;
@@ -80,6 +85,7 @@
             transform: scale(1.05);
         }
 
+        /* Icons */
         .social-icons {
             display: flex;
             justify-content: center;
@@ -98,6 +104,7 @@
             transform: scale(1.15);
         }
 
+        /* Animations */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -124,7 +131,7 @@
         </div>
 
         <!-- Audio element -->
-        <audio id="background-music" autoplay loop></audio>
+        <audio id="background-music" autoplay muted loop></audio>
     </div>
 
     <script>
@@ -133,6 +140,7 @@
 
         audio.volume = 0.2;
 
+        // Array of song sources
         const songs = [
             "songs/song1.mp3",
             "songs/song2.mp3",
@@ -143,11 +151,13 @@
             "songs/song7.mp3"
         ];
 
+        // Select a random song
         function setRandomSong() {
             const randomIndex = Math.floor(Math.random() * songs.length);
             audio.src = songs[randomIndex];
         }
 
+        // Toggle play/pause
         function toggleMusic() {
             if (audio.paused) {
                 audio.play();
@@ -158,34 +168,35 @@
             }
         }
 
+        // Select a random song, autoplay
         window.addEventListener("load", () => {
             setRandomSong();
 
             const isRedirected = document.referrer && document.referrer !== window.location.href;
 
             if (isRedirected) {
-                // Autoplay unmuted
+                // Autoplay immediately, unmuted for redirected users
                 audio.play().then(() => {
                     playButton.textContent = "Stop Music";
                 }).catch(() => {
                     playButton.textContent = "Start Music";
                 });
             } else {
-                // Autoplay muted, wait for interaction to unmute
-                audio.muted = true;
-                audio.play().then(() => {
-                    playButton.textContent = "Stop Music";
-                }).catch(() => {
-                    playButton.textContent = "Start Music";
-                });
-
-                const unmute = () => {
+                // Wait for user interaction for fresh visitors
+                const startMusicOnInteraction = () => {
                     audio.muted = false;
-                    document.removeEventListener("click", unmute);
-                    document.removeEventListener("keydown", unmute);
+                    audio.play().then(() => {
+                        playButton.textContent = "Stop Music";
+                    });
+                    document.removeEventListener("click", startMusicOnInteraction);
+                    document.removeEventListener("keydown", startMusicOnInteraction);
                 };
-                document.addEventListener("click", unmute);
-                document.addEventListener("keydown", unmute);
+
+                // Mute initially so play() is allowed
+                audio.muted = true;
+                audio.play(); // muted autoplay is usually allowed
+                document.addEventListener("click", startMusicOnInteraction);
+                document.addEventListener("keydown", startMusicOnInteraction);
             }
         });
     </script>
