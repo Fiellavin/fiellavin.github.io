@@ -136,38 +136,54 @@
     </div>
 
     <script>
-       const audio = document.getElementById("background-music");
-audio.volume = 0.2;
+    const playButton = document.getElementById("play-button");
+    const audio = document.getElementById("background-music");
+    audio.volume = 0.2;
 
-// Random song setup
-const songs = [
-    "songs/song1.mp3",
-    "songs/song2.mp3",
-    "songs/song3.mp3",
-    "songs/song4.mp3",
-    "songs/song5.mp3",
-    "songs/song6.mp3",
-    "songs/song7.mp3"
-];
+    const songs = [
+        "songs/song1.mp3",
+        "songs/song2.mp3",
+        "songs/song3.mp3",
+        "songs/song4.mp3",
+        "songs/song5.mp3",
+        "songs/song6.mp3",
+        "songs/song7.mp3"
+    ];
 
-function setRandomSong() {
-    const randomIndex = Math.floor(Math.random() * songs.length);
-    audio.src = songs[randomIndex];
-    audio.play().catch(err => {
-        console.log("Autoplay blocked until user interacts.");
-    });
-}
-
-window.addEventListener("load", () => {
-    setRandomSong();
-});
-
-// Wait for first interaction to unmute
-window.addEventListener("click", () => {
-    if (audio.muted) {
-        audio.muted = false;
+    function setRandomSong() {
+        const randomIndex = Math.floor(Math.random() * songs.length);
+        audio.src = songs[randomIndex];
+        audio.load();
     }
-}, { once: true }); // Run only once
-    </script>
+
+    function toggleMusic() {
+        if (audio.paused) {
+            audio.play();
+            playButton.textContent = "Stop Music";
+        } else {
+            audio.pause();
+            playButton.textContent = "Start Music";
+        }
+    }
+
+    // Load a song and try muted autoplay
+    window.addEventListener("load", () => {
+        setRandomSong();
+        audio.play().then(() => {
+            playButton.textContent = "Stop Music";
+        }).catch(() => {
+            console.log("Autoplay with sound blocked, waiting for interaction...");
+        });
+    });
+
+    // On first interaction, unmute and resume playback
+    window.addEventListener("click", () => {
+        if (audio.muted) {
+            audio.muted = false;
+            audio.play();
+            playButton.textContent = "Stop Music";
+        }
+    }, { once: true });
+</script>
 </body>
 </html>
