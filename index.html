@@ -180,7 +180,7 @@
   	  to { opacity: 1; transform: translateY(0); }
   	}
 
-  	/* OVERLAY (DÜZELTME UYGULANDI) */
+  	/* OVERLAY */
   	.overlay {
   	  position: absolute;
   	  top: 0;
@@ -198,9 +198,7 @@
   	  text-shadow: 0 0 10px rgba(0, 255, 0, 0.7);
   	  z-index: 10;
   	  cursor: pointer;
-  	  /* DÜZELTME: Baştaki 'G' harfi kaldırıldı */
   	  animation: pulseText 2s infinite ease-in-out;
-  	  /* FADE-OUT SÜRESİ */
   	  transition: opacity 3s ease; 
   	  opacity: 1;
   	}
@@ -269,7 +267,7 @@
   		if (vol >= targetVolume) {
   		  vol = targetVolume;
   		  clearInterval(fade);
-  		}
+		}
   		audio.volume = vol;
   	  }, 100);
   	}
@@ -310,7 +308,7 @@
   		audio.muted = false;
   		await audio.play();
   		fadeInMusic();
-  	  } /* DÜZELTME: Aradaki '.' noktası kaldırıldı */ catch (err) {
+  	  } catch (err) {
   		console.log("Autoplay blocked:", err);
   	  }
   	});
