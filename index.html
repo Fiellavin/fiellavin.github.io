@@ -88,16 +88,20 @@
       cursor:pointer;
     }
     #shuffle-button {
-      padding:10px 20px;
-      background-color:#4caf50;
-      color:#fff;
-      border:none;
-      border-radius:30%;
-      font-size:16px;
+      width: 50px;       /* circle width */
+      height: 50px;      /* circle height */
+      background-color: #4caf50;
+      color: #fff;
+      border: none;
+      border-radius: 50%;  /* makes it a perfect circle */
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-      margin-bottom:15px;
+      margin-bottom: 15px;
       box-shadow: 0 0 10px rgba(0,255,0,0.4);
-      cursor:pointer;
+      cursor: pointer;
     }
     #play-button:hover, #shuffle-button:hover { background-color:#388e3c; transform: scale(1.05); }
 
