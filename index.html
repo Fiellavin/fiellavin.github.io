@@ -5,214 +5,215 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Fiellavin</title>
   <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+  	rel="stylesheet"
+  	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
   />
   <link rel="icon" href="logos/flogo.jpg" />
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&display=swap');
+  	@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&display=swap');
 
-    /* GENERAL */
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0b3d0b;
-      color: #ffffff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      overflow: hidden;
-      position: relative;
-      cursor: none !important;
-    }
+  	/* GENERAL */
+  	body {
+  	  margin: 0;
+  	  font-family: Arial, sans-serif;
+  	  background: #0b3d0b;
+  	  color: #ffffff;
+  	  display: flex;
+  	  align-items: center;
+  	  justify-content: center;
+  	  min-height: 100vh;
+  	  overflow: hidden;
+  	  position: relative;
+  	  cursor: none !important;
+  	}
 
-    body * {
-      cursor: none !important;
-    }
+  	body * {
+  	  cursor: none !important;
+  	}
 
-    /* NEON BACKGROUND ANIMATION */
-    body::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle at center, rgba(30, 255, 30, 0.15), rgba(5, 5, 5, 0.85) 70%);
-      animation: neonGlow 6s ease-in-out infinite;
-      z-index: 0;
-      opacity: 0.9;
-      transition: opacity 1.2s ease;
-    }
+  	/* NEON BACKGROUND ANIMATION */
+  	body::before {
+  	  content: '';
+  	  position: absolute;
+  	  top: 0;
+  	  left: 0;
+  	  width: 100%;
+  	  height: 100%;
+  	  background: radial-gradient(circle at center, rgba(30, 255, 30, 0.15), rgba(5, 5, 5, 0.85) 70%);
+  	  animation: neonGlow 6s ease-in-out infinite;
+  	  z-index: 0;
+  	  opacity: 0.9;
+  	  transition: opacity 1.2s ease;
+  	}
 
-    body.fade-bg::before {
-      opacity: 0.9 !important;
-    }
+  	body.fade-bg::before {
+  	  opacity: 0.9 !important;
+  	}
 
-    @keyframes neonGlow {
-      0%, 100% { filter: hue-rotate(0deg) brightness(1.1); }
-      50% { filter: hue-rotate(180deg) brightness(1.3); }
-    }
+  	@keyframes neonGlow {
+  	  0%, 100% { filter: hue-rotate(0deg) brightness(1.1); }
+  	  50% { filter: hue-rotate(180deg) brightness(1.3); }
+  	}
 
-    /* CUSTOM CURSOR */
-    .cursor-dot {
-      position: fixed;
-      width: 12px;
-      height: 12px;
-      background: #80ff80;
-      border-radius: 50%;
-      pointer-events: none;
-      box-shadow: 0 0 10px 3px rgba(128, 255, 128, 0.6);
-      transform: translate(-50%, -50%);
-      transition: transform 0.08s ease-out;
-      z-index: 1000;
-    }
+  	/* CUSTOM CURSOR */
+  	.cursor-dot {
+  	  position: fixed;
+  	  width: 12px;
+  	  height: 12px;
+  	  background: #80ff80;
+  	  border-radius: 50%;
+  	  pointer-events: none;
+  	  box-shadow: 0 0 10px 3px rgba(128, 255, 128, 0.6);
+  	  transform: translate(-50%, -50%);
+  	  transition: transform 0.08s ease-out;
+  	  z-index: 1000;
+  	}
 
-    /* CONTAINER CONTENT */
-    .container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      z-index: 1;
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 1.5s ease, transform 1.5s ease;
-    }
+  	/* CONTAINER CONTENT */
+  	.container {
+  	  display: flex;
+  	  flex-direction: column;
+  	  align-items: center;
+  	  text-align: center;
+  	  z-index: 1;
+  	  opacity: 0;
+  	  transform: translateY(30px);
+  	  transition: opacity 1.5s ease, transform 1.5s ease;
+  	}
 
-    .container.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  	.container.visible {
+  	  opacity: 1;
+  	  transform: translateY(0);
+  	}
 
-    .title {
-      font-size: 72px;
-      font-weight: 700;
-      color: #c5ffc5;
-      font-family: 'Dancing Script', 'Great Vibes', cursive;
-      letter-spacing: 2px;
-      text-shadow: 0px 0px 8px rgba(0, 255, 0, 0.6);
-      margin-bottom: 10px;
-      opacity: 0;
-      transform: translateY(-20px);
-      animation: fadeIn 2s ease forwards;
-      animation-delay: 0.5s;
-    }
+  	.title {
+  	  font-size: 72px;
+  	  font-weight: 700;
+  	  color: #c5ffc5;
+  	  font-family: 'Dancing Script', 'Great Vibes', cursive;
+  	  letter-spacing: 2px;
+  	  text-shadow: 0px 0px 8px rgba(0, 255, 0, 0.6);
+  	  margin-bottom: 10px;
+  	  opacity: 0;
+  	  transform: translateY(-20px);
+  	  animation: fadeIn 2s ease forwards;
+  	  animation-delay: 0.5s;
+  	}
 
-    #play-button {
-      padding: 10px 20px;
-      background-color: #4caf50;
-      color: #ffffff;
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-      margin-bottom: 15px;
-      box-shadow: 0 0 10px rgba(0, 255, 0, 0.4);
-      opacity: 0;
-      transition: opacity 1s ease 1.5s;
-    }
+  	#play-button {
+  	  padding: 10px 20px;
+  	  background-color: #4caf50;
+  	  color: #ffffff;
+  	  border: none;
+  	  border-radius: 5px;
+  	  font-size: 16px;
+  	  transition: background-color 0.3s ease, transform 0.2s ease;
+  	  margin-bottom: 15px;
+  	  box-shadow: 0 0 10px rgba(0, 255, 0, 0.4);
+  	  opacity: 0;
+  	  transition: opacity 1s ease 1.5s;
+  	}
 
-    .visible #play-button {
-      opacity: 1;
-    }
+  	.visible #play-button {
+  	  opacity: 1;
+  	}
 
-    #play-button:hover {
-      background-color: #388e3c;
-      transform: scale(1.05);
-    }
+  	#play-button:hover {
+  	  background-color: #388e3c;
+  	  transform: scale(1.05);
+  	}
 
-    /* STYLISH VOLUME SLIDER */
-    #volume-control {
-      width: 200px;
-      height: 6px;
-      border-radius: 5px;
-      background: linear-gradient(90deg, #4caf50 0%, #81c784 100%);
-      outline: none;
-      -webkit-appearance: none;
-      box-shadow: 0 0 10px rgba(0, 255, 0, 0.4);
-      margin-bottom: 20px;
-      opacity: 0;
-      transition: opacity 1s ease 2s;
-    }
+  	/* STYLISH VOLUME SLIDER */
+  	#volume-control {
+  	  width: 200px;
+  	  height: 6px;
+  	  border-radius: 5px;
+  	  background: linear-gradient(90deg, #4caf50 0%, #81c784 100%);
+  	  outline: none;
+  	  -webkit-appearance: none;
+  	  box-shadow: 0 0 10px rgba(0, 255, 0, 0.4);
+  	  margin-bottom: 20px;
+  	  opacity: 0;
+  	  transition: opacity 1s ease 2s;
+  	}
 
-    .visible #volume-control {
-      opacity: 1;
-    }
+  	.visible #volume-control {
+  	  opacity: 1;
+  	}
 
-    #volume-control::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 18px;
-      height: 18px;
-      background: #c5ffc5;
-      border-radius: 50%;
-      box-shadow: 0 0 12px rgba(0, 255, 0, 0.8);
-    }
+  	#volume-control::-webkit-slider-thumb {
+  	  -webkit-appearance: none;
+  	  width: 18px;
+  	  height: 18px;
+  	  background: #c5ffc5;
+  	  border-radius: 50%;
+  	  box-shadow: 0 0 12px rgba(0, 255, 0, 0.8);
+  	}
 
-    /* SOCIAL ICONS (TEMİZLENDİ) */
-    .social-icons {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      opacity: 0;
-      transition: opacity 1.5s ease;
-    }
+  	/* SOCIAL ICONS */
+  	.social-icons {
+  	  display: flex;
+  	  justify-content: center;
+  	  gap: 20px;
+  	  opacity: 0;
+  	  transition: opacity 1.5s ease;
+  	}
 
-    .social-icons.visible {
-      opacity: 1;
-    }
+  	.social-icons.visible {
+  	  opacity: 1;
+  	}
 
-    .social-icons a {
-      color: #a8f1a8;
-      font-size: 32px;
-      text-shadow: 0px 0px 6px rgba(0, 255, 0, 0.6);
-      transition: color 0.3s ease, transform 0.3s ease;
-    }
+  	.social-icons a {
+  	  color: #a8f1a8;
+  	  font-size: 32px;
+  	  text-shadow: 0px 0px 6px rgba(0, 255, 0, 0.6);
+  	  transition: color 0.3s ease, transform 0.3s ease;
+  	}
 
-    .social-icons a:hover {
-      color: #76c776;
-      transform: scale(1.15);
-    }
+  	.social-icons a:hover {
+  	  color: #76c776;
+  	  transform: scale(1.15);
+  	}
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+  	@keyframes fadeIn {
+  	  from { opacity: 0; transform: translateY(20px); }
+  	  to { opacity: 1; transform: translateY(0); }
+  	}
 
-    /* OVERLAY (DÜZELTME UYGULANDI) */
-    .overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.92);
-      color: #c5ffc5;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 38px;
-      font-family: 'Dancing Script', cursive;
-      letter-spacing: 3px;
-      text-shadow: 0 0 10px rgba(0, 255, 0, 0.7);
-      z-index: 10;
-      cursor: pointer;
-  G    animation: pulseText 2s infinite ease-in-out;
-      /* DÜZELTME 1: Geçiş süresi uzatıldı */
-      transition: opacity 3s ease; 
-      opacity: 1;
-    }
+  	/* OVERLAY (DÜZELTME UYGULANDI) */
+  	.overlay {
+  	  position: absolute;
+  	  top: 0;
+  	  left: 0;
+  	  width: 100%;
+  	  height: 100%;
+  	  background: rgba(0, 0, 0, 0.92);
+  	  color: #c5ffc5;
+  	  display: flex;
+  	  align-items: center;
+  	  justify-content: center;
+  	  font-size: 38px;
+  	  font-family: 'Dancing Script', cursive;
+  	  letter-spacing: 3px;
+  	  text-shadow: 0 0 10px rgba(0, 255, 0, 0.7);
+  	  z-index: 10;
+  	  cursor: pointer;
+  	  /* DÜZELTME: Baştaki 'G' harfi kaldırıldı */
+  	  animation: pulseText 2s infinite ease-in-out;
+  	  /* FADE-OUT SÜRESİ */
+  	  transition: opacity 3s ease; 
+  	  opacity: 1;
+  	}
 
-    .overlay.fade-out {
-      opacity: 0;
-      pointer-events: none;
-    }
+  	.overlay.fade-out {
+  	  opacity: 0;
+  	  pointer-events: none;
+  	}
 
-    @keyframes pulseText {
-      0%, 100% { opacity: 0.8; text-shadow: 0 0 12px rgba(0, 255, 0, 0.8); }
-      50% { opacity: 1; text-shadow: 0 0 20px rgba(0, 255, 0, 1); }
-    }
+  	@keyframes pulseText {
+  	  0%, 100% { opacity: 0.8; text-shadow: 0 0 12px rgba(0, 255, 0, 0.8); }
+  	  50% { opacity: 1; text-shadow: 0 0 20px rgba(0, 255, 0, 1); }
+  	}
   </style>
 </head>
 <body>
@@ -221,105 +222,104 @@
   <div class="overlay" id="overlay">Click to enter...</div>
 
   <div class="container" id="main-content">
-    <h1 class="title">Fiellavin</h1>
+  	<h1 class="title">Fiellavin</h1>
 
-    <button id="play-button" onclick="toggleMusic()">Stop Music</button>
-    <input type="range" id="volume-control" min="0" max="1" step="0.01" value="0.2" />
+  	<button id="play-button" onclick="toggleMusic()">Stop Music</button>
+  	<input type="range" id="volume-control" min="0" max="1" step="0.01" value="0.2" />
 
-    <div class="social-icons" id="social-icons">
-      <a href="https://www.youtube.com/@fiellavin" target="_blank"><i class="fab fa-youtube"></i></a>
-      <a href="https://discord.com/users/317315928855543828" target="_blank"><i class="fab fa-discord"></i></a>
-      <a href="https://steamcommunity.com/id/fiellavin/" target="_blank"><i class="fab fa-steam"></i></a>
-    </div>
+  	<div class="social-icons" id="social-icons">
+  	  <a href="https://www.youtube.com/@fiellavin" target="_blank"><i class="fab fa-youtube"></i></a>
+  	  <a href="https://discord.com/users/317315928855543828" target="_blank"><i class="fab fa-discord"></i></a>
+  	  <a href="https://steamcommunity.com/id/fiellavin/" target="_blank"><i class="fab fa-steam"></i></a>
+  	</div>
 
-    <audio id="background-music" loop muted></audio>
+  	<audio id="background-music" loop muted></audio>
   </div>
 
   <script>
-    const overlay = document.getElementById("overlay");
-    const container = document.getElementById("main-content");
-    const playButton = document.getElementById("play-button");
-    const volumeControl = document.getElementById("volume-control");
-    const audio = document.getElementById("background-music");
-    const cursor = document.getElementById("cursor");
-    const body = document.body;
-    const socialIcons = document.getElementById("social-icons");
+  	const overlay = document.getElementById("overlay");
+  	const container = document.getElementById("main-content");
+  	const playButton = document.getElementById("play-button");
+  	const volumeControl = document.getElementById("volume-control");
+  	const audio = document.getElementById("background-music");
+  	const cursor = document.getElementById("cursor");
+  	const body = document.body;
+  	const socialIcons = document.getElementById("social-icons");
 
-    const songs = [
-      "songs/song1.mp3",
-      "songs/song2.mp3",
-      "songs/song3.mp3",
-      "songs/song4.mp3",
-      "songs/song5.mp3",
-      "songs/song6.mp3",
-      "songs/song7.mp3"
-    ];
+  	const songs = [
+  	  "songs/song1.mp3",
+  	  "songs/song2.mp3",
+  	  "songs/song3.mp3",
+  	  "songs/song4.mp3",
+  	  "songs/song5.mp3",
+  	  "songs/song6.mp3",
+  	  "songs/song7.mp3"
+  	];
 
-    // Pick random song
-    audio.src = songs[Math.floor(Math.random() * songs.length)];
-    audio.volume = 0;
+  	// Pick random song
+  	audio.src = songs[Math.floor(Math.random() * songs.length)];
+  	audio.volume = 0;
 
-    // Smooth fade-in of volume
-    function fadeInMusic(targetVolume = parseFloat(volumeControl.value), duration = 3000) {
-      const step = targetVolume / (duration / 100);
-      let vol = 0;
-      const fade = setInterval(() => {
-        vol += step;
-        if (vol >= targetVolume) {
-          vol = targetVolume;
-          clearInterval(fade);
-        }
-        audio.volume = vol;
-      }, 100);
-    }
+  	// Smooth fade-in of volume
+  	function fadeInMusic(targetVolume = parseFloat(volumeControl.value), duration = 3000) {
+  	  const step = targetVolume / (duration / 100);
+  	  let vol = 0;
+  	  const fade = setInterval(() => {
+  		vol += step;
+  		if (vol >= targetVolume) {
+  		  vol = targetVolume;
+  		  clearInterval(fade);
+  		}
+  		audio.volume = vol;
+  	  }, 100);
+  	}
 
-    // Music toggle
-    function toggleMusic() {
-      if (audio.paused) {
-        audio.play();
-        playButton.textContent = "Stop Music";
-      } else {
-        audio.pause();
-        playButton.textContent = "Start Music";
-      }
-    }
+  	// Music toggle
+  	function toggleMusic() {
+  	  if (audio.paused) {
+  		audio.play();
+  		playButton.textContent = "Stop Music";
+  	  } else {
+  		audio.pause();
+  		playButton.textContent = "Start Music";
+  	  }
+  	}
 
-    // Volume control
-    volumeControl.addEventListener("input", () => {
-      audio.volume = parseFloat(volumeControl.value);
-    });
+  	// Volume control
+  	volumeControl.addEventListener("input", () => {
+  	  audio.volume = parseFloat(volumeControl.value);
+  	});
 
-    // Click to enter logic
-    overlay.addEventListener("click", async () => {
-      overlay.classList.add("fade-out"); // fade overlay
-      body.classList.add("fade-bg");
-      container.classList.add("visible");
+  	// Click to enter logic
+  	overlay.addEventListener("click", async () => {
+  	  overlay.classList.add("fade-out"); // fade overlay
+  	  body.classList.add("fade-bg");
+  	  container.classList.add("visible");
 
-      // Fade in icons after overlay begins fading
-      setTimeout(() => {
-        socialIcons.classList.add("visible");
-      }, 1200);
+  	  // Fade in icons after overlay begins fading
+  	  setTimeout(() => {
+  		socialIcons.classList.add("visible");
+  	  }, 1200);
 
-      // Remove overlay only after fade completes
-      /* DÜZELTME 2: Gecikme süresi CSS ile eşitlendi */
-      setTimeout(() => {
-        overlay.style.display = "none";
-      }, 3000); // 2000'den 3000'e değiştirildi
+  	  // Remove overlay only after fade completes
+  	  setTimeout(() => {
+  		overlay.style.display = "none";
+  	  }, 3000); // 3 saniye (CSS ile aynı)
 
-      try {
-        audio.muted = false;
-        await audio.play();
-        fadeInMusic();
-    }.catch (err) {
-        console.log("Autoplay blocked:", err);
-      }
-    });
+  	  try {
+  		audio.muted = false;
+  		await audio.play();
+  		fadeInMusic();
+  	  } /* DÜZELTME: Aradaki '.' noktası kaldırıldı */ catch (err) {
+  		console.log("Autoplay blocked:", err);
+  	  }
+  	});
 
-    // Cursor tracking
-    document.addEventListener("mousemove", (e) => {
-      cursor.style.left = e.clientX + "px";
-      cursor.style.top = e.clientY + "px";
-    });
+  	// Cursor tracking
+  	document.addEventListener("mousemove", (e) => {
+  	  cursor.style.left = e.clientX + "px";
+  	  cursor.style.top = e.clientY + "px";
+  	});
   </script>
 </body>
 </html>
