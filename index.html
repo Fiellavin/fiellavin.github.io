@@ -138,25 +138,23 @@
       box-shadow: 0 0 12px rgba(0, 255, 0, 0.8);
     }
 
+    /* SOCIAL ICONS */
     .social-icons {
       display: flex;
       justify-content: center;
       gap: 20px;
-      opacity: 0;
     }
 
     .social-icons a {
       color: #a8f1a8;
       font-size: 32px;
-      transition: color 0.3s ease, transform 0.3s ease, opacity 1.2s ease;
+      transition: color 0.3s ease, transform 0.3s ease, opacity 1.5s ease;
       text-shadow: 0px 0px 6px rgba(0, 255, 0, 0.6);
       opacity: 0;
-      transform: translateY(10px);
     }
 
     .social-icons a.visible {
       opacity: 1;
-      transform: translateY(0);
     }
 
     .social-icons a:hover {
@@ -188,8 +186,8 @@
       z-index: 10;
       cursor: pointer;
       animation: pulseText 2s infinite ease-in-out;
-      transition: opacity 1.8s ease;
       opacity: 1;
+      transition: opacity 1.8s ease; /* smoother fade */
     }
 
     .overlay.fade-out {
@@ -231,7 +229,7 @@
     const audio = document.getElementById("background-music");
     const cursor = document.getElementById("cursor");
     const body = document.body;
-    const socialIcons = document.querySelectorAll('.social-icons a');
+    const socialIcons = document.querySelectorAll(".social-icons a");
 
     const songs = [
       "songs/song1.mp3",
@@ -243,11 +241,9 @@
       "songs/song7.mp3"
     ];
 
-    // Pick random song
     audio.src = songs[Math.floor(Math.random() * songs.length)];
     audio.volume = 0;
 
-    // Smooth fade-in of volume
     function fadeInMusic(targetVolume = parseFloat(volumeControl.value), duration = 3000) {
       const step = targetVolume / (duration / 100);
       let vol = 0;
@@ -261,7 +257,6 @@
       }, 100);
     }
 
-    // Music toggle
     function toggleMusic() {
       if (audio.paused) {
         audio.play();
@@ -272,30 +267,26 @@
       }
     }
 
-    // Volume control
     volumeControl.addEventListener("input", () => {
       audio.volume = parseFloat(volumeControl.value);
     });
 
-    // Click to enter logic
     overlay.addEventListener("click", async () => {
-      overlay.classList.add("fade-out"); // start fade-out
+      overlay.classList.add("fade-out"); // start fade
       body.classList.add("fade-bg");
       container.classList.add("visible");
 
-      // fade in icons gradually during overlay fade-out
-      setTimeout(() => {
-        socialIcons.forEach((icon, index) => {
-          setTimeout(() => {
-            icon.classList.add("visible");
-          }, index * 400);
-        });
-      }, 700); // begins mid-fade of overlay
+      // Icons fade-in aligned with overlay fade-out
+      socialIcons.forEach((icon, index) => {
+        setTimeout(() => {
+          icon.classList.add("visible");
+        }, 700 + index * 400);
+      });
 
-      // remove overlay completely after fade animation
+      // Remove overlay after fade completes
       setTimeout(() => {
         overlay.style.display = "none";
-      }, 1800);
+      }, 1800); // matches CSS transition
 
       try {
         audio.muted = false;
@@ -306,7 +297,6 @@
       }
     });
 
-    // Cursor tracking
     document.addEventListener("mousemove", (e) => {
       cursor.style.left = e.clientX + "px";
       cursor.style.top = e.clientY + "px";
