@@ -27,9 +27,7 @@
       cursor: none !important;
     }
 
-    body * {
-      cursor: none !important;
-    }
+    body * { cursor: none !important; }
 
     /* NEON BACKGROUND ANIMATION */
     body::before {
@@ -94,6 +92,10 @@
       letter-spacing: 2px;
       text-shadow: 0px 0px 8px rgba(0, 255, 0, 0.6);
       margin-bottom: 10px;
+      opacity: 0;
+      transform: translateY(-20px);
+      animation: fadeIn 2s ease forwards;
+      animation-delay: 0.5s;
     }
 
     #play-button {
@@ -104,7 +106,6 @@
       border-radius: 5px;
       font-size: 16px;
       transition: background-color 0.3s ease, transform 0.2s ease;
-      margin-bottom: 15px;
       box-shadow: 0 0 10px rgba(0, 255, 0, 0.4);
     }
 
@@ -113,7 +114,24 @@
       transform: scale(1.05);
     }
 
-    /* STYLISH VOLUME SLIDER */
+    #shuffle-button {
+      font-size: 24px;
+      color: #c5ffc5;
+      cursor: pointer;
+      transition: transform 0.5s ease, color 0.3s ease;
+      text-shadow: 0 0 8px rgba(0, 255, 0, 0.6);
+    }
+
+    #shuffle-button:hover {
+      animation: rotateIcon 1s linear infinite;
+      color: #76c776;
+    }
+
+    @keyframes rotateIcon {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
     #volume-control {
       width: 200px;
       height: 6px;
@@ -142,7 +160,7 @@
       transition: opacity 1.5s ease;
     }
 
-    .social-icons.fade-in {
+    .social-icons.visible {
       opacity: 1;
     }
 
@@ -156,6 +174,11 @@
     .social-icons a:hover {
       color: #76c776;
       transform: scale(1.15);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     /* OVERLAY */
@@ -176,14 +199,13 @@
       text-shadow: 0 0 10px rgba(0, 255, 0, 0.7);
       z-index: 10;
       cursor: pointer;
-      opacity: 1;
-      transition: opacity 1.5s ease;
       animation: pulseText 2s infinite ease-in-out;
+      transition: opacity 1.5s ease;
+      opacity: 1;
     }
 
-    .overlay.fade-out {
-      opacity: 0;
-    }
+    .overlay.fade-out { opacity: 0; pointer-events: none; }
+    .overlay.hidden { display: none; }
 
     @keyframes pulseText {
       0%, 100% { opacity: 0.8; text-shadow: 0 0 12px rgba(0, 255, 0, 0.8); }
@@ -199,7 +221,11 @@
   <div class="container" id="main-content">
     <h1 class="title">Fiellavin</h1>
 
-    <button id="play-button" onclick="toggleMusic()">Stop Music</button>
+    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+      <button id="play-button" onclick="toggleMusic()">Stop Music</button>
+      <i id="shuffle-button" class="fas fa-random" title="Shuffle Song"></i>
+    </div>
+
     <input type="range" id="volume-control" min="0" max="1" step="0.01" value="0.2" />
 
     <div class="social-icons">
@@ -220,6 +246,7 @@
     const cursor = document.getElementById("cursor");
     const body = document.body;
     const socialIcons = document.querySelector('.social-icons');
+    const shuffleButton = document.getElementById("shuffle-button");
 
     const songs = [
       "songs/song1.mp3",
@@ -231,22 +258,22 @@
       "songs/song7.mp3"
     ];
 
+    // Pick random initial song
     audio.src = songs[Math.floor(Math.random() * songs.length)];
     audio.volume = 0;
 
+    // Smooth fade-in of volume
     function fadeInMusic(targetVolume = parseFloat(volumeControl.value), duration = 3000) {
       const step = targetVolume / (duration / 100);
       let vol = 0;
       const fade = setInterval(() => {
         vol += step;
-        if (vol >= targetVolume) {
-          vol = targetVolume;
-          clearInterval(fade);
-        }
+        if (vol >= targetVolume) { vol = targetVolume; clearInterval(fade); }
         audio.volume = vol;
       }, 100);
     }
 
+    // Music toggle
     function toggleMusic() {
       if (audio.paused) {
         audio.play();
@@ -257,37 +284,40 @@
       }
     }
 
+    // Volume control
     volumeControl.addEventListener("input", () => {
       audio.volume = parseFloat(volumeControl.value);
     });
 
+    // Click to enter logic
     overlay.addEventListener("click", async () => {
-      overlay.style.animation = "none"; // Stop pulsing
-      overlay.classList.add("fade-out");
-
-      overlay.addEventListener("transitionend", () => {
-        overlay.style.display = "none";
-      }, { once: true });
-
-      body.classList.add("fade-bg");
-      container.classList.add("visible");
-
-      setTimeout(() => {
-        socialIcons.classList.add("fade-in");
-      }, 1300);
+      overlay.classList.add("fade-out"); 
+      body.classList.add("fade-bg"); 
+      container.classList.add("visible"); 
+      setTimeout(() => socialIcons.classList.add("visible"), 700);
+      setTimeout(() => overlay.classList.add("hidden"), 1500);
 
       try {
         audio.muted = false;
         await audio.play();
         fadeInMusic();
-      } catch (err) {
-        console.log("Autoplay blocked:", err);
-      }
+      } catch (err) { console.log("Autoplay blocked:", err); }
     });
 
+    // Cursor tracking
     document.addEventListener("mousemove", (e) => {
       cursor.style.left = e.clientX + "px";
       cursor.style.top = e.clientY + "px";
+    });
+
+    // Shuffle button
+    shuffleButton.addEventListener("click", () => {
+      let newSong;
+      do { newSong = songs[Math.floor(Math.random() * songs.length)]; }
+      while (newSong === audio.src);
+      audio.src = newSong;
+      audio.play();
+      playButton.textContent = "Stop Music";
     });
   </script>
 </body>
