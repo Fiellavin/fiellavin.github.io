@@ -138,19 +138,21 @@
       box-shadow: 0 0 12px rgba(0, 255, 0, 0.8);
     }
 
+    /* SOCIAL ICONS */
     .social-icons {
       display: flex;
       justify-content: center;
       gap: 20px;
       opacity: 0;
+      transition: opacity 1.5s ease;
     }
 
     .social-icons a {
       color: #a8f1a8;
       font-size: 32px;
-      transition: color 0.3s ease, transform 0.3s ease, opacity 0.5s ease;
       text-shadow: 0px 0px 6px rgba(0, 255, 0, 0.6);
       opacity: 0;
+      transition: color 0.3s ease, transform 0.3s ease, opacity 1.5s ease;
     }
 
     .social-icons a.visible {
@@ -186,7 +188,7 @@
       z-index: 10;
       cursor: pointer;
       animation: pulseText 2s infinite ease-in-out;
-      transition: opacity 1.5s ease;
+      transition: opacity 2s ease;
       opacity: 1;
     }
 
@@ -275,23 +277,25 @@
       audio.volume = parseFloat(volumeControl.value);
     });
 
-    // Click to enter logic
+    // Click to enter logic (fixed)
     overlay.addEventListener("click", async () => {
-      overlay.classList.add("fade-out"); // fade overlay
-      body.classList.add("fade-bg");     // keep neon glow
-      container.classList.add("visible"); // show content
+      overlay.classList.add("fade-out"); // Start fading out overlay
+      body.classList.add("fade-bg");
+      container.classList.add("visible");
 
-      // Stagger social icons fade-in
-      socialIcons.forEach((icon, index) => {
-        setTimeout(() => {
-          icon.classList.add("visible");
-        }, 600 + index * 300); // 300ms between each icon
-      });
+      // Fade in icons while overlay fades out
+      setTimeout(() => {
+        socialIcons.forEach((icon, index) => {
+          setTimeout(() => {
+            icon.classList.add("visible");
+          }, index * 400); // small stagger between icons
+        });
+      }, 800); // start icons mid-way through overlay fade
 
-      // Fully remove overlay after fade-out
+      // Remove overlay completely after fade completes
       setTimeout(() => {
         overlay.style.display = "none";
-      }, 1500); // match CSS transition duration
+      }, 2000); // matches CSS fade duration
 
       try {
         audio.muted = false;
