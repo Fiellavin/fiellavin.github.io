@@ -110,6 +110,12 @@
       transition: background-color 0.3s ease, transform 0.2s ease;
       margin-bottom: 15px;
       box-shadow: 0 0 10px rgba(0, 255, 0, 0.4);
+      opacity: 0;
+      transition: opacity 1s ease 1.5s;
+    }
+
+    .visible #play-button {
+      opacity: 1;
     }
 
     #play-button:hover {
@@ -127,6 +133,12 @@
       -webkit-appearance: none;
       box-shadow: 0 0 10px rgba(0, 255, 0, 0.4);
       margin-bottom: 20px;
+      opacity: 0;
+      transition: opacity 1s ease 2s;
+    }
+
+    .visible #volume-control {
+      opacity: 1;
     }
 
     #volume-control::-webkit-slider-thumb {
@@ -147,16 +159,15 @@
       transition: opacity 1.5s ease;
     }
 
+    .social-icons.visible {
+      opacity: 1;
+    }
+
     .social-icons a {
       color: #a8f1a8;
       font-size: 32px;
       text-shadow: 0px 0px 6px rgba(0, 255, 0, 0.6);
-      opacity: 0;
-      transition: color 0.3s ease, transform 0.3s ease, opacity 1.5s ease;
-    }
-
-    .social-icons a.visible {
-      opacity: 1;
+      transition: color 0.3s ease, transform 0.3s ease;
     }
 
     .social-icons a:hover {
@@ -188,7 +199,7 @@
       z-index: 10;
       cursor: pointer;
       animation: pulseText 2s infinite ease-in-out;
-      transition: opacity 2s ease;
+      transition: opacity 1.8s ease;
       opacity: 1;
     }
 
@@ -214,7 +225,7 @@
     <button id="play-button" onclick="toggleMusic()">Stop Music</button>
     <input type="range" id="volume-control" min="0" max="1" step="0.01" value="0.2" />
 
-    <div class="social-icons">
+    <div class="social-icons" id="social-icons">
       <a href="https://www.youtube.com/@fiellavin" target="_blank"><i class="fab fa-youtube"></i></a>
       <a href="https://discord.com/users/317315928855543828" target="_blank"><i class="fab fa-discord"></i></a>
       <a href="https://steamcommunity.com/id/fiellavin/" target="_blank"><i class="fab fa-steam"></i></a>
@@ -231,7 +242,7 @@
     const audio = document.getElementById("background-music");
     const cursor = document.getElementById("cursor");
     const body = document.body;
-    const socialIcons = document.querySelectorAll('.social-icons a');
+    const socialIcons = document.getElementById("social-icons");
 
     const songs = [
       "songs/song1.mp3",
@@ -277,25 +288,21 @@
       audio.volume = parseFloat(volumeControl.value);
     });
 
-    // Click to enter logic (fixed)
+    // Click to enter logic
     overlay.addEventListener("click", async () => {
-      overlay.classList.add("fade-out"); // Start fading out overlay
+      overlay.classList.add("fade-out"); // fade overlay
       body.classList.add("fade-bg");
       container.classList.add("visible");
 
-      // Fade in icons while overlay fades out
+      // Fade in icons after overlay begins fading
       setTimeout(() => {
-        socialIcons.forEach((icon, index) => {
-          setTimeout(() => {
-            icon.classList.add("visible");
-          }, index * 400); // small stagger between icons
-        });
-      }, 800); // start icons mid-way through overlay fade
+        socialIcons.classList.add("visible");
+      }, 1200);
 
-      // Remove overlay completely after fade completes
+      // Remove overlay only after fade completes
       setTimeout(() => {
         overlay.style.display = "none";
-      }, 2000); // matches CSS fade duration
+      }, 2000);
 
       try {
         audio.muted = false;
