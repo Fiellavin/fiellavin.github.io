@@ -26,7 +26,6 @@
       position: relative;
       cursor: none !important;
     }
-
     body * {
       cursor: none !important;
     }
@@ -45,7 +44,6 @@
       opacity: 0.9;
       transition: opacity 1.2s ease;
     }
-
     body.fade-bg::before {
       opacity: 0.9 !important;
     }
@@ -80,7 +78,6 @@
       transform: translateY(30px);
       transition: opacity 1.5s ease, transform 1.5s ease;
     }
-
     .container.visible {
       opacity: 1;
       transform: translateY(0);
@@ -111,13 +108,12 @@
       margin-bottom: 15px;
       box-shadow: 0 0 10px rgba(0, 255, 0, 0.4);
     }
-
     #play-button:hover {
       background-color: #388e3c;
       transform: scale(1.05);
     }
 
-    /* STYLISH VOLUME SLIDER */
+    /* VOLUME SLIDER */
     #volume-control {
       width: 200px;
       height: 6px;
@@ -128,7 +124,6 @@
       box-shadow: 0 0 10px rgba(0, 255, 0, 0.4);
       margin-bottom: 20px;
     }
-
     #volume-control::-webkit-slider-thumb {
       -webkit-appearance: none;
       width: 18px;
@@ -142,21 +137,18 @@
       display: flex;
       justify-content: center;
       gap: 20px;
-      opacity: 0;
+      margin-top: 10px;
     }
-
     .social-icons a {
+      opacity: 0;
       color: #a8f1a8;
       font-size: 32px;
-      transition: color 0.3s ease, transform 0.3s ease, opacity 0.5s ease;
+      transition: opacity 1s ease, transform 0.3s ease;
       text-shadow: 0px 0px 6px rgba(0, 255, 0, 0.6);
-      opacity: 0;
     }
-
     .social-icons a.visible {
       opacity: 1;
     }
-
     .social-icons a:hover {
       color: #76c776;
       transform: scale(1.15);
@@ -186,13 +178,16 @@
       z-index: 10;
       cursor: pointer;
       animation: pulseText 2s infinite ease-in-out;
-      transition: opacity 1.5s ease;
+      transition: opacity 1.5s ease, text-shadow 1.5s ease;
       opacity: 1;
     }
-
     .overlay.fade-out {
       opacity: 0;
+      text-shadow: 0 0 0 rgba(0,255,0,0);
       pointer-events: none;
+    }
+    .overlay.hidden {
+      display: none;
     }
 
     @keyframes pulseText {
@@ -245,7 +240,6 @@
     audio.src = songs[Math.floor(Math.random() * songs.length)];
     audio.volume = 0;
 
-    // Smooth fade-in of volume
     function fadeInMusic(targetVolume = parseFloat(volumeControl.value), duration = 3000) {
       const step = targetVolume / (duration / 100);
       let vol = 0;
@@ -259,7 +253,6 @@
       }, 100);
     }
 
-    // Music toggle
     function toggleMusic() {
       if (audio.paused) {
         audio.play();
@@ -270,28 +263,26 @@
       }
     }
 
-    // Volume control
     volumeControl.addEventListener("input", () => {
       audio.volume = parseFloat(volumeControl.value);
     });
 
-    // Click to enter logic
     overlay.addEventListener("click", async () => {
-      overlay.classList.add("fade-out"); // fade overlay
-      body.classList.add("fade-bg");     // keep neon glow
-      container.classList.add("visible"); // show content
+      overlay.classList.add("fade-out");
+      body.classList.add("fade-bg");
+      container.classList.add("visible");
 
-      // Stagger social icons fade-in
+      // Fade in social icons one by one
       socialIcons.forEach((icon, index) => {
         setTimeout(() => {
           icon.classList.add("visible");
-        }, 600 + index * 300); // 300ms between each icon
+        }, 700 + index * 300);
       });
 
-      // Fully remove overlay after fade-out
+      // Hide overlay after fade out
       setTimeout(() => {
-        overlay.style.display = "none";
-      }, 1500); // match CSS transition duration
+        overlay.classList.add("hidden");
+      }, 1500);
 
       try {
         audio.muted = false;
