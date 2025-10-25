@@ -5,7 +5,6 @@
   <title>Fiellavin</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <link rel="icon" href="logos/flogo.jpg">
-
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&display=swap');
 
@@ -46,6 +45,12 @@
       align-items: center;
       text-align: center;
       z-index: 1;
+      opacity: 0;
+      transition: opacity 2s ease;
+    }
+
+    .container.visible {
+      opacity: 1;
     }
 
     .title {
@@ -56,7 +61,6 @@
       letter-spacing: 2px;
       text-shadow: 0px 0px 6px rgba(0, 255, 0, 0.6);
       margin-bottom: 10px;
-      animation: fadeIn 2s ease-out;
     }
 
     #play-button {
@@ -68,8 +72,149 @@
       font-size: 16px;
       cursor: pointer;
       transition: background-color 0.3s ease, transform 0.2s ease;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
     }
 
     #play-button:hover {
-      background-color: #
+      background-color: #388e3c;
+      transform: scale(1.05);
+    }
+
+    #volume-control {
+      width: 150px;
+      margin-bottom: 20px;
+      accent-color: #4caf50;
+    }
+
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .social-icons a {
+      color: #a8f1a8;
+      font-size: 32px;
+      transition: color 0.3s ease, transform 0.3s ease;
+      text-shadow: 0px 0px 6px rgba(0, 255, 0, 0.6);
+    }
+
+    .social-icons a:hover {
+      color: #76c776;
+      transform: scale(1.15);
+    }
+
+    /* Click to enter overlay */
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      color: #c5ffc5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      font-family: 'Dancing Script', cursive;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px rgba(0, 255, 0, 0.6);
+      z-index: 10;
+      cursor: pointer;
+      transition: opacity 1s ease;
+    }
+
+    .overlay.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Overlay -->
+  <div class="overlay" id="overlay">Click to enter...</div>
+
+  <div class="container" id="main-content">
+    <h1 class="title">Fiellavin</h1>
+
+    <button id="play-button" onclick="toggleMusic()">Stop Music</button>
+    <input type="range" id="volume-control" min="0" max="1" step="0.01" value="0.2">
+
+    <div class="social-icons">
+      <a href="https://www.youtube.com/@fiellavin" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+      <a href="https://discord.com/users/317315928855543828" target="_blank" aria-label="Discord"><i class="fab fa-discord"></i></a>
+      <a href="https://steamcommunity.com/id/fiellavin/" target="_blank" aria-label="Steam"><i class="fab fa-steam"></i></a>
+    </div>
+
+    <audio id="background-music" loop muted></audio>
+  </div>
+
+  <script>
+    const overlay = document.getElementById("overlay");
+    const container = document.getElementById("main-content");
+    const playButton = document.getElementById("play-button");
+    const volumeControl = document.getElementById("volume-control");
+    const audio = document.getElementById("background-music");
+
+    const songs = [
+      "songs/song1.mp3",
+      "songs/song2.mp3",
+      "songs/song3.mp3",
+      "songs/song4.mp3",
+      "songs/song5.mp3",
+      "songs/song6.mp3",
+      "songs/song7.mp3"
+    ];
+
+    // Pick a random song
+    const randomSong = songs[Math.floor(Math.random() * songs.length)];
+    audio.src = randomSong;
+    audio.volume = 0;
+
+    // Fade in music
+    function fadeInMusic(targetVolume = parseFloat(volumeControl.value), duration = 3000) {
+      const step = targetVolume / (duration / 100);
+      let vol = 0;
+      const fadeInterval = setInterval(() => {
+        vol += step;
+        if (vol >= targetVolume) {
+          vol = targetVolume;
+          clearInterval(fadeInterval);
+        }
+        audio.volume = vol;
+      }, 100);
+    }
+
+    // Toggle play/pause
+    function toggleMusic() {
+      if (audio.paused) {
+        audio.play();
+        playButton.textContent = "Stop Music";
+      } else {
+        audio.pause();
+        playButton.textContent = "Start Music";
+      }
+    }
+
+    // Volume control
+    volumeControl.addEventListener("input", () => {
+      audio.volume = parseFloat(volumeControl.value);
+    });
+
+    // On overlay click
+    overlay.addEventListener("click", async () => {
+      overlay.classList.add("fade-out");
+      container.classList.add("visible");
+      try {
+        audio.muted = false;
+        await audio.play();
+        fadeInMusic();
+      } catch (err) {
+        console.log("Autoplay blocked:", err);
+      }
+    });
+  </script>
+</body>
+</html>
