@@ -9,11 +9,12 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&display=swap');
 
+/* === GENERAL (unchanged) === */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
   background: #0b3d0b;
-  color: #fff;
+  color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -22,62 +23,73 @@ body {
   position: relative;
   cursor: none !important;
 }
-
 body * { cursor: none !important; }
 
+/* === NEON BACKGROUND ANIMATION === */
 body::before {
   content: '';
-  position: absolute; top:0; left:0;
-  width:100%; height:100%;
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
   background: radial-gradient(circle at center, rgba(30,255,30,0.15), rgba(5,5,5,0.85) 70%);
   animation: neonGlow 6s ease-in-out infinite;
-  z-index:0;
-  opacity:0.9;
+  z-index: 0;
+  opacity: 0.9;
   transition: opacity 1.2s ease;
 }
-
-body.fade-bg::before { opacity:0.9 !important; }
-
+body.fade-bg::before { opacity: 0.9 !important; }
 @keyframes neonGlow {
-  0%,100%{filter:hue-rotate(0deg) brightness(1.1);}
-  50%{filter:hue-rotate(180deg) brightness(1.3);}
+  0%,100%{ filter: hue-rotate(0deg) brightness(1.1); }
+  50%{ filter: hue-rotate(180deg) brightness(1.3); }
 }
 
+/* === CUSTOM CURSOR === */
 .cursor-dot {
   position: fixed;
   width: 12px; height: 12px;
-  background:#80ff80;
-  border-radius:50%;
-  pointer-events:none;
-  box-shadow:0 0 10px 3px rgba(128,255,128,0.6);
-  transform: translate(-50%, -50%);
+  background: #80ff80;
+  border-radius: 50%;
+  pointer-events: none;
+  box-shadow: 0 0 10px 3px rgba(128,255,128,0.6);
+  transform: translate(-50%,-50%);
   transition: transform 0.08s ease-out;
-  z-index:1000;
+  z-index: 1000;
 }
 
+/* === CONTAINER === */
 .container {
-  display:flex; flex-direction:column; align-items:center; text-align:center;
-  z-index:1; opacity:0; transform:translateY(30px);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  z-index:1;
+  opacity:0;
+  transform: translateY(30px);
   transition: opacity 1.5s ease, transform 1.5s ease;
 }
+.container.visible { opacity:1; transform: translateY(0); }
 
-.container.visible { opacity:1; transform:translateY(0); }
-
-.title {
+.title{
   font-size:72px;
   font-weight:700;
   color:#c5ffc5;
-  font-family:'Dancing Script','Great Vibes',cursive;
+  font-family: 'Dancing Script', 'Great Vibes', cursive;
   letter-spacing:2px;
-  text-shadow:0 0 8px rgba(0,255,0,0.6);
+  text-shadow: 0 0 8px rgba(0,255,0,0.6);
   margin-bottom:10px;
   opacity:0;
-  transform:translateY(-20px);
-  animation:fadeIn 2s ease forwards;
-  animation-delay:0.5s;
+  transform: translateY(-20px);
+  animation: fadeIn 2s ease forwards;
+  animation-delay: 0.5s;
 }
 
-#play-button,#shuffle-button {
+.button-group {
+  display:flex;
+  gap:10px;
+  margin-bottom:15px;
+}
+
+button {
   padding:10px 20px;
   background-color:#4caf50;
   color:#fff;
@@ -85,159 +97,183 @@ body.fade-bg::before { opacity:0.9 !important; }
   border-radius:5px;
   font-size:16px;
   transition: background-color 0.3s ease, transform 0.2s ease;
-  margin:5px;
-  box-shadow:0 0 10px rgba(0,255,0,0.4);
+  box-shadow: 0 0 10px rgba(0,255,0,0.4);
   cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:6px;
 }
+button:hover { background-color:#388e3c; transform: scale(1.05); }
 
-#play-button:hover,#shuffle-button:hover { background-color:#388e3c; transform:scale(1.05); }
-
-#volume-control {
-  width:200px; height:6px;
-  border-radius:5px;
-  background:linear-gradient(90deg,#4caf50 0%,#81c784 100%);
-  outline:none;
-  -webkit-appearance:none;
-  box-shadow:0 0 10px rgba(0,255,0,0.4);
+/* === VOLUME SLIDER === */
+#volume-control{
+  width:200px; height:6px; border-radius:5px;
+  background: linear-gradient(90deg,#4caf50 0%, #81c784 100%);
+  outline:none; -webkit-appearance:none; box-shadow:0 0 10px rgba(0,255,0,0.4);
   margin-bottom:20px;
 }
-
-#volume-control::-webkit-slider-thumb {
-  -webkit-appearance:none;
-  width:18px; height:18px;
-  background:#c5ffc5;
-  border-radius:50%;
+#volume-control::-webkit-slider-thumb{
+  -webkit-appearance:none; width:18px;height:18px;background:#c5ffc5;border-radius:50%;
   box-shadow:0 0 12px rgba(0,255,0,0.8);
 }
 
-.social-icons {
-  display:flex; justify-content:center; gap:20px; opacity:0; transition:opacity 1.5s ease;
+/* === SOCIAL ICONS === */
+.social-icons{
+  display:flex; justify-content:center; gap:20px;
 }
-
-.social-icons.visible { opacity:1; }
-
-.social-icons a {
+.social-icons a{
   color:#a8f1a8;
   font-size:32px;
-  text-shadow:0 0 6px rgba(0,255,0,0.6);
-  transition: color 0.3s ease, transform 0.3s ease, opacity 0.5s ease;
+  transition: color 0.3s ease, transform 0.3s ease, opacity 1.2s ease;
+  text-shadow: 0 0 6px rgba(0,255,0,0.6);
   opacity:0;
+  transform: translateY(10px);
 }
+.social-icons a.visible{
+  opacity:1;
+  transform: translateY(0);
+}
+.social-icons a:hover{ color:#76c776; transform: scale(1.15); }
 
-.social-icons a.visible { opacity:1; }
+@keyframes fadeIn{ from{opacity:0; transform: translateY(20px);} to{opacity:1; transform: translateY(0);} }
 
-.social-icons a:hover { color:#76c776; transform:scale(1.15); }
-
-@keyframes fadeIn { from{opacity:0; transform:translateY(20px);} to{opacity:1; transform:translateY(0);} }
-
+/* === OVERLAY === */
 .overlay {
-  position:absolute; top:0; left:0;
-  width:100%; height:100%;
+  position: absolute;
+  top:0; left:0; width:100%; height:100%;
   background: rgba(0,0,0,0.92);
-  color:#c5ffc5;
+  color: #c5ffc5;
   display:flex; align-items:center; justify-content:center;
   font-size:38px;
-  font-family:'Dancing Script',cursive;
+  font-family: 'Dancing Script', cursive;
   letter-spacing:3px;
-  text-shadow:0 0 10px rgba(0,255,0,0.7);
+  text-shadow: 0 0 10px rgba(0,255,0,0.7);
   z-index:10;
   cursor:pointer;
-  animation:pulseText 2s infinite ease-in-out;
-  transition: opacity 1.5s ease;
+  animation: pulseText 2s infinite ease-in-out;
+  opacity:1;
+  transition: opacity 1.8s ease;
+}
+.overlay .overlay-text{
+  display:inline-block;
+  transition: opacity 0.9s ease;
   opacity:1;
 }
-
 .overlay.fade-out { opacity:0; pointer-events:none; }
+.overlay.fade-out .overlay-text { opacity:0; }
 
-@keyframes pulseText { 0%,100%{opacity:0.8;text-shadow:0 0 12px rgba(0,255,0,0.8);} 50%{opacity:1;text-shadow:0 0 20px rgba(0,255,0,1);} }
+@keyframes pulseText{
+  0%,100%{ opacity:0.8; text-shadow:0 0 12px rgba(0,255,0,0.8);}
+  50%{ opacity:1; text-shadow:0 0 20px rgba(0,255,0,1);}
+}
+
+@media (max-width:520px){
+  .title{ font-size:44px; }
+  .overlay{ font-size:26px; padding:0 20px; text-align:center; }
+}
 </style>
 </head>
 <body>
 <div class="cursor-dot" id="cursor"></div>
-<div class="overlay" id="overlay">Click to enter...</div>
+
+<div class="overlay" id="overlay"><span class="overlay-text">Click to enter...</span></div>
 
 <div class="container" id="main-content">
   <h1 class="title">Fiellavin</h1>
-  <div>
-    <button id="play-button" onclick="toggleMusic()">Stop Music</button>
-    <button id="shuffle-button" onclick="shuffleMusic()">Shuffle</button>
+
+  <div class="button-group">
+    <button id="play-button" onclick="toggleMusic()"><i class="fas fa-play"></i> Play</button>
+    <button id="shuffle-button" onclick="shuffleMusic()"><i class="fas fa-random"></i> Shuffle</button>
   </div>
-  <input type="range" id="volume-control" min="0" max="1" step="0.01" value="0.2"/>
-  <div class="social-icons">
-    <a href="https://www.youtube.com/@fiellavin" target="_blank"><i class="fab fa-youtube"></i></a>
-    <a href="https://discord.com/users/317315928855543828" target="_blank"><i class="fab fa-discord"></i></a>
-    <a href="https://steamcommunity.com/id/fiellavin/" target="_blank"><i class="fab fa-steam"></i></a>
+
+  <input type="range" id="volume-control" min="0" max="1" step="0.01" value="0.2" />
+
+  <div class="social-icons" id="social-icons">
+    <a href="https://www.youtube.com/@fiellavin" target="_blank" rel="noopener"><i class="fab fa-youtube"></i></a>
+    <a href="https://discord.com/users/317315928855543828" target="_blank" rel="noopener"><i class="fab fa-discord"></i></a>
+    <a href="https://steamcommunity.com/id/fiellavin/" target="_blank" rel="noopener"><i class="fab fa-steam"></i></a>
   </div>
+
   <audio id="background-music" loop muted></audio>
 </div>
 
 <script>
-const overlay = document.getElementById("overlay");
-const container = document.getElementById("main-content");
-const playButton = document.getElementById("play-button");
-const shuffleButton = document.getElementById("shuffle-button");
-const volumeControl = document.getElementById("volume-control");
-const audio = document.getElementById("background-music");
-const cursor = document.getElementById("cursor");
-const socialIcons = document.querySelectorAll('.social-icons a');
+const overlay = document.getElementById('overlay');
+const overlayText = overlay.querySelector('.overlay-text');
+const container = document.getElementById('main-content');
+const playButton = document.getElementById('play-button');
+const shuffleButton = document.getElementById('shuffle-button');
+const volumeControl = document.getElementById('volume-control');
+const audio = document.getElementById('background-music');
+const cursor = document.getElementById('cursor');
+const socialAnchors = document.querySelectorAll('.social-icons a');
 
 const songs = [
   "songs/song1.mp3","songs/song2.mp3","songs/song3.mp3",
   "songs/song4.mp3","songs/song5.mp3","songs/song6.mp3","songs/song7.mp3"
 ];
-
-let currentSongIndex = Math.floor(Math.random() * songs.length);
+let currentSongIndex = Math.floor(Math.random()*songs.length);
 audio.src = songs[currentSongIndex];
 audio.volume = 0;
 
 function fadeInMusic(targetVolume=parseFloat(volumeControl.value), duration=3000){
-  const step = targetVolume/(duration/100);
+  const steps = Math.max(1, Math.floor(duration/100));
+  const step = targetVolume/steps;
   let vol=0;
-  const fade=setInterval(()=>{
+  const fade = setInterval(()=>{
     vol+=step;
     if(vol>=targetVolume){vol=targetVolume; clearInterval(fade);}
-    audio.volume=vol;
+    audio.volume = Math.max(0,Math.min(1,vol));
   },100);
 }
 
 function toggleMusic(){
-  if(audio.paused){ audio.play(); playButton.textContent="Stop Music"; }
-  else{ audio.pause(); playButton.textContent="Start Music"; }
+  if(audio.paused){
+    audio.play().catch(()=>{});
+    playButton.innerHTML = '<i class="fas fa-pause"></i> Stop';
+  } else {
+    audio.pause();
+    playButton.innerHTML = '<i class="fas fa-play"></i> Play';
+  }
 }
 
 function shuffleMusic(){
   let newIndex;
-  do { newIndex=Math.floor(Math.random()*songs.length); }
+  do { newIndex = Math.floor(Math.random()*songs.length); }
   while(newIndex===currentSongIndex && songs.length>1);
   currentSongIndex=newIndex;
-  audio.src=songs[currentSongIndex];
-  audio.currentTime=0;
-  audio.muted=false;
+  audio.src = songs[currentSongIndex];
+  audio.currentTime = 0;
+  audio.muted = false;
   audio.play().catch(()=>{});
   fadeInMusic();
-  playButton.textContent="Stop Music";
+  playButton.innerHTML = '<i class="fas fa-pause"></i> Stop';
 }
 
-volumeControl.addEventListener("input",()=>{ audio.volume=parseFloat(volumeControl.value); });
+volumeControl.addEventListener('input',(e)=>{ audio.volume=parseFloat(e.target.value); });
 
-overlay.addEventListener("click", async ()=>{
-  overlay.classList.add("fade-out");
-  document.body.classList.add("fade-bg");
-  container.classList.add("visible");
+overlay.addEventListener('click', async ()=>{
+  overlay.classList.add('fade-out');
+  container.classList.add('visible');
+  document.body.classList.add('fade-bg');
 
-  socialIcons.forEach((icon,index)=>{
-    setTimeout(()=>{icon.classList.add("visible");}, 600+index*300);
+  setTimeout(()=>{
+    socialAnchors.forEach((a,i)=>{ setTimeout(()=>a.classList.add('visible'), i*300); });
+  },500);
+
+  try{ audio.muted=false; await audio.play(); fadeInMusic(); } catch(err){console.log(err); }
+
+  overlay.addEventListener('transitionend', function handler(ev){
+    if(ev.propertyName==='opacity'){
+      overlay.style.display='none';
+      overlay.removeEventListener('transitionend',handler);
+    }
   });
-
-  // Wait until overlay fade completes
-  setTimeout(()=>{ overlay.style.display="none"; }, 1500);
-
-  try{ audio.muted=false; await audio.play(); fadeInMusic(); } catch(err){console.log("Autoplay blocked:",err);}
 });
 
-document.addEventListener("mousemove",(e)=>{
-  cursor.style.left=e.clientX+"px";
-  cursor.style.top=e.clientY+"px";
+document.addEventListener('mousemove', e=>{
+  cursor.style.left=e.clientX+'px';
+  cursor.style.top=e.clientY+'px';
 });
 </script>
 </body>
