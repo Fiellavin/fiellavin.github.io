@@ -46,6 +46,10 @@
       transition: opacity 1.2s ease;
     }
 
+    body.fade-bg::before {
+      opacity: 0.9 !important;
+    }
+
     @keyframes neonGlow {
       0%, 100% { filter: hue-rotate(0deg) brightness(1.1); }
       50% { filter: hue-rotate(180deg) brightness(1.3); }
@@ -178,7 +182,6 @@
 
     .overlay.fade-out {
       opacity: 0;
-      pointer-events: none;
     }
 
     @keyframes pulseText {
@@ -214,8 +217,8 @@
     const volumeControl = document.getElementById("volume-control");
     const audio = document.getElementById("background-music");
     const cursor = document.getElementById("cursor");
-    const socialIcons = document.querySelector('.social-icons');
     const body = document.body;
+    const socialIcons = document.querySelector('.social-icons');
 
     const songs = [
       "songs/song1.mp3",
@@ -258,21 +261,17 @@
     });
 
     overlay.addEventListener("click", async () => {
-      // Fade out overlay
       overlay.classList.add("fade-out");
+      overlay.addEventListener("transitionend", () => {
+        overlay.style.display = "none";
+      }, { once: true });
 
-      // Show main content
+      body.classList.add("fade-bg");
       container.classList.add("visible");
 
-      // Fade in social icons after overlay fades
       setTimeout(() => {
         socialIcons.classList.add("fade-in");
       }, 1300);
-
-      // Completely hide overlay after animation
-      setTimeout(() => {
-        overlay.style.display = "none";
-      }, 1500);
 
       try {
         audio.muted = false;
@@ -283,7 +282,6 @@
       }
     });
 
-    // Cursor tracking
     document.addEventListener("mousemove", (e) => {
       cursor.style.left = e.clientX + "px";
       cursor.style.top = e.clientY + "px";
