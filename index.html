@@ -150,12 +150,12 @@
       box-shadow: 0 0 12px rgba(0, 255, 0, 0.8);
     }
 
-    /* SOCIAL ICONS */
+    /* SOCIAL ICONS (TEMİZLENDİ) */
     .social-icons {
       display: flex;
       justify-content: center;
       gap: 20px;
-  S    opacity: 0;
+      opacity: 0;
       transition: opacity 1.5s ease;
     }
 
@@ -180,7 +180,7 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* OVERLAY */
+    /* OVERLAY (DÜZELTME UYGULANDI) */
     .overlay {
       position: absolute;
       top: 0;
@@ -198,9 +198,9 @@
       text-shadow: 0 0 10px rgba(0, 255, 0, 0.7);
       z-index: 10;
       cursor: pointer;
-      animation: pulseText 2s infinite ease-in-out;
-      
-            transition: opacity 3s ease;
+  G    animation: pulseText 2s infinite ease-in-out;
+      /* DÜZELTME 1: Geçiş süresi uzatıldı */
+      transition: opacity 3s ease; 
       opacity: 1;
     }
 
@@ -266,7 +266,7 @@
       const fade = setInterval(() => {
         vol += step;
         if (vol >= targetVolume) {
-    S     vol = targetVolume;
+          vol = targetVolume;
           clearInterval(fade);
         }
         audio.volume = vol;
@@ -298,11 +298,11 @@
       // Fade in icons after overlay begins fading
       setTimeout(() => {
         socialIcons.classList.add("visible");
-  t   }, 1200);
+      }, 1200);
 
       // Remove overlay only after fade completes
-      
-            setTimeout(() => {
+      /* DÜZELTME 2: Gecikme süresi CSS ile eşitlendi */
+      setTimeout(() => {
         overlay.style.display = "none";
       }, 3000); // 2000'den 3000'e değiştirildi
 
@@ -310,7 +310,7 @@
         audio.muted = false;
         await audio.play();
         fadeInMusic();
-      } catch (err) {
+    }.catch (err) {
         console.log("Autoplay blocked:", err);
       }
     });
