@@ -113,6 +113,7 @@
       transform: scale(1.05);
     }
 
+    /* STYLISH VOLUME SLIDER */
     #volume-control {
       width: 200px;
       height: 6px;
@@ -175,9 +176,9 @@
       text-shadow: 0 0 10px rgba(0, 255, 0, 0.7);
       z-index: 10;
       cursor: pointer;
-      animation: pulseText 2s infinite ease-in-out;
       opacity: 1;
       transition: opacity 1.5s ease;
+      animation: pulseText 2s infinite ease-in-out;
     }
 
     .overlay.fade-out {
@@ -261,7 +262,9 @@
     });
 
     overlay.addEventListener("click", async () => {
+      overlay.style.animation = "none"; // Stop pulsing
       overlay.classList.add("fade-out");
+
       overlay.addEventListener("transitionend", () => {
         overlay.style.display = "none";
       }, { once: true });
