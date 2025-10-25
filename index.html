@@ -23,9 +23,8 @@
       position: relative;
       cursor: none;
     }
-    body * { cursor: none; }
 
-    /* NEON BACKGROUND */
+    /* NEON BACKGROUND ANIMATION */
     body::before {
       content: '';
       position: absolute;
@@ -39,12 +38,13 @@
       opacity: 0.9;
       transition: opacity 1.5s ease;
     }
+
     @keyframes neonGlow {
-      0%, 100% { filter: hue-rotate(0deg) brightness(1.1); }
-      50% { filter: hue-rotate(180deg) brightness(1.3); }
+      0%,100%{ filter:hue-rotate(0deg) brightness(1.1);}
+      50%{ filter:hue-rotate(180deg) brightness(1.3);}
     }
 
-    /* CUSTOM CURSOR */
+    /* CURSOR */
     .cursor-dot {
       position: fixed;
       width: 12px;
@@ -69,6 +69,7 @@
       transform: translateY(30px);
       transition: opacity 1.5s ease, transform 1.5s ease;
     }
+
     .container.visible {
       opacity: 1;
       transform: translateY(0);
@@ -84,6 +85,7 @@
       margin-bottom: 10px;
     }
 
+    /* MUSIC BUTTON */
     #play-button {
       padding: 10px 20px;
       background-color: #4caf50;
@@ -94,12 +96,15 @@
       transition: background-color 0.3s ease, transform 0.2s ease;
       margin-bottom: 15px;
       box-shadow: 0 0 10px rgba(0, 255, 0, 0.4);
+      cursor: pointer;
     }
+
     #play-button:hover {
       background-color: #388e3c;
       transform: scale(1.05);
     }
 
+    /* VOLUME SLIDER */
     #volume-control {
       width: 200px;
       height: 6px;
@@ -110,6 +115,7 @@
       box-shadow: 0 0 10px rgba(0, 255, 0, 0.4);
       margin-bottom: 20px;
     }
+
     #volume-control::-webkit-slider-thumb {
       -webkit-appearance: none;
       width: 18px;
@@ -119,24 +125,27 @@
       box-shadow: 0 0 12px rgba(0, 255, 0, 0.8);
     }
 
+    /* SOCIAL ICONS */
     .social-icons {
       display: flex;
       justify-content: center;
       gap: 20px;
       opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 1.5s ease, transform 1.5s ease;
+      transition: opacity 1.5s ease;
     }
+
     .social-icons.visible {
       opacity: 1;
-      transform: translateY(0);
     }
+
     .social-icons a {
       color: #a8f1a8;
       font-size: 32px;
       transition: color 0.3s ease, transform 0.3s ease;
       text-shadow: 0px 0px 6px rgba(0, 255, 0, 0.6);
+      cursor: pointer;
     }
+
     .social-icons a:hover {
       color: #76c776;
       transform: scale(1.15);
@@ -145,66 +154,64 @@
     /* OVERLAY */
     .overlay {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
       background: rgba(0,0,0,0.92);
-      color: #c5ffc5;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 38px;
-      font-family: 'Dancing Script', cursive;
-      letter-spacing: 3px;
-      text-shadow: 0 0 10px rgba(0, 255, 0, 0.7);
-      z-index: 10;
-      cursor: pointer;
-      animation: pulseText 2s infinite ease-in-out;
+      color:#c5ffc5;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:38px;
+      font-family:'Dancing Script', cursive;
+      letter-spacing:3px;
+      text-shadow:0 0 10px rgba(0,255,0,0.7);
+      z-index:10;
+      cursor:pointer;
+      animation:pulseText 2s infinite ease-in-out;
+      opacity:1;
+      transition:opacity 1.5s ease, transform 1.5s ease;
+    }
 
-      opacity: 1;
-      transform: scale(1);
-      transition: opacity 1.5s ease, transform 1.5s ease;
-    }
     .overlay.fade-out {
-      opacity: 0;
-      transform: scale(0.95);
-      pointer-events: none;
+      opacity:0;
+      transform:scale(0.95);
+      pointer-events:none;
     }
+
     @keyframes pulseText {
-      0%, 100% { opacity: 0.8; text-shadow: 0 0 12px rgba(0, 255, 0, 0.8); }
-      50% { opacity: 1; text-shadow: 0 0 20px rgba(0, 255, 0, 1); }
+      0%,100%{opacity:0.8; text-shadow:0 0 12px rgba(0,255,0,0.8);}
+      50%{opacity:1; text-shadow:0 0 20px rgba(0,255,0,1);}
     }
   </style>
 </head>
 <body>
+
   <div class="cursor-dot" id="cursor"></div>
 
   <div class="overlay" id="overlay">Click to enter...</div>
 
   <div class="container" id="main-content">
     <h1 class="title">Fiellavin</h1>
-
     <button id="play-button" onclick="toggleMusic()">Stop Music</button>
     <input type="range" id="volume-control" min="0" max="1" step="0.01" value="0.2">
-
     <div class="social-icons" id="icons">
       <a href="https://www.youtube.com/@fiellavin" target="_blank"><i class="fab fa-youtube"></i></a>
       <a href="https://discord.com/users/317315928855543828" target="_blank"><i class="fab fa-discord"></i></a>
       <a href="https://steamcommunity.com/id/fiellavin/" target="_blank"><i class="fab fa-steam"></i></a>
     </div>
-
     <audio id="background-music" loop muted></audio>
   </div>
 
   <script>
     const overlay = document.getElementById("overlay");
     const container = document.getElementById("main-content");
-    const icons = document.getElementById("icons");
     const playButton = document.getElementById("play-button");
     const volumeControl = document.getElementById("volume-control");
     const audio = document.getElementById("background-music");
     const cursor = document.getElementById("cursor");
+    const icons = document.getElementById("icons");
     const body = document.body;
 
     const songs = [
@@ -217,61 +224,48 @@
       "songs/song7.mp3"
     ];
 
-    // Pick random song
+    // Random song
     audio.src = songs[Math.floor(Math.random() * songs.length)];
     audio.volume = 0;
 
-    // Smooth fade-in music
-    function fadeInMusic(targetVolume = parseFloat(volumeControl.value), duration = 3000) {
-      const step = targetVolume / (duration / 100);
+    // Music fade-in
+    function fadeInMusic(targetVolume = parseFloat(volumeControl.value), duration = 3000){
+      const step = targetVolume/(duration/100);
       let vol = 0;
-      const fade = setInterval(() => {
-        vol += step;
-        if (vol >= targetVolume) {
-          vol = targetVolume;
-          clearInterval(fade);
-        }
+      const fade = setInterval(()=>{
+        vol+=step;
+        if(vol>=targetVolume){ vol=targetVolume; clearInterval(fade);}
         audio.volume = vol;
-      }, 100);
+      },100);
     }
 
-    // Toggle music
-    function toggleMusic() {
-      if (audio.paused) {
-        audio.play();
-        playButton.textContent = "Stop Music";
-      } else {
-        audio.pause();
-        playButton.textContent = "Start Music";
-      }
+    // Music toggle
+    function toggleMusic(){
+      if(audio.paused){ audio.play(); playButton.textContent="Stop Music";}
+      else{ audio.pause(); playButton.textContent="Start Music";}
     }
 
     // Volume control
-    volumeControl.addEventListener("input", () => {
-      audio.volume = parseFloat(volumeControl.value);
-    });
+    volumeControl.addEventListener("input", ()=>{ audio.volume = parseFloat(volumeControl.value); });
 
     // Click to enter logic
-    overlay.addEventListener("click", async () => {
-      overlay.classList.add("fade-out"); // smooth fade-out overlay
-      container.classList.add("visible"); // fade-in main content
-
-      // delay social icons slightly after container fades
-      setTimeout(() => icons.classList.add("visible"), 500);
-
-      try {
+    overlay.addEventListener("click", async ()=>{
+      overlay.classList.add("fade-out");
+      container.classList.add("visible");
+      setTimeout(()=> icons.classList.add("visible"), 500);
+      try{
         audio.muted = false;
         await audio.play();
         fadeInMusic();
-      } catch(err) {
-        console.log("Autoplay blocked:", err);
-      }
+      }catch(err){console.log("Autoplay blocked:", err);}
     });
 
-    // Custom cursor
-    document.addEventListener("mousemove", (e) => {
-      cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+    // Cursor movement
+    document.addEventListener("mousemove", e=>{
+      cursor.style.left = e.clientX + "px";
+      cursor.style.top = e.clientY + "px";
     });
   </script>
+
 </body>
 </html>
