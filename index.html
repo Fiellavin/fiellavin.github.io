@@ -7,6 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
   <script src="https://kit.fontawesome.com/a2d9d5a64c.js" crossorigin="anonymous"></script>
   <style>
+    /* ====== GENERAL ====== */
     body {
       margin: 0;
       background-color: #182c3c;
@@ -15,11 +16,12 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      flex-direction: column;
       color: white;
       font-family: Arial, sans-serif;
     }
 
-    /* Overlay (Click to enter...) */
+    /* ====== OVERLAY ====== */
     .overlay {
       position: fixed;
       top: 0;
@@ -30,16 +32,16 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 38px;
+      font-size: 40px;
       font-family: 'Dancing Script', cursive;
       letter-spacing: 3px;
       color: #c5ffc5;
       text-shadow: 0 0 10px rgba(0, 255, 0, 0.7);
       z-index: 10;
       cursor: pointer;
-      animation: pulseText 2s infinite ease-in-out;
-      transition: opacity 2s ease;
       opacity: 1;
+      transition: opacity 2s ease;
+      animation: pulseText 2s infinite ease-in-out;
     }
 
     .overlay.fade-out {
@@ -52,36 +54,48 @@
       50% { opacity: 1; text-shadow: 0 0 20px rgba(0, 255, 0, 1); }
     }
 
-    /* Title */
+    /* ====== MAIN CONTAINER ====== */
+    .container {
+      text-align: center;
+      opacity: 0;
+      transition: opacity 1.5s ease;
+    }
+
+    .container.visible {
+      opacity: 1;
+    }
+
+    /* ====== TITLE ====== */
     .title {
       font-family: 'Dancing Script', cursive;
       font-size: 80px;
-      text-shadow: 0px 0px 15px rgba(0, 255, 0, 0.5);
+      color: #c5ffc5;
+      text-shadow: 0 0 15px rgba(0, 255, 0, 0.4);
+      margin-bottom: 20px;
       opacity: 0;
-      transform: translateY(20px);
+      transform: translateY(30px);
       transition: opacity 1.5s ease, transform 1.5s ease;
     }
 
-    .visible .title {
+    .container.visible .title {
       opacity: 1;
       transform: translateY(0);
     }
 
-    /* Social icons */
+    /* ====== SOCIAL ICONS ====== */
     .social-icons {
       display: flex;
       justify-content: center;
-      gap: 20px;
+      gap: 25px;
       margin-top: 20px;
     }
 
     .social-icons a {
       color: #a8f1a8;
-      font-size: 32px;
-      text-shadow: 0px 0px 6px rgba(0, 255, 0, 0.6);
+      font-size: 34px;
       opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 1.5s ease, transform 1.5s ease, color 0.3s ease, transform 0.3s ease;
+      transform: translateY(15px);
+      transition: opacity 1.2s ease, transform 1.2s ease, color 0.3s ease, transform 0.3s ease;
     }
 
     .social-icons a.visible {
@@ -90,8 +104,8 @@
     }
 
     .social-icons a:hover {
-      color: #fff;
-      transform: scale(1.15);
+      color: #ffffff;
+      transform: scale(1.2);
     }
   </style>
 </head>
@@ -113,25 +127,25 @@
     const socialIcons = document.querySelectorAll(".social-icons a");
 
     overlay.addEventListener("click", () => {
-      // Start fading overlay out
+      // Start fading out overlay
       overlay.classList.add("fade-out");
 
-      // Fade in title
-      container.classList.add("visible");
+      // Fade in main content
+      setTimeout(() => {
+        container.classList.add("visible");
+      }, 500);
 
-      // Start social icon fade-in after small delay (during overlay fade)
+      // Fade in icons one by one
       setTimeout(() => {
         socialIcons.forEach((icon, i) => {
-          setTimeout(() => {
-            icon.classList.add("visible");
-          }, i * 400);
+          setTimeout(() => icon.classList.add("visible"), i * 400);
         });
-      }, 1000); // begins halfway through overlay fade
+      }, 1500);
 
-      // Remove overlay after fade animation completes
+      // Remove overlay completely after fade
       setTimeout(() => {
         overlay.style.display = "none";
-      }, 2000); // matches CSS transition
+      }, 2500);
     });
   </script>
 </body>
