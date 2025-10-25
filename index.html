@@ -24,10 +24,12 @@
       min-height: 100vh;
       overflow: hidden;
       position: relative;
-      cursor: none !important;
+      cursor: none !important; /* Hide default cursor */
     }
 
-    body * { cursor: none !important; }
+    body * {
+      cursor: none !important;
+    }
 
     /* NEON BACKGROUND ANIMATION */
     body::before {
@@ -92,10 +94,14 @@
       letter-spacing: 2px;
       text-shadow: 0px 0px 8px rgba(0, 255, 0, 0.6);
       margin-bottom: 10px;
-      opacity: 0;
-      transform: translateY(-20px);
-      animation: fadeIn 2s ease forwards;
-      animation-delay: 0.5s;
+    }
+
+    /* PLAY BUTTON + SHUFFLE ICON */
+    #play-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
     }
 
     #play-button {
@@ -114,24 +120,20 @@
       transform: scale(1.05);
     }
 
-    #shuffle-button {
-      font-size: 24px;
+    #shuffle-icon {
+      font-size: 22px;
       color: #c5ffc5;
+      animation: rotate 2s linear infinite;
       cursor: pointer;
-      transition: transform 0.5s ease, color 0.3s ease;
-      text-shadow: 0 0 8px rgba(0, 255, 0, 0.6);
+      text-shadow: 0 0 6px rgba(0, 255, 0, 0.6);
     }
 
-    #shuffle-button:hover {
-      animation: rotateIcon 1s linear infinite;
-      color: #76c776;
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
 
-    @keyframes rotateIcon {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
+    /* VOLUME SLIDER */
     #volume-control {
       width: 200px;
       height: 6px;
@@ -152,6 +154,7 @@
       box-shadow: 0 0 12px rgba(0, 255, 0, 0.8);
     }
 
+    /* SOCIAL ICONS */
     .social-icons {
       display: flex;
       justify-content: center;
@@ -174,11 +177,6 @@
     .social-icons a:hover {
       color: #76c776;
       transform: scale(1.15);
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
     }
 
     /* OVERLAY */
@@ -204,8 +202,14 @@
       opacity: 1;
     }
 
-    .overlay.fade-out { opacity: 0; pointer-events: none; }
-    .overlay.hidden { display: none; }
+    .overlay.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .overlay.hidden {
+      display: none;
+    }
 
     @keyframes pulseText {
       0%, 100% { opacity: 0.8; text-shadow: 0 0 12px rgba(0, 255, 0, 0.8); }
@@ -221,9 +225,9 @@
   <div class="container" id="main-content">
     <h1 class="title">Fiellavin</h1>
 
-    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+    <div id="play-container">
       <button id="play-button" onclick="toggleMusic()">Stop Music</button>
-      <i id="shuffle-button" class="fas fa-random" title="Shuffle Song"></i>
+      <i class="fas fa-random" id="shuffle-icon" title="Shuffle Song" onclick="shuffleSong()"></i>
     </div>
 
     <input type="range" id="volume-control" min="0" max="1" step="0.01" value="0.2" />
@@ -246,7 +250,7 @@
     const cursor = document.getElementById("cursor");
     const body = document.body;
     const socialIcons = document.querySelector('.social-icons');
-    const shuffleButton = document.getElementById("shuffle-button");
+    const shuffleIcon = document.getElementById('shuffle-icon');
 
     const songs = [
       "songs/song1.mp3",
@@ -258,22 +262,25 @@
       "songs/song7.mp3"
     ];
 
-    // Pick random initial song
+    // Pick initial random song
     audio.src = songs[Math.floor(Math.random() * songs.length)];
     audio.volume = 0;
 
-    // Smooth fade-in of volume
+    // Music fade-in
     function fadeInMusic(targetVolume = parseFloat(volumeControl.value), duration = 3000) {
       const step = targetVolume / (duration / 100);
       let vol = 0;
       const fade = setInterval(() => {
         vol += step;
-        if (vol >= targetVolume) { vol = targetVolume; clearInterval(fade); }
+        if (vol >= targetVolume) {
+          vol = targetVolume;
+          clearInterval(fade);
+        }
         audio.volume = vol;
       }, 100);
     }
 
-    // Music toggle
+    // Play/pause
     function toggleMusic() {
       if (audio.paused) {
         audio.play();
@@ -284,40 +291,45 @@
       }
     }
 
+    // Shuffle song
+    function shuffleSong() {
+      const newSong = songs[Math.floor(Math.random() * songs.length)];
+      audio.src = newSong;
+      audio.play();
+    }
+
     // Volume control
     volumeControl.addEventListener("input", () => {
       audio.volume = parseFloat(volumeControl.value);
     });
 
-    // Click to enter logic
+    // Overlay click
     overlay.addEventListener("click", async () => {
-      overlay.classList.add("fade-out"); 
-      body.classList.add("fade-bg"); 
-      container.classList.add("visible"); 
-      setTimeout(() => socialIcons.classList.add("visible"), 700);
-      setTimeout(() => overlay.classList.add("hidden"), 1500);
+      overlay.classList.add("fade-out");
+      body.classList.add("fade-bg");
+      container.classList.add("visible");
+
+      overlay.addEventListener("transitionend", function handler(e) {
+        if (e.propertyName === "opacity") {
+          socialIcons.classList.add("visible");
+          overlay.classList.add("hidden");
+          overlay.removeEventListener("transitionend", handler);
+        }
+      });
 
       try {
         audio.muted = false;
         await audio.play();
         fadeInMusic();
-      } catch (err) { console.log("Autoplay blocked:", err); }
+      } catch (err) {
+        console.log("Autoplay blocked:", err);
+      }
     });
 
-    // Cursor tracking
+    // Cursor follow
     document.addEventListener("mousemove", (e) => {
       cursor.style.left = e.clientX + "px";
       cursor.style.top = e.clientY + "px";
-    });
-
-    // Shuffle button
-    shuffleButton.addEventListener("click", () => {
-      let newSong;
-      do { newSong = songs[Math.floor(Math.random() * songs.length)]; }
-      while (newSong === audio.src);
-      audio.src = newSong;
-      audio.play();
-      playButton.textContent = "Stop Music";
     });
   </script>
 </body>
