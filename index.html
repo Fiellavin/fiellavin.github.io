@@ -88,12 +88,12 @@
       cursor:pointer;
     }
     #shuffle-button {
-      width: 40px;       /* circle width */
-      height: 40px;      /* circle height */
+      width: 40px;
+      height: 40px;
       background-color: #4caf50;
       color: #fff;
       border: none;
-      border-radius: 50%;  /* makes it a perfect circle */
+      border-radius: 50%;
       font-size: 20px;
       display: flex;
       align-items: center;
@@ -105,7 +105,7 @@
     }
     #play-button:hover, #shuffle-button:hover { background-color:#388e3c; transform: scale(1.05); }
 
-    /* Highlight currently playing */
+    
     #play-button.playing {
       box-shadow: 0 0 20px 6px rgba(0,255,0,0.8);
       animation: pulseButton 1.2s infinite alternate;
@@ -115,7 +115,7 @@
       100%{ box-shadow: 0 0 30px 12px rgba(128,255,128,0.9); }
     }
 
-    /* Shuffle pulse feedback */
+    
     #shuffle-button.shuffled {
       animation: shufflePulse 0.6s ease forwards;
     }
