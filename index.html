@@ -256,7 +256,7 @@
     let newIndex;
     do {
       newIndex = Math.floor(Math.random() * songs.length);
-    } while (newIndex === currentSongIndex && songs.length > 1); // ensure different song
+    } while (newIndex === currentSongIndex && songs.length > 1);
     currentSongIndex = newIndex;
 
     audio.src = songs[currentSongIndex];
