@@ -210,80 +210,100 @@
   </div>
 
   <script>
-    const overlay = document.getElementById('overlay');
-    const container = document.getElementById('main-content');
-    const playButton = document.getElementById('play-button');
-    const shuffleButton = document.getElementById('shuffle-button');
-    const volumeControl = document.getElementById('volume-control');
-    const audio = document.getElementById('background-music');
-    const cursor = document.getElementById('cursor');
-    const body = document.body;
-    const socialAnchors = document.querySelectorAll('.social-icons a');
+  const overlay = document.getElementById('overlay');
+  const container = document.getElementById('main-content');
+  const playButton = document.getElementById('play-button');
+  const shuffleButton = document.getElementById('shuffle-button');
+  const volumeControl = document.getElementById('volume-control');
+  const audio = document.getElementById('background-music');
+  const cursor = document.getElementById('cursor');
+  const body = document.body;
+  const socialAnchors = document.querySelectorAll('.social-icons a');
 
-    const songs = [
-      "songs/song1.mp3","songs/song2.mp3","songs/song3.mp3",
-      "songs/song4.mp3","songs/song5.mp3","songs/song6.mp3","songs/song7.mp3"
-    ];
+  const songs = [
+    "songs/song1.mp3","songs/song2.mp3","songs/song3.mp3",
+    "songs/song4.mp3","songs/song5.mp3","songs/song6.mp3","songs/song7.mp3"
+  ];
 
-    audio.src = songs[Math.floor(Math.random()*songs.length)];
-    audio.volume = 0;
+  let currentSongIndex = Math.floor(Math.random() * songs.length);
+  audio.src = songs[currentSongIndex];
+  audio.volume = 0;
 
-    function fadeInMusic(targetVolume=parseFloat(volumeControl.value), duration=3000){
-      const steps = Math.max(1, Math.floor(duration/100));
-      const step = targetVolume/steps;
-      let vol=0;
-      const fade=setInterval(()=>{
-        vol+=step;
-        if(vol>=targetVolume){ vol=targetVolume; clearInterval(fade);}
-        audio.volume=Math.max(0,Math.min(1,vol));
-      },100);
-    }
+  function fadeInMusic(targetVolume = parseFloat(volumeControl.value), duration = 3000) {
+    const steps = Math.max(1, Math.floor(duration / 100));
+    const step = targetVolume / steps;
+    let vol = 0;
+    const fade = setInterval(() => {
+      vol += step;
+      if (vol >= targetVolume) { vol = targetVolume; clearInterval(fade); }
+      audio.volume = Math.max(0, Math.min(1, vol));
+    }, 100);
+  }
 
-    function toggleMusic(){
-      if(audio.paused){ audio.play().catch(()=>{}); playButton.innerHTML='<i class="fas fa-pause"></i> Stop'; playButton.classList.add('playing'); }
-      else{ audio.pause(); playButton.innerHTML='<i class="fas fa-play"></i> Start'; playButton.classList.remove('playing'); }
-    }
-
-    function shuffleSong(){
-      const newSong = songs[Math.floor(Math.random()*songs.length)];
-      audio.src = newSong;
-      audio.play().catch(()=>{});
-      playButton.innerHTML='<i class="fas fa-pause"></i> Stop';
+  function toggleMusic() {
+    if (audio.paused) {
+      audio.play().catch(() => {});
+      playButton.innerHTML = '<i class="fas fa-pause"></i> Stop';
       playButton.classList.add('playing');
-      shuffleButton.classList.add('shuffled');
-      setTimeout(()=>shuffleButton.classList.remove('shuffled'), 600);
+    } else {
+      audio.pause();
+      playButton.innerHTML = '<i class="fas fa-play"></i> Start';
+      playButton.classList.remove('playing');
     }
+  }
 
-    volumeControl.addEventListener('input', e=>{ audio.volume=parseFloat(e.target.value); });
+  function shuffleSong() {
+    let newIndex;
+    do {
+      newIndex = Math.floor(Math.random() * songs.length);
+    } while (newIndex === currentSongIndex && songs.length > 1); // ensure different song
+    currentSongIndex = newIndex;
 
-    overlay.addEventListener('click', async ()=>{
-      overlay.classList.add('fade-out');
-      container.classList.add('visible');
-      body.classList.add('fade-bg');
+    audio.src = songs[currentSongIndex];
+    audio.play().catch(() => {});
+    playButton.innerHTML = '<i class="fas fa-pause"></i> Stop';
+    playButton.classList.add('playing');
+    shuffleButton.classList.add('shuffled');
+    setTimeout(() => shuffleButton.classList.remove('shuffled'), 600);
+  }
 
-      playButton.innerHTML='<i class="fas fa-pause"></i> Stop';
-      playButton.classList.add('playing');
+  volumeControl.addEventListener('input', e => {
+    audio.volume = parseFloat(e.target.value);
+  });
 
-      setTimeout(()=>{ socialAnchors.forEach((a,i)=>setTimeout(()=>a.classList.add('visible'), i*300)); },500);
+  overlay.addEventListener('click', async () => {
+    overlay.classList.add('fade-out');
+    container.classList.add('visible');
+    body.classList.add('fade-bg');
 
-      try{
-        audio.muted=false;
-        await audio.play();
-        fadeInMusic();
-      }catch(err){ console.log(err); }
+    playButton.innerHTML = '<i class="fas fa-pause"></i> Stop';
+    playButton.classList.add('playing');
 
-      overlay.addEventListener('transitionend', function handler(ev){
-        if(ev.propertyName==='opacity'){ overlay.style.display='none'; overlay.removeEventListener('transitionend',handler); }
-      });
+    setTimeout(() => {
+      socialAnchors.forEach((a, i) => setTimeout(() => a.classList.add('visible'), i * 300));
+    }, 500);
+
+    try {
+      audio.muted = false;
+      await audio.play();
+      fadeInMusic();
+    } catch (err) { console.log(err); }
+
+    overlay.addEventListener('transitionend', function handler(ev) {
+      if (ev.propertyName === 'opacity') {
+        overlay.style.display = 'none';
+        overlay.removeEventListener('transitionend', handler);
+      }
     });
+  });
 
-    playButton.addEventListener('click', toggleMusic);
-    shuffleButton.addEventListener('click', shuffleSong);
+  playButton.addEventListener('click', toggleMusic);
+  shuffleButton.addEventListener('click', shuffleSong);
 
-    document.addEventListener('mousemove', e=>{
-      cursor.style.left=e.clientX+'px';
-      cursor.style.top=e.clientY+'px';
-    });
-  </script>
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+  });
+</script>
 </body>
 </html>
