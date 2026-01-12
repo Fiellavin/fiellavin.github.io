@@ -153,3 +153,13 @@ button:hover {
   transition: transform 0.08s ease-out;
   z-index: 1000;
 }
+
+/* Fade-out animasyonu */
+.fade-out {
+  animation: fadeOut 1.2s forwards;
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; visibility: hidden; }
+}
