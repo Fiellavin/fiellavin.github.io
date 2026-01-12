@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
 
+/* Genel ayarlar */
 body {
   margin: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -9,12 +10,12 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  cursor: none !important; /* default imleci gizle */
+  cursor: none !important; /* Windows imlecini her yerde gizle */
 }
 
 .hidden { display: none; }
 
-/* Overlay */
+/* Overlay ekranı */
 #overlay {
   position: fixed;
   top: 0; left: 0;
@@ -27,30 +28,55 @@ body {
   color: #80ff80;
   font-family: 'Dancing Script', cursive;
   z-index: 999;
-  cursor: none !important;
+  cursor: none !important; /* Overlay’de de default imleç gizli */
 }
-#cursor { animation: blink 0.7s infinite; }
-@keyframes blink { 0%{opacity:1} 50%{opacity:0} 100%{opacity:1} }
 
-/* Fade-out animasyonu */
+#cursor {
+  animation: blink 0.7s infinite;
+}
+
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* Geçiş animasyonları */
 .fade-out { animation: fadeOut 1.2s forwards; }
-@keyframes fadeOut { from{opacity:1} to{opacity:0; visibility:hidden} }
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; visibility: hidden; }
+}
 
-/* Fade-in animasyonu */
 .fade-in { animation: fadeIn 1s ease forwards; }
-@keyframes fadeIn { from{opacity:0; transform:scale(0.95);} to{opacity:1; transform:scale(1);} }
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
 
-/* Quiz container */
+/* Quiz kutusu */
 .quiz-container {
-  background: rgba(255, 255, 255, 0.05);
-  padding: 30px 30px 80px;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 30px 30px 90px; /* altta butona yer */
   width: 480px;
   border-radius: 12px;
-  box-shadow: 0 0 20px rgba(0, 255, 0, 0.4);
+  box-shadow: 0 0 20px rgba(0, 255, 0, 0.35);
   text-align: center;
   backdrop-filter: blur(6px);
   position: relative;
+}
+
+/* Quiz içindeki tüm elemanlarda default imleci kapat */
+#quiz-container, #quiz-container * {
   cursor: none !important;
+}
+
+/* Başlık */
+.quiz-container h1 {
+  margin: 0 0 10px 0;
+  font-size: 26px;
+  color: #c5ffc5;
+  text-shadow: 0 0 8px rgba(0,255,0,0.5);
 }
 
 /* Progress bar */
@@ -59,3 +85,106 @@ body {
   height: 10px;
   background: #1b5e20;
   border-radius: 5px;
+  margin: 16px 0 20px 0;
+  overflow: hidden;
+}
+
+#progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #66ff66, #80ff80);
+  box-shadow: 0 0 10px rgba(128,255,128,0.6);
+  width: 0%;
+  transition: width 0.35s ease;
+}
+
+/* Soru metni */
+.question {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 16px;
+  color: #c5ffc5;
+  text-shadow: 0 0 8px rgba(0,255,0,0.6);
+}
+
+/* Seçenekler */
+#options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.option {
+  padding: 12px;
+  background: #1b5e20;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  color: #c5ffc5;
+  font-weight: 500;
+  transition: all 0.25s ease;
+}
+
+.option:hover {
+  background: #2e7d32;
+  border-color: #66bb6a;
+  transform: scale(1.03);
+  box-shadow: 0 0 12px rgba(0,255,0,0.6);
+}
+
+.option.correct {
+  background: #1b5e20 !important;
+  border-color: #00ff00 !important;
+  box-shadow: 0 0 12px rgba(0,255,0,0.8) !important;
+  color: #c5ffc5 !important;
+}
+
+.option.wrong {
+  background: #5e1b1b !important;
+  border-color: #ff4444 !important;
+  box-shadow: 0 0 12px rgba(255,0,0,0.8) !important;
+  color: #ffcccc !important;
+}
+
+/* Next/Restart butonu – alt orta */
+#next-btn {
+  position: absolute;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+  padding: 12px 24px;
+  background: #4caf50;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 16px;
+  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 0 10px rgba(0,255,0,0.4);
+  display: none; /* JS görünür yapacak */
+}
+
+#next-btn:hover {
+  background: #388e3c;
+  transform: translateX(-50%) scale(1.05);
+  box-shadow: 0 0 14px rgba(0,255,0,0.6);
+}
+
+/* Sonuç metni */
+#result {
+  margin-top: 24px;
+  font-weight: bold;
+  font-size: 18px;
+  color: #a5d6a7;
+  text-shadow: 0 0 6px rgba(0,255,0,0.6);
+}
+
+/* Özel imleç (neon nokta) */
+.cursor-dot {
+  position: fixed;
+  width: 12px;
+  height: 12px;
+  background: #80ff80;
+  border-radius: 50%;
+  pointer-events: none;
+  box-shadow: 0 0 10px 3px rgba(128,255,128,0.6);
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+}
