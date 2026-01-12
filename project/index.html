@@ -1,3 +1,29 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Quiz Oyunu</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Overlay giriş ekranı -->
+  <div id="overlay">
+    <span id="typing"></span><span id="cursor">|</span>
+  </div>
+
+  <!-- Quiz kutusu -->
+  <div id="quiz-container" class="quiz-container hidden">
+    <h1>Quiz Oyunu</h1>
+    <div id="progress-bar"><div id="progress-fill"></div></div>
+    <div id="question" class="question"></div>
+    <div id="options"></div>
+    <button id="next-btn">Next Question</button>
+    <div id="result"></div>
+  </div>
+
+  <!-- Özel imleç -->
+  <div class="cursor-dot" id="cursor-dot"></div>
+
 <script>
   // Overlay yazı efekti
   const typingEl = document.getElementById("typing");
@@ -43,3 +69,5 @@
 
   // ... quiz kodların aynı kalıyor ...
 </script>
+</body>
+</html>
