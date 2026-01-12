@@ -75,3 +75,23 @@ button:hover {
   color: #a5d6a7;
   text-shadow: 0 0 6px rgba(0,255,0,0.6);
 }
+
+.cursor-dot {
+  position: fixed;
+  width: 12px;
+  height: 12px;
+  background: #80ff80;
+  border-radius: 50%;
+  pointer-events: none;
+  box-shadow: 0 0 10px 3px rgba(128,255,128,0.6);
+  transform: translate(-50%,-50%);
+  transition: transform 0.08s ease-out;
+  z-index: 1000;
+}
+
+.option.wrong {
+  background: #5e1b1b !important;
+  border-color: #ff4444 !important;
+  box-shadow: 0 0 12px rgba(255,0,0,0.8) !important;
+  color: #ffcccc !important;
+}
