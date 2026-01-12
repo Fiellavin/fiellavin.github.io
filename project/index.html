@@ -11,7 +11,10 @@
 
   <!-- Giriş ekranı -->
   <div class="overlay" id="overlay">
-    <span class="overlay-text">click to enter...</span>
+    <div class="overlay-content">
+      <span class="type-text" id="typeText"></span>
+      <span class="cursor"></span>
+    </div>
   </div>
 
   <!-- Quiz kutusu -->
@@ -27,21 +30,9 @@
 
   <script>
     const quizData = [
-      {
-        question: "HTML'in açılımı nedir?",
-        options: ["Hyper Text Markup Language", "High Tech Modern Language", "Home Tool Markup Language"],
-        answer: "Hyper Text Markup Language"
-      },
-      {
-        question: "CSS ne için kullanılır?",
-        options: ["Veri tabanı yönetimi", "Web sayfası tasarımı", "Programlama"],
-        answer: "Web sayfası tasarımı"
-      },
-      {
-        question: "JavaScript hangi amaçla kullanılır?",
-        options: ["Web sayfasına etkileşim eklemek", "Resim düzenlemek", "Sunucu kurmak"],
-        answer: "Web sayfasına etkileşim eklemek"
-      }
+      { question: "HTML'in açılımı nedir?", options: ["Hyper Text Markup Language", "High Tech Modern Language", "Home Tool Markup Language"], answer: "Hyper Text Markup Language" },
+      { question: "CSS ne için kullanılır?", options: ["Veri tabanı yönetimi", "Web sayfası tasarımı", "Programlama"], answer: "Web sayfası tasarımı" },
+      { question: "JavaScript hangi amaçla kullanılır?", options: ["Web sayfasına etkileşim eklemek", "Resim düzenlemek", "Sunucu kurmak"], answer: "Web sayfasına etkileşim eklemek" }
     ];
 
     let currentQuestion = 0;
@@ -104,25 +95,64 @@
     }
 
     function updateProgress() {
-      const progress = ((currentQuestion) / quizData.length) * 100;
+      const progress = (currentQuestion / quizData.length) * 100;
       document.getElementById("progress-bar").style.width = progress + "%";
     }
 
     // Özel imleç hareketi
-    const cursor = document.getElementById("cursor");
+    const cursorDot = document.getElementById("cursor");
     document.addEventListener("mousemove", e => {
-      cursor.style.left = e.clientX + "px";
-      cursor.style.top = e.clientY + "px";
+      cursorDot.style.left = e.clientX + "px";
+      cursorDot.style.top = e.clientY + "px";
     });
 
-    // Overlay click
+    // Overlay yazı animasyonu: X yaz, bekle, sil, Y yaz
     const overlay = document.getElementById("overlay");
     const quizContainer = document.getElementById("quiz-container");
-    const overlayText = document.querySelector('.overlay-text');
+    const typeTextEl = document.getElementById("typeText");
 
-    // Yazıyı zamanla değiştirme
-    setTimeout(() => { overlayText.innerText = "welcome to Fiellavin"; }, 3000);
-    setTimeout(() => { overlayText.innerText = "enjoy the quiz 🎶"; }, 6000);
+    const firstText = "click to enter...";
+    const secondText = "welcome to Fiellavin";
+    const typeSpeed = 90;
+    const deleteSpeed = 60;
+    const holdTime = 1200;
+
+    function typeText(target, text, speed) {
+      return new Promise(resolve => {
+        let i = 0;
+        const timer = setInterval(() => {
+          target.textContent = text.slice(0, i + 1);
+          i++;
+          if (i === text.length) {
+            clearInterval(timer);
+            resolve();
+          }
+        }, speed);
+      });
+    }
+
+    function deleteText(target, speed) {
+      return new Promise(resolve => {
+        let text = target.textContent;
+        const timer = setInterval(() => {
+          text = text.slice(0, -1);
+          target.textContent = text;
+          if (text.length === 0) {
+            clearInterval(timer);
+            resolve();
+          }
+        }, speed);
+      });
+    }
+
+    async function runOverlaySequence() {
+      await typeText(typeTextEl, firstText, typeSpeed);
+      await new Promise(r => setTimeout(r, holdTime));
+      await deleteText(typeTextEl, deleteSpeed);
+      await typeText(typeTextEl, secondText, typeSpeed);
+    }
+
+    runOverlaySequence();
 
     overlay.addEventListener("click", () => {
       overlay.classList.add("fade-out");
