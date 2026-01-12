@@ -1,15 +1,24 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <link rel="stylesheet" type="text/css" href="style.css">
   <meta charset="UTF-8">
   <title>Quiz Oyunu</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
   <!-- Özel imleç -->
   <div class="cursor-dot" id="cursor"></div>
 
-  <div class="quiz-container">
+  <!-- Giriş ekranı -->
+  <div class="overlay" id="overlay">
+    <span class="overlay-text">click to enter...</span>
+  </div>
+
+  <!-- Quiz kutusu -->
+  <div class="quiz-container" id="quiz-container" style="display:none;">
+    <div class="progress-container">
+      <div class="progress-bar" id="progress-bar"></div>
+    </div>
     <div id="question" class="question"></div>
     <div id="options"></div>
     <button id="next-btn" onclick="nextQuestion()">Sonraki Soru</button>
@@ -50,10 +59,10 @@
         btn.onclick = () => checkAnswer(opt, btn);
         optionsDiv.appendChild(btn);
       });
+      updateProgress();
     }
 
     function checkAnswer(selected, element) {
-      // Tüm seçenekleri kilitle
       const allOptions = document.querySelectorAll(".option");
       allOptions.forEach(opt => opt.onclick = null);
 
@@ -73,13 +82,11 @@
         document.getElementById("result").innerText = "";
         loadQuestion();
       } else {
-        // Quiz bitti
         const percentage = Math.round((score / quizData.length) * 100);
         document.getElementById("question").innerText = "Quiz Bitti!";
         document.getElementById("options").innerHTML = "";
         document.getElementById("result").innerText = `Skorunuz: ${score}/${quizData.length} (${percentage}%)`;
 
-        // Butonu "Baştan Başla" yap
         const nextBtn = document.getElementById("next-btn");
         nextBtn.innerText = "Baştan Başla";
         nextBtn.onclick = restartQuiz;
@@ -96,6 +103,11 @@
       loadQuestion();
     }
 
+    function updateProgress() {
+      const progress = ((currentQuestion) / quizData.length) * 100;
+      document.getElementById("progress-bar").style.width = progress + "%";
+    }
+
     // Özel imleç hareketi
     const cursor = document.getElementById("cursor");
     document.addEventListener("mousemove", e => {
@@ -103,7 +115,20 @@
       cursor.style.top = e.clientY + "px";
     });
 
-    loadQuestion();
+    // Overlay click
+    const overlay = document.getElementById("overlay");
+    const quizContainer = document.getElementById("quiz-container");
+    const overlayText = document.querySelector('.overlay-text');
+
+    // Yazıyı zamanla değiştirme
+    setTimeout(() => { overlayText.innerText = "welcome to Fiellavin"; }, 3000);
+    setTimeout(() => { overlayText.innerText = "enjoy the quiz 🎶"; }, 6000);
+
+    overlay.addEventListener("click", () => {
+      overlay.classList.add("fade-out");
+      quizContainer.style.display = "block";
+      loadQuestion();
+    });
   </script>
 </body>
 </html>
