@@ -13,7 +13,7 @@ body {
 
 .hidden { display: none; }
 
-/* Overlay – imleci gizle ve yazı */
+/* Overlay */
 #overlay {
   position: fixed;
   top: 0; left: 0;
@@ -26,7 +26,7 @@ body {
   color: #80ff80;
   font-family: 'Dancing Script', cursive;
   z-index: 999;
-  cursor: none !important;
+  cursor: none !important; /* default imleci gizle */
 }
 #cursor { animation: blink 0.7s infinite; }
 @keyframes blink { 0%{opacity:1} 50%{opacity:0} 100%{opacity:1} }
@@ -38,13 +38,14 @@ body {
 /* Quiz container */
 .quiz-container {
   background: rgba(255, 255, 255, 0.05);
-  padding: 30px 30px 80px; /* altta butona yer */
+  padding: 30px 30px 80px;
   width: 480px;
   border-radius: 12px;
   box-shadow: 0 0 20px rgba(0, 255, 0, 0.4);
   text-align: center;
   backdrop-filter: blur(6px);
   position: relative;
+  cursor: none !important; /* default imleci gizle */
 }
 
 /* Progress bar */
@@ -67,76 +68,4 @@ body {
 .question {
   font-size: 22px;
   font-weight: bold;
-  margin-bottom: 20px;
-  color: #c5ffc5;
-  text-shadow: 0 0 8px rgba(0,255,0,0.6);
-}
-
-.option {
-  display: block;
-  margin: 12px 0;
-  padding: 12px;
-  background: #1b5e20;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  border: 2px solid transparent;
-  color: #c5ffc5;
-  font-weight: 500;
-}
-.option:hover {
-  background: #2e7d32;
-  border-color: #66bb6a;
-  transform: scale(1.03);
-  box-shadow: 0 0 12px rgba(0,255,0,0.6);
-}
-.option.correct {
-  background: #1b5e20 !important;
-  border-color: #00ff00 !important;
-  box-shadow: 0 0 12px rgba(0,255,0,0.8) !important;
-  color: #c5ffc5 !important;
-}
-.option.wrong {
-  background: #5e1b1b !important;
-  border-color: #ff4444 !important;
-  box-shadow: 0 0 12px rgba(255,0,0,0.8) !important;
-  color: #ffcccc !important;
-}
-
-/* Next/Restart – alt orta, sabit */
-#next-btn {
-  position: absolute;
-  left: 50%;
-  bottom: 20px;
-  transform: translateX(-50%);
-  padding: 12px 24px;
-  background: #4caf50;
-  border: none;
-  border-radius: 8px;
-  color: #fff;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
-  box-shadow: 0 0 10px rgba(0,255,0,0.4);
-  display: none; /* JS açacak */
-}
-#next-btn:hover { background: #388e3c; transform: translateX(-50%) scale(1.05); }
-
-#result {
-  margin-top: 25px;
-  font-weight: bold;
-  font-size: 18px;
-  color: #a5d6a7;
-  text-shadow: 0 0 6px rgba(0,255,0,0.6);
-}
-
-/* Özel imleç */
-.cursor-dot {
-  position: fixed;
-  width: 12px; height: 12px;
-  background: #80ff80;
-  border-radius: 50%;
-  pointer-events: none;
-  box-shadow: 0 0 10px 3px rgba(128,255,128,0.6);
-  z-index: 1000;
-}
+  margin-bottom:
