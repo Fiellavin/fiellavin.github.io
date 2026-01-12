@@ -1,0 +1,110 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Quiz Oyunu</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f4f4f4;
+    }
+    .quiz-container {
+      background: #fff;
+      padding: 20px;
+      margin: 50px auto;
+      width: 400px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+    .question {
+      font-size: 18px;
+      margin-bottom: 15px;
+    }
+    .option {
+      display: block;
+      margin: 8px 0;
+      padding: 10px;
+      background: #eee;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .option:hover {
+      background: #ddd;
+    }
+    #result {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <div id="question" class="question"></div>
+    <div id="options"></div>
+    <button onclick="nextQuestion()">Sonraki Soru</button>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        question: "HTML'in açılımı nedir?",
+        options: ["Hyper Text Markup Language", "High Tech Modern Language", "Home Tool Markup Language"],
+        answer: "Hyper Text Markup Language"
+      },
+      {
+        question: "CSS ne için kullanılır?",
+        options: ["Veri tabanı yönetimi", "Web sayfası tasarımı", "Programlama"],
+        answer: "Web sayfası tasarımı"
+      },
+      {
+        question: "JavaScript hangi amaçla kullanılır?",
+        options: ["Web sayfasına etkileşim eklemek", "Resim düzenlemek", "Sunucu kurmak"],
+        answer: "Web sayfasına etkileşim eklemek"
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    function loadQuestion() {
+      const q = quizData[currentQuestion];
+      document.getElementById("question").innerText = q.question;
+      const optionsDiv = document.getElementById("options");
+      optionsDiv.innerHTML = "";
+      q.options.forEach(opt => {
+        const btn = document.createElement("div");
+        btn.innerText = opt;
+        btn.classList.add("option");
+        btn.onclick = () => checkAnswer(opt);
+        optionsDiv.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(selected) {
+      if (selected === quizData[currentQuestion].answer) {
+        score++;
+        document.getElementById("result").innerText = "Doğru! ✅";
+      } else {
+        document.getElementById("result").innerText = "Yanlış ❌";
+      }
+    }
+
+    function nextQuestion() {
+      currentQuestion++;
+      if (currentQuestion < quizData.length) {
+        document.getElementById("result").innerText = "";
+        loadQuestion();
+      } else {
+        document.getElementById("question").innerText = "Quiz Bitti!";
+        document.getElementById("options").innerHTML = "";
+        document.getElementById("result").innerText = `Skorunuz: ${score}/${quizData.length}`;
+      }
+    }
+
+    loadQuestion();
+  </script>
+</body>
+</html>
