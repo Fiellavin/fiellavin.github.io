@@ -11,9 +11,10 @@
     <span id="typing"></span><span id="cursor">|</span>
   </div>
 
-  <!-- Quiz container -->
+  <!-- Quiz kutusu -->
   <div id="quiz-container" class="quiz-container hidden">
     <h1>Quiz Oyunu</h1>
+    <div id="progress-bar"><div id="progress-fill"></div></div>
     <div id="question" class="question"></div>
     <div id="options"></div>
     <button id="next-btn">Next Question</button>
@@ -24,7 +25,7 @@
   <div class="cursor-dot" id="cursor-dot"></div>
 
   <script>
-    // Overlay typing effect
+    // Overlay yazı efekti
     const typingEl = document.getElementById("typing");
     const overlay = document.getElementById("overlay");
     const quizContainer = document.getElementById("quiz-container");
@@ -56,14 +57,13 @@
     }
     typeEffect();
 
-    // Overlay mouse click ile kapanacak
     overlay.addEventListener("click", () => {
       overlay.style.display = "none";
       quizContainer.classList.remove("hidden");
       showQuestion();
     });
 
-    // Quiz logic
+    // Quiz verileri
     const questions = [
       { q: "HTML açılımı nedir?", options: ["Hyper Text Markup Language", "Home Tool Markup Language", "Hyperlinks Text Management Language"], answer: 0 },
       { q: "CSS ne için kullanılır?", options: ["Veritabanı", "Stil", "Sunucu"], answer: 1 },
@@ -72,13 +72,16 @@
 
     let currentQuestion = 0;
     let score = 0;
+    let answered = false;
 
     const questionEl = document.getElementById("question");
     const optionsEl = document.getElementById("options");
     const nextBtn = document.getElementById("next-btn");
     const resultEl = document.getElementById("result");
+    const progressFill = document.getElementById("progress-fill");
 
     function showQuestion() {
+      answered = false;
       let q = questions[currentQuestion];
       questionEl.textContent = q.q;
       optionsEl.innerHTML = "";
@@ -87,6 +90,8 @@
         btn.textContent = opt;
         btn.className = "option";
         btn.onclick = () => {
+          if (answered) return;
+          answered = true;
           if (i === q.answer) {
             score++;
             btn.classList.add("correct");
@@ -98,6 +103,12 @@
         optionsEl.appendChild(btn);
       });
       nextBtn.style.display = "none";
+      updateProgress();
+    }
+
+    function updateProgress() {
+      let percent = ((currentQuestion) / questions.length) * 100;
+      progressFill.style.width = percent + "%";
     }
 
     nextBtn.onclick = () => {
@@ -106,7 +117,7 @@
         showQuestion();
       } else {
         let percentage = Math.round((score / questions.length) * 100);
-        resultEl.textContent = `Quiz bitti! Skorunuz: ${percentage}%`;
+        resultEl.textContent = `Quiz bitti! Skorunuz: ${score}/${questions.length} (${percentage}%)`;
         nextBtn.textContent = "Restart";
         nextBtn.onclick = restartQuiz;
       }
@@ -123,7 +134,7 @@
           showQuestion();
         } else {
           let percentage = Math.round((score / questions.length) * 100);
-          resultEl.textContent = `Quiz bitti! Skorunuz: ${percentage}%`;
+          resultEl.textContent = `Quiz bitti! Skorunuz: ${score}/${questions.length} (${percentage}%)`;
           nextBtn.textContent = "Restart";
           nextBtn.onclick = restartQuiz;
         }
@@ -131,7 +142,7 @@
       showQuestion();
     }
 
-    // Özel imleç hareketi
+    // Özel imleç
     const cursorDot = document.getElementById("cursor-dot");
     document.addEventListener("mousemove", e => {
       cursorDot.style.left = e.pageX + "px";
