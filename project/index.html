@@ -6,6 +6,9 @@
   <title>Quiz Oyunu</title>
 </head>
 <body>
+  <!-- Özel imleç -->
+  <div class="cursor-dot" id="cursor"></div>
+
   <div class="quiz-container">
     <div id="question" class="question"></div>
     <div id="options"></div>
@@ -44,17 +47,20 @@
         const btn = document.createElement("div");
         btn.innerText = opt;
         btn.classList.add("option");
-        btn.onclick = () => checkAnswer(opt);
+        btn.onclick = () => checkAnswer(opt, btn);
         optionsDiv.appendChild(btn);
       });
     }
 
-    function checkAnswer(selected) {
+    function checkAnswer(selected, element) {
       if (selected === quizData[currentQuestion].answer) {
         score++;
         document.getElementById("result").innerText = "Doğru! ✅";
+        element.style.boxShadow = "0 0 12px rgba(0,255,0,0.8)";
+        element.style.borderColor = "#00ff00";
       } else {
         document.getElementById("result").innerText = "Yanlış ❌";
+        element.classList.add("wrong"); // kırmızı glow için CSS sınıfı
       }
     }
 
@@ -69,6 +75,13 @@
         document.getElementById("result").innerText = `Skorunuz: ${score}/${quizData.length}`;
       }
     }
+
+    // Özel imleç hareketi
+    const cursor = document.getElementById("cursor");
+    document.addEventListener("mousemove", e => {
+      cursor.style.left = e.clientX + "px";
+      cursor.style.top = e.clientY + "px";
+    });
 
     loadQuestion();
   </script>
