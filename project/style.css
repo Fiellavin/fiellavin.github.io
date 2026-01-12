@@ -15,21 +15,21 @@ body {
   overflow: hidden;
 }
 
-/* Partikül efekt */
+/* Daha yoğun partikül efekt */
 body::before {
   content: "";
   position: fixed;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  background: radial-gradient(circle, rgba(128,255,128,0.15) 2px, transparent 3px);
-  background-size: 80px 80px;
-  animation: moveParticles 20s linear infinite;
+  background: radial-gradient(circle, rgba(128,255,128,0.2) 2px, transparent 3px);
+  background-size: 40px 40px; /* daha sık partiküller */
+  animation: moveParticles 12s linear infinite;
   z-index: -1;
 }
 
 @keyframes moveParticles {
   from { background-position: 0 0; }
-  to { background-position: 200px 200px; }
+  to { background-position: 400px 400px; } /* daha hızlı kayma */
 }
 
 .hidden { display: none; }
