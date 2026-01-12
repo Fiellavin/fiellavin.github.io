@@ -10,7 +10,7 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  cursor: none !important; /* Windows imlecini her yerde gizle */
+  cursor: none !important; /* Windows imlecini gizle */
 }
 
 .hidden { display: none; }
@@ -28,7 +28,7 @@ body {
   color: #80ff80;
   font-family: 'Dancing Script', cursive;
   z-index: 999;
-  cursor: none !important; /* Overlay’de de default imleç gizli */
+  cursor: none !important;
 }
 
 #cursor {
