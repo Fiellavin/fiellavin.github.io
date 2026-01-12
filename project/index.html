@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Quiz Oyunu</title>
+  <title>Quiz Game</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,7 +13,7 @@
 
   <!-- Quiz kutusu -->
   <div id="quiz-container" class="quiz-container hidden">
-    <h1>Quiz Oyunu</h1>
+    <h1>Quiz Game</h1>
     <div id="progress-bar"><div id="progress-fill"></div></div>
     <div id="question" class="question"></div>
     <div id="options"></div>
@@ -30,7 +30,7 @@
     const overlay = document.getElementById("overlay");
     const quizContainer = document.getElementById("quiz-container");
 
-    const texts = ["Click to start...", "Başlamak için tıklayın...", "Kliko me fillu..."];
+    const texts = ["Click to start...", "Press to begin...", "Ready to play?"];
     let textIndex = 0, charIndex = 0, deleting = false;
 
     function typeEffect() {
@@ -81,7 +81,6 @@
       { q: "Which HTML element is used to insert an image?", options: ["<img>", "<picture>", "<src>"], answer: 0 }
     ];
 
-
     let currentQuestion = 0;
     let score = 0;
     let answered = false;
@@ -119,6 +118,7 @@
           });
 
           nextBtn.style.display = "block";
+          updateProgress(); // cevap verildiğinde progress güncelle
         });
         optionsEl.appendChild(optEl);
       });
@@ -128,7 +128,7 @@
     }
 
     function updateProgress() {
-      const percent = (currentQuestion / questions.length) * 100;
+      const percent = ((currentQuestion + (answered ? 1 : 0)) / questions.length) * 100;
       progressFill.style.width = percent + "%";
     }
 
@@ -138,7 +138,7 @@
         showQuestion();
       } else {
         const percentage = Math.round((score / questions.length) * 100);
-        resultEl.textContent = `Quiz bitti! Skorunuz: ${score}/${questions.length} (${percentage}%)`;
+        resultEl.textContent = `Quiz finished! Your score: ${score}/${questions.length} (${percentage}%)`;
         nextBtn.textContent = "Restart";
         nextBtn.onclick = restartQuiz;
       }
@@ -156,7 +156,7 @@
           showQuestion();
         } else {
           const percentage = Math.round((score / questions.length) * 100);
-          resultEl.textContent = `Quiz bitti! Skorunuz: ${score}/${questions.length} (${percentage}%)`;
+          resultEl.textContent = `Quiz finished! Your score: ${score}/${questions.length} (${percentage}%)`;
           nextBtn.textContent = "Restart";
           nextBtn.onclick = restartQuiz;
         }
