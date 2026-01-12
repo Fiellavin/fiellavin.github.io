@@ -14,14 +14,10 @@
   <!-- Quiz kutusu -->
   <div id="quiz-container" class="quiz-container hidden">
     <h1>Quiz Oyunu</h1>
-
     <div id="progress-bar"><div id="progress-fill"></div></div>
-
     <div id="question" class="question"></div>
     <div id="options"></div>
-
     <button id="next-btn">Next Question</button>
-
     <div id="result"></div>
   </div>
 
@@ -59,15 +55,17 @@
     }
     typeEffect();
 
-    // Overlay fade-out: pointer-events kapat, sonra tamamen gizle
+    // Overlay fade-out
     overlay.addEventListener("click", () => {
-      overlay.style.pointerEvents = "none";     // mouse olayları engellenmesin
-      overlay.classList.add("fade-out");        // animasyonu başlat
+      overlay.style.pointerEvents = "none";
+      overlay.classList.add("fade-out");
       setTimeout(() => {
-        overlay.style.display = "none";         // tamamen kaldır
+        overlay.style.display = "none";
         quizContainer.classList.remove("hidden");
+        document.body.style.cursor = "none"; // default imleci gizle
+        cursorDot.style.display = "block";   // özel imleci aç
         showQuestion();
-      }, 1200); // CSS animasyon süresiyle senkron
+      }, 1200);
     });
 
     // Quiz verileri
@@ -101,7 +99,6 @@
           if (answered) return;
           answered = true;
 
-          // doğru/yanlış işaretle
           if (i === q.answer) {
             score++;
             optEl.classList.add("correct");
@@ -109,7 +106,6 @@
             optEl.classList.add("wrong");
           }
 
-          // diğerlerini kilitle ve doğru cevabı göster
           Array.from(optionsEl.children).forEach((child, idx) => {
             child.style.pointerEvents = "none";
             if (idx === q.answer) child.classList.add("correct");
@@ -125,7 +121,6 @@
     }
 
     function updateProgress() {
-      // aktif soru dahil değilken doluluk: currentQuestion / total
       const percent = (currentQuestion / questions.length) * 100;
       progressFill.style.width = percent + "%";
     }
@@ -162,18 +157,18 @@
       showQuestion();
     }
 
-    // Özel imleç: akıcı takip (RAF), client koordinatları
+    // Özel imleç akıcı takip
     const cursorDot = document.getElementById("cursor-dot");
+    let targetX = 0, targetY = 0, curX = 0, curY = 0;
     document.addEventListener("mousemove", (e) => {
-    cursorDot.style.left = e.clientX + "px";
-    cursorDot.style.top = e.clientY + "px";
+      targetX = e.clientX;
+      targetY = e.clientY;
     });
-
     function animateCursor() {
-      // küçük bir easing ile yumuşat
       curX += (targetX - curX) * 0.35;
       curY += (targetY - curY) * 0.35;
-      cursorDot.style.transform = `translate(${curX - 6}px, ${curY - 6}px)`; // -6 yarıçap dengeleme
+      cursorDot.style.left = curX + "px";
+      cursorDot.style.top = curY + "px";
       requestAnimationFrame(animateCursor);
     }
     animateCursor();
