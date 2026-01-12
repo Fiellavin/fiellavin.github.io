@@ -12,7 +12,7 @@
   <div class="quiz-container">
     <div id="question" class="question"></div>
     <div id="options"></div>
-    <button onclick="nextQuestion()">Sonraki Soru</button>
+    <button id="next-btn" onclick="nextQuestion()">Sonraki Soru</button>
     <div id="result"></div>
   </div>
 
@@ -60,10 +60,10 @@
       if (selected === quizData[currentQuestion].answer) {
         score++;
         document.getElementById("result").innerText = "Doğru! ✅";
-        element.classList.add("correct"); // yeşil glow
+        element.classList.add("correct");
       } else {
         document.getElementById("result").innerText = "Yanlış ❌";
-        element.classList.add("wrong"); // kırmızı glow
+        element.classList.add("wrong");
       }
     }
 
@@ -73,13 +73,30 @@
         document.getElementById("result").innerText = "";
         loadQuestion();
       } else {
+        // Quiz bitti
+        const percentage = Math.round((score / quizData.length) * 100);
         document.getElementById("question").innerText = "Quiz Bitti!";
         document.getElementById("options").innerHTML = "";
-        document.getElementById("result").innerText = `Skorunuz: ${score}/${quizData.length}`;
+        document.getElementById("result").innerText = `Skorunuz: ${score}/${quizData.length} (${percentage}%)`;
+
+        // Butonu "Baştan Başla" yap
+        const nextBtn = document.getElementById("next-btn");
+        nextBtn.innerText = "Baştan Başla";
+        nextBtn.onclick = restartQuiz;
       }
     }
 
-    // Özel imleç hareketi (ikinci imleç oluşturma kaldırıldı!)
+    function restartQuiz() {
+      currentQuestion = 0;
+      score = 0;
+      document.getElementById("result").innerText = "";
+      const nextBtn = document.getElementById("next-btn");
+      nextBtn.innerText = "Sonraki Soru";
+      nextBtn.onclick = nextQuestion;
+      loadQuestion();
+    }
+
+    // Özel imleç hareketi
     const cursor = document.getElementById("cursor");
     document.addEventListener("mousemove", e => {
       cursor.style.left = e.clientX + "px";
