@@ -117,8 +117,15 @@
             if (idx === q.answer) child.classList.add("correct");
           });
 
+          // 👇 Son sorudaysa buton "End Quiz" yazacak
+          if (currentQuestion === questions.length - 1) {
+            nextBtn.textContent = "End Quiz";
+          } else {
+            nextBtn.textContent = "Next Question";
+          }
+
           nextBtn.style.display = "block";
-          updateProgress(); // cevap verildiğinde progress güncelle
+          updateProgress();
         });
         optionsEl.appendChild(optEl);
       });
