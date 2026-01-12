@@ -11,11 +11,9 @@ body {
   min-height: 100vh;
   cursor: none !important;
 }
+body * { cursor: none !important; }
 
-body * {
-  cursor: none !important;
-}
-
+/* Quiz kutusu */
 .quiz-container {
   background: rgba(255, 255, 255, 0.05);
   padding: 30px;
@@ -26,7 +24,6 @@ body * {
   text-align: center;
   backdrop-filter: blur(6px);
 }
-
 .question {
   font-size: 22px;
   font-weight: bold;
@@ -34,7 +31,6 @@ body * {
   color: #c5ffc5;
   text-shadow: 0 0 8px rgba(0,255,0,0.6);
 }
-
 .option {
   display: block;
   margin: 12px 0;
@@ -47,14 +43,12 @@ body * {
   color: #c5ffc5;
   font-weight: 500;
 }
-
 .option:hover {
   background: #2e7d32;
   border-color: #66bb6a;
   transform: scale(1.05);
   box-shadow: 0 0 12px rgba(0,255,0,0.6);
 }
-
 button {
   margin-top: 20px;
   padding: 12px 20px;
@@ -67,12 +61,10 @@ button {
   transition: background 0.3s ease, transform 0.2s ease;
   box-shadow: 0 0 10px rgba(0,255,0,0.4);
 }
-
 button:hover {
   background: #388e3c;
   transform: scale(1.05);
 }
-
 #result {
   margin-top: 25px;
   font-weight: bold;
@@ -86,69 +78,4 @@ button:hover {
   position: fixed;
   width: 12px;
   height: 12px;
-  background: #80ff80;
-  border-radius: 50%;
-  pointer-events: none;
-  box-shadow: 0 0 10px 3px rgba(128,255,128,0.6);
-  transform: translate(-50%,-50%);
-  transition: transform 0.08s ease-out;
-  z-index: 1000;
-}
-
-/* Doğru / Yanlış efektleri */
-.option.correct {
-  background: #1b5e20 !important;
-  border-color: #00ff00 !important;
-  box-shadow: 0 0 12px rgba(0,255,0,0.8) !important;
-  color: #c5ffc5 !important;
-}
-
-.option.wrong {
-  background: #5e1b1b !important;
-  border-color: #ff4444 !important;
-  box-shadow: 0 0 12px rgba(255,0,0,0.8) !important;
-  color: #ffcccc !important;
-}
-
-/* Progress bar */
-.progress-container {
-  width: 100%;
-  background: #333;
-  border-radius: 8px;
-  margin: 15px 0;
-  height: 20px;
-  overflow: hidden;
-}
-.progress-bar {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, #4caf50, #81c784);
-  transition: width 0.4s ease;
-}
-
-/* Overlay giriş ekranı */
-.overlay {
-  position: fixed;
-  top:0; left:0;
-  width:100%; height:100%;
-  background: rgba(0,0,0,0.92);
-  color:#c5ffc5;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:38px;
-  font-family:'Dancing Script', cursive;
-  letter-spacing:3px;
-  text-shadow:0 0 10px rgba(0,255,0,0.7);
-  z-index:10;
-  cursor:pointer;
-  animation:pulseText 2s infinite ease-in-out;
-  opacity:1;
-  transition: opacity 1.8s ease;
-}
-.overlay.fade-out{ opacity:0; pointer-events:none; }
-
-@keyframes pulseText{
-  0%,100%{ opacity:0.8; text-shadow:0 0 12px rgba(0,255,0,0.8);}
-  50%{ opacity:1; text-shadow:0 0 20px rgba(0,255,0,1);}
-}
+  background
