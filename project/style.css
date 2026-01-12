@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
 
-/* Genel ayarlar */
 body {
   margin: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -15,26 +14,24 @@ body {
   overflow: hidden;
 }
 
-/* Daha yoğun partikül efekt */
 body::before {
   content: "";
   position: fixed;
   top: 0; left: 0;
   width: 100%; height: 100%;
   background: radial-gradient(circle, rgba(128,255,128,0.2) 2px, transparent 3px);
-  background-size: 40px 40px; /* daha sık partiküller */
+  background-size: 40px 40px;
   animation: moveParticles 12s linear infinite;
   z-index: -1;
 }
 
 @keyframes moveParticles {
   from { background-position: 0 0; }
-  to { background-position: 400px 400px; } /* daha hızlı kayma */
+  to { background-position: 400px 400px; }
 }
 
 .hidden { display: none; }
 
-/* Overlay ekranı */
 #overlay {
   position: fixed;
   top: 0; left: 0;
@@ -53,14 +50,12 @@ body::before {
 #cursor { animation: blink 0.7s infinite; }
 @keyframes blink { 0%{opacity:1} 50%{opacity:0} 100%{opacity:1} }
 
-/* Geçiş animasyonları */
 .fade-out { animation: fadeOut 1.2s forwards; }
 @keyframes fadeOut { from{opacity:1} to{opacity:0; visibility:hidden} }
 
 .fade-in { animation: fadeIn 1s ease forwards; }
 @keyframes fadeIn { from{opacity:0; transform:scale(0.96);} to{opacity:1; transform:scale(1);} }
 
-/* Quiz kutusu */
 .quiz-container {
   background: rgba(255, 255, 255, 0.06);
   padding: 30px 30px 90px;
@@ -74,7 +69,6 @@ body::before {
 
 #quiz-container, #quiz-container * { cursor: none !important; }
 
-/* Başlık */
 .quiz-container h1 {
   margin: 0 0 10px 0;
   font-size: 26px;
@@ -82,7 +76,6 @@ body::before {
   text-shadow: 0 0 8px rgba(0,255,0,0.5);
 }
 
-/* Progress bar */
 #progress-bar {
   width: 100%;
   height: 10px;
@@ -100,7 +93,6 @@ body::before {
   transition: width 0.35s ease;
 }
 
-/* Soru metni */
 .question {
   font-size: 22px;
   font-weight: bold;
@@ -109,7 +101,6 @@ body::before {
   text-shadow: 0 0 8px rgba(0,255,0,0.6);
 }
 
-/* Seçenekler */
 #options { display: flex; flex-direction: column; gap: 12px; }
 
 .option {
@@ -143,7 +134,6 @@ body::before {
   color: #ffcccc !important;
 }
 
-/* Next/Restart butonu */
 #next-btn {
   position: absolute;
   left: 50%;
@@ -166,7 +156,6 @@ body::before {
   box-shadow: 0 0 14px rgba(0,255,0,0.6);
 }
 
-/* Sonuç metni */
 #result {
   margin-top: 24px;
   font-weight: bold;
@@ -175,7 +164,6 @@ body::before {
   text-shadow: 0 0 6px rgba(0,255,0,0.6);
 }
 
-/* Özel imleç */
 .cursor-dot {
   position: fixed;
   width: 12px;
