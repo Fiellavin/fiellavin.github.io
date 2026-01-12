@@ -55,15 +55,14 @@
     }
     typeEffect();
 
-    // Overlay fade-out
+    // Overlay fade-out ve quiz fade-in
     overlay.addEventListener("click", () => {
       overlay.style.pointerEvents = "none";
       overlay.classList.add("fade-out");
       setTimeout(() => {
         overlay.style.display = "none";
         quizContainer.classList.remove("hidden");
-        document.body.style.cursor = "none"; // default imleci gizle
-        cursorDot.style.display = "block";   // özel imleci aç
+        quizContainer.classList.add("fade-in");
         showQuestion();
       }, 1200);
     });
