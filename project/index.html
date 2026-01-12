@@ -3,162 +3,126 @@
 <head>
   <meta charset="UTF-8">
   <title>Quiz Oyunu</title>
-  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Özel imleç -->
-  <div class="cursor-dot" id="cursor"></div>
-
-  <!-- Giriş ekranı -->
-  <div class="overlay" id="overlay">
-    <div class="overlay-content">
-      <span class="type-text" id="typeText"></span>
-      <span class="cursor"></span>
-    </div>
+  <!-- Overlay giriş ekranı -->
+  <div id="overlay">
+    <span id="typing"></span><span id="cursor">|</span>
   </div>
 
-  <!-- Quiz kutusu -->
-  <div class="quiz-container" id="quiz-container" style="display:none;">
-    <div class="progress-container">
-      <div class="progress-bar" id="progress-bar"></div>
-    </div>
-    <div id="question" class="question"></div>
+  <!-- Quiz container -->
+  <div id="quiz-container" class="hidden">
+    <h1>Quiz Oyunu</h1>
+    <div id="question"></div>
     <div id="options"></div>
-    <button id="next-btn" onclick="nextQuestion()">Sonraki Soru</button>
+    <button id="next-btn">Next Question</button>
     <div id="result"></div>
   </div>
 
+  <!-- JavaScript kodları -->
   <script>
-    const quizData = [
-      { question: "HTML'in açılımı nedir?", options: ["Hyper Text Markup Language", "High Tech Modern Language", "Home Tool Markup Language"], answer: "Hyper Text Markup Language" },
-      { question: "CSS ne için kullanılır?", options: ["Veri tabanı yönetimi", "Web sayfası tasarımı", "Programlama"], answer: "Web sayfası tasarımı" },
-      { question: "JavaScript hangi amaçla kullanılır?", options: ["Web sayfasına etkileşim eklemek", "Resim düzenlemek", "Sunucu kurmak"], answer: "Web sayfasına etkileşim eklemek" }
+    // Overlay typing effect
+    const typingEl = document.getElementById("typing");
+    const cursorEl = document.getElementById("cursor");
+    const overlay = document.getElementById("overlay");
+    const quizContainer = document.getElementById("quiz-container");
+
+    const texts = ["X Yazısı", "Y Yazısı"];
+    let textIndex = 0;
+    let charIndex = 0;
+    let deleting = false;
+
+    function typeEffect() {
+      let currentText = texts[textIndex];
+      if (!deleting) {
+        typingEl.textContent = currentText.substring(0, charIndex + 1);
+        charIndex++;
+        if (charIndex === currentText.length) {
+          deleting = true;
+          setTimeout(typeEffect, 1000);
+          return;
+        }
+      } else {
+        typingEl.textContent = currentText.substring(0, charIndex - 1);
+        charIndex--;
+        if (charIndex === 0) {
+          deleting = false;
+          textIndex = (textIndex + 1) % texts.length;
+        }
+      }
+      setTimeout(typeEffect, deleting ? 100 : 150);
+    }
+    typeEffect();
+
+    // Quiz logic
+    const questions = [
+      { q: "HTML açılımı nedir?", options: ["Hyper Text Markup Language", "Home Tool Markup Language", "Hyperlinks Text Management Language"], answer: 0 },
+      { q: "CSS ne için kullanılır?", options: ["Veritabanı", "Stil", "Sunucu"], answer: 1 },
+      { q: "JavaScript hangi amaçla kullanılır?", options: ["Dinamik davranış", "Resim düzenleme", "Veri saklama"], answer: 0 }
     ];
 
     let currentQuestion = 0;
     let score = 0;
 
-    function loadQuestion() {
-      const q = quizData[currentQuestion];
-      document.getElementById("question").innerText = q.question;
-      const optionsDiv = document.getElementById("options");
-      optionsDiv.innerHTML = "";
-      q.options.forEach(opt => {
-        const btn = document.createElement("div");
-        btn.innerText = opt;
-        btn.classList.add("option");
-        btn.onclick = () => checkAnswer(opt, btn);
-        optionsDiv.appendChild(btn);
+    const questionEl = document.getElementById("question");
+    const optionsEl = document.getElementById("options");
+    const nextBtn = document.getElementById("next-btn");
+    const resultEl = document.getElementById("result");
+
+    function showQuestion() {
+      let q = questions[currentQuestion];
+      questionEl.textContent = q.q;
+      optionsEl.innerHTML = "";
+      q.options.forEach((opt, i) => {
+        let btn = document.createElement("button");
+        btn.textContent = opt;
+        btn.onclick = () => {
+          if (i === q.answer) score++;
+          nextBtn.style.display = "block";
+        };
+        optionsEl.appendChild(btn);
       });
-      updateProgress();
+      nextBtn.style.display = "none";
     }
 
-    function checkAnswer(selected, element) {
-      const allOptions = document.querySelectorAll(".option");
-      allOptions.forEach(opt => opt.onclick = null);
-
-      if (selected === quizData[currentQuestion].answer) {
-        score++;
-        document.getElementById("result").innerText = "Doğru! ✅";
-        element.classList.add("correct");
-      } else {
-        document.getElementById("result").innerText = "Yanlış ❌";
-        element.classList.add("wrong");
-      }
-    }
-
-    function nextQuestion() {
+    nextBtn.onclick = () => {
       currentQuestion++;
-      if (currentQuestion < quizData.length) {
-        document.getElementById("result").innerText = "";
-        loadQuestion();
+      if (currentQuestion < questions.length) {
+        showQuestion();
       } else {
-        const percentage = Math.round((score / quizData.length) * 100);
-        document.getElementById("question").innerText = "Quiz Bitti!";
-        document.getElementById("options").innerHTML = "";
-        document.getElementById("result").innerText = `Skorunuz: ${score}/${quizData.length} (${percentage}%)`;
-
-        const nextBtn = document.getElementById("next-btn");
-        nextBtn.innerText = "Baştan Başla";
+        let percentage = Math.round((score / questions.length) * 100);
+        resultEl.textContent = `Quiz bitti! Skorunuz: ${percentage}%`;
+        nextBtn.textContent = "Restart";
         nextBtn.onclick = restartQuiz;
       }
-    }
+    };
 
     function restartQuiz() {
       currentQuestion = 0;
       score = 0;
-      document.getElementById("result").innerText = "";
-      const nextBtn = document.getElementById("next-btn");
-      nextBtn.innerText = "Sonraki Soru";
-      nextBtn.onclick = nextQuestion;
-      loadQuestion();
+      resultEl.textContent = "";
+      nextBtn.textContent = "Next Question";
+      nextBtn.onclick = () => {
+        currentQuestion++;
+        if (currentQuestion < questions.length) {
+          showQuestion();
+        } else {
+          let percentage = Math.round((score / questions.length) * 100);
+          resultEl.textContent = `Quiz bitti! Skorunuz: ${percentage}%`;
+          nextBtn.textContent = "Restart";
+          nextBtn.onclick = restartQuiz;
+        }
+      };
+      showQuestion();
     }
 
-    function updateProgress() {
-      const progress = (currentQuestion / quizData.length) * 100;
-      document.getElementById("progress-bar").style.width = progress + "%";
-    }
-
-    // Özel imleç hareketi
-    const cursorDot = document.getElementById("cursor");
-    document.addEventListener("mousemove", e => {
-      cursorDot.style.left = e.clientX + "px";
-      cursorDot.style.top = e.clientY + "px";
-    });
-
-    // Overlay yazı animasyonu: X yaz, bekle, sil, Y yaz
-    const overlay = document.getElementById("overlay");
-    const quizContainer = document.getElementById("quiz-container");
-    const typeTextEl = document.getElementById("typeText");
-
-    const firstText = "click to enter...";
-    const secondText = "welcome to Fiellavin";
-    const typeSpeed = 90;
-    const deleteSpeed = 60;
-    const holdTime = 1200;
-
-    function typeText(target, text, speed) {
-      return new Promise(resolve => {
-        let i = 0;
-        const timer = setInterval(() => {
-          target.textContent = text.slice(0, i + 1);
-          i++;
-          if (i === text.length) {
-            clearInterval(timer);
-            resolve();
-          }
-        }, speed);
-      });
-    }
-
-    function deleteText(target, speed) {
-      return new Promise(resolve => {
-        let text = target.textContent;
-        const timer = setInterval(() => {
-          text = text.slice(0, -1);
-          target.textContent = text;
-          if (text.length === 0) {
-            clearInterval(timer);
-            resolve();
-          }
-        }, speed);
-      });
-    }
-
-    async function runOverlaySequence() {
-      await typeText(typeTextEl, firstText, typeSpeed);
-      await new Promise(r => setTimeout(r, holdTime));
-      await deleteText(typeTextEl, deleteSpeed);
-      await typeText(typeTextEl, secondText, typeSpeed);
-    }
-
-    runOverlaySequence();
-
-    overlay.addEventListener("click", () => {
-      overlay.classList.add("fade-out");
-      quizContainer.style.display = "block";
-      loadQuestion();
-    });
+    // Overlay kapanınca quiz başlasın
+    setTimeout(() => {
+      overlay.style.display = "none";
+      quizContainer.classList.remove("hidden");
+      showQuestion();
+    }, 6000); // 6 saniye sonra quiz açılır
   </script>
 </body>
 </html>
