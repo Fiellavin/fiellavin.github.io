@@ -81,6 +81,7 @@ button:hover {
   text-shadow: 0 0 6px rgba(0,255,0,0.6);
 }
 
+/* Özel imleç */
 .cursor-dot {
   position: fixed;
   width: 12px;
@@ -94,6 +95,7 @@ button:hover {
   z-index: 1000;
 }
 
+/* Doğru / Yanlış efektleri */
 .option.correct {
   background: #1b5e20 !important;
   border-color: #00ff00 !important;
@@ -106,4 +108,47 @@ button:hover {
   border-color: #ff4444 !important;
   box-shadow: 0 0 12px rgba(255,0,0,0.8) !important;
   color: #ffcccc !important;
+}
+
+/* Progress bar */
+.progress-container {
+  width: 100%;
+  background: #333;
+  border-radius: 8px;
+  margin: 15px 0;
+  height: 20px;
+  overflow: hidden;
+}
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #4caf50, #81c784);
+  transition: width 0.4s ease;
+}
+
+/* Overlay giriş ekranı */
+.overlay {
+  position: fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background: rgba(0,0,0,0.92);
+  color:#c5ffc5;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:38px;
+  font-family:'Dancing Script', cursive;
+  letter-spacing:3px;
+  text-shadow:0 0 10px rgba(0,255,0,0.7);
+  z-index:10;
+  cursor:pointer;
+  animation:pulseText 2s infinite ease-in-out;
+  opacity:1;
+  transition: opacity 1.8s ease;
+}
+.overlay.fade-out{ opacity:0; pointer-events:none; }
+
+@keyframes pulseText{
+  0%,100%{ opacity:0.8; text-shadow:0 0 12px rgba(0,255,0,0.8);}
+  50%{ opacity:1; text-shadow:0 0 20px rgba(0,255,0,1);}
 }
