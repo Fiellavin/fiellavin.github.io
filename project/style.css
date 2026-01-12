@@ -13,6 +13,28 @@ body {
 }
 body * { cursor: none !important; }
 
+/* Overlay giriş ekranı */
+#overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2em;
+  color: #80ff80;
+  font-family: 'Dancing Script', cursive;
+}
+#cursor {
+  animation: blink 0.7s infinite;
+}
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
 /* Quiz kutusu */
 .quiz-container {
   background: rgba(255, 255, 255, 0.05);
@@ -49,6 +71,21 @@ body * { cursor: none !important; }
   transform: scale(1.05);
   box-shadow: 0 0 12px rgba(0,255,0,0.6);
 }
+
+/* Doğru / yanlış cevap efektleri */
+.option.correct {
+  background: #1b5e20 !important;
+  border-color: #00ff00 !important;
+  box-shadow: 0 0 12px rgba(0,255,0,0.8) !important;
+  color: #c5ffc5 !important;
+}
+.option.wrong {
+  background: #5e1b1b !important;
+  border-color: #ff4444 !important;
+  box-shadow: 0 0 12px rgba(255,0,0,0.8) !important;
+  color: #ffcccc !important;
+}
+
 button {
   margin-top: 20px;
   padding: 12px 20px;
@@ -65,6 +102,7 @@ button:hover {
   background: #388e3c;
   transform: scale(1.05);
 }
+
 #result {
   margin-top: 25px;
   font-weight: bold;
@@ -78,4 +116,11 @@ button:hover {
   position: fixed;
   width: 12px;
   height: 12px;
-  background
+  background: #80ff80;
+  border-radius: 50%;
+  pointer-events: none;
+  box-shadow: 0 0 10px 3px rgba(128,255,128,0.6);
+  transform: translate(-50%,-50%);
+  transition: transform 0.08s ease-out;
+  z-index: 1000;
+}
