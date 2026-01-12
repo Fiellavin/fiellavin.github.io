@@ -38,50 +38,44 @@
     let currentQuestion = 0;
     let score = 0;
 
-    function loadQuestion() {
-      const q = quizData[currentQuestion];
-      document.getElementById("question").innerText = q.question;
-      const optionsDiv = document.getElementById("options");
-      optionsDiv.innerHTML = "";
-      q.options.forEach(opt => {
-        const btn = document.createElement("div");
-        btn.innerText = opt;
-        btn.classList.add("option");
-        btn.onclick = () => checkAnswer(opt, btn);
-        optionsDiv.appendChild(btn);
-      });
-    }
+   function loadQuestion() {
+  const q = quizData[currentQuestion];
+  document.getElementById("question").innerText = q.question;
+  const optionsDiv = document.getElementById("options");
+  optionsDiv.innerHTML = "";
+  q.options.forEach(opt => {
+    const btn = document.createElement("div");
+    btn.innerText = opt;
+    btn.classList.add("option");
+    btn.onclick = () => checkAnswer(opt, btn);
+    optionsDiv.appendChild(btn);
+  });
+}
 
-    function checkAnswer(selected, element) {
-      if (selected === quizData[currentQuestion].answer) {
-        score++;
-        document.getElementById("result").innerText = "Doğru! ✅";
-        element.style.boxShadow = "0 0 12px rgba(0,255,0,0.8)";
-        element.style.borderColor = "#00ff00";
-      } else {
-        document.getElementById("result").innerText = "Yanlış ❌";
-        element.classList.add("wrong"); // kırmızı glow için CSS sınıfı
-      }
-    }
+function checkAnswer(selected, element) {
+  // Tüm seçenekleri kilitle
+  const allOptions = document.querySelectorAll(".option");
+  allOptions.forEach(opt => opt.onclick = null);
 
-    function nextQuestion() {
-      currentQuestion++;
-      if (currentQuestion < quizData.length) {
-        document.getElementById("result").innerText = "";
-        loadQuestion();
-      } else {
-        document.getElementById("question").innerText = "Quiz Bitti!";
-        document.getElementById("options").innerHTML = "";
-        document.getElementById("result").innerText = `Skorunuz: ${score}/${quizData.length}`;
-      }
-    }
+  if (selected === quizData[currentQuestion].answer) {
+    score++;
+    document.getElementById("result").innerText = "Doğru! ✅";
+    element.classList.add("correct"); // yeşil glow
+  } else {
+    document.getElementById("result").innerText = "Yanlış ❌";
+    element.classList.add("wrong"); // kırmızı glow
+  }
+}
 
-    // Özel imleç hareketi
-    const cursor = document.getElementById("cursor");
-    document.addEventListener("mousemove", e => {
-      cursor.style.left = e.clientX + "px";
-      cursor.style.top = e.clientY + "px";
-    });
+// Özel imleç hareketi
+const cursor = document.createElement("div");
+cursor.classList.add("cursor-dot");
+document.body.appendChild(cursor);
+
+document.addEventListener("mousemove", e => {
+  cursor.style.left = e.clientX + "px";
+  cursor.style.top = e.clientY + "px";
+});
 
     loadQuestion();
   </script>
