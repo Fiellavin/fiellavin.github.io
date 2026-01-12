@@ -13,7 +13,8 @@ body {
 }
 body * { cursor: none !important; }
 
-/* Overlay giriş ekranı */
+.hidden { display: none; }
+
 #overlay {
   position: fixed;
   top: 0; left: 0;
@@ -25,6 +26,7 @@ body * { cursor: none !important; }
   font-size: 2em;
   color: #80ff80;
   font-family: 'Dancing Script', cursive;
+  z-index: 999;
 }
 #cursor {
   animation: blink 0.7s infinite;
@@ -35,17 +37,32 @@ body * { cursor: none !important; }
   100% { opacity: 1; }
 }
 
-/* Quiz kutusu */
 .quiz-container {
   background: rgba(255, 255, 255, 0.05);
   padding: 30px;
-  margin: 40px auto;
   width: 450px;
   border-radius: 12px;
   box-shadow: 0 0 20px rgba(0, 255, 0, 0.4);
   text-align: center;
   backdrop-filter: blur(6px);
+  position: relative;
 }
+
+#progress-bar {
+  width: 100%;
+  height: 10px;
+  background: #1b5e20;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+#progress-fill {
+  height: 100%;
+  background: #80ff80;
+  width: 0%;
+  transition: width 0.3s ease;
+}
+
 .question {
   font-size: 22px;
   font-weight: bold;
@@ -53,6 +70,7 @@ body * { cursor: none !important; }
   color: #c5ffc5;
   text-shadow: 0 0 8px rgba(0,255,0,0.6);
 }
+
 .option {
   display: block;
   margin: 12px 0;
@@ -71,8 +89,6 @@ body * { cursor: none !important; }
   transform: scale(1.05);
   box-shadow: 0 0 12px rgba(0,255,0,0.6);
 }
-
-/* Doğru / yanlış cevap efektleri */
 .option.correct {
   background: #1b5e20 !important;
   border-color: #00ff00 !important;
@@ -87,40 +103,4 @@ body * { cursor: none !important; }
 }
 
 button {
-  margin-top: 20px;
-  padding: 12px 20px;
-  background: #4caf50;
-  border: none;
-  border-radius: 8px;
-  color: #fff;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
-  box-shadow: 0 0 10px rgba(0,255,0,0.4);
-}
-button:hover {
-  background: #388e3c;
-  transform: scale(1.05);
-}
-
-#result {
-  margin-top: 25px;
-  font-weight: bold;
-  font-size: 18px;
-  color: #a5d6a7;
-  text-shadow: 0 0 6px rgba(0,255,0,0.6);
-}
-
-/* Özel imleç */
-.cursor-dot {
-  position: fixed;
-  width: 12px;
-  height: 12px;
-  background: #80ff80;
-  border-radius: 50%;
-  pointer-events: none;
-  box-shadow: 0 0 10px 3px rgba(128,255,128,0.6);
-  transform: translate(-50%,-50%);
-  transition: transform 0.08s ease-out;
-  z-index: 1000;
-}
+  margin-top: 
