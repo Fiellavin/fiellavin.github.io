@@ -1,13 +1,13 @@
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   text-align: center;
-  background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%);
+  background: linear-gradient(135deg, #a8e063 0%, #56ab2f 100%);
   margin: 0;
   padding: 0;
 }
 
 .quiz-container {
-  background: #fff;
+  background: #ffffff;
   padding: 30px;
   margin: 60px auto;
   width: 450px;
@@ -24,29 +24,30 @@ body {
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 20px;
-  color: #333;
+  color: #2f6627;
 }
 
 .option {
   display: block;
   margin: 10px 0;
   padding: 12px;
-  background: #f0f0f0;
+  background: #e8f5e9;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
   border: 2px solid transparent;
+  color: #2f6627;
 }
 
 .option:hover {
-  background: #dfe9f3;
-  border-color: #74ebd5;
+  background: #c8e6c9;
+  border-color: #56ab2f;
 }
 
 button {
   margin-top: 20px;
   padding: 12px 20px;
-  background: #74ebd5;
+  background: #56ab2f;
   border: none;
   border-radius: 8px;
   color: #fff;
@@ -56,12 +57,12 @@ button {
 }
 
 button:hover {
-  background: #4bb3a7;
+  background: #2f6627;
 }
 
 #result {
   margin-top: 25px;
   font-weight: bold;
   font-size: 18px;
-  color: #444;
+  color: #2f6627;
 }
