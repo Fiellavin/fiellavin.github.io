@@ -1,174 +1,77 @@
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0b3d0b;
-      color: #ffffff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      overflow: hidden;
-      position: relative;
-      cursor: none !important;
-    }
-    body * { cursor: none !important; }
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #0b3d0b;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
 
-    body::before {
-      content: '';
-      position: absolute;
-      top:0; left:0;
-      width:100%; height:100%;
-      background: radial-gradient(circle at center, rgba(30,255,30,0.15), rgba(5,5,5,0.85) 70%);
-      animation: neonGlow 6s ease-in-out infinite;
-      z-index:0;
-      opacity:0.9;
-      transition: opacity 1.2s ease;
-    }
-    body.fade-bg::before { opacity:0.9 !important; }
-    @keyframes neonGlow { 0%,100%{ filter:hue-rotate(0deg) brightness(1.1);} 50%{ filter:hue-rotate(180deg) brightness(1.3);} }
+.quiz-container {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 30px;
+  margin: 40px auto;
+  width: 450px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 255, 0, 0.4);
+  text-align: center;
+  backdrop-filter: blur(6px);
+}
 
-    .cursor-dot {
-      position: fixed;
-      width:12px; height:12px;
-      background:#80ff80;
-      border-radius:50%;
-      pointer-events:none;
-      box-shadow:0 0 10px 3px rgba(128,255,128,0.6);
-      transform: translate(-50%,-50%);
-      transition: transform 0.08s ease-out;
-      z-index:1000;
-    }
+.question {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #c5ffc5;
+  text-shadow: 0 0 8px rgba(0,255,0,0.6);
+}
 
-    .container {
-      display:flex; flex-direction:column; align-items:center; text-align:center;
-      z-index:1;
-      opacity:0; transform:translateY(30px);
-      transition: opacity 1.5s ease, transform 1.5s ease;
-    }
-    .container.visible { opacity:1; transform:translateY(0); }
+.option {
+  display: block;
+  margin: 12px 0;
+  padding: 12px;
+  background: #1b5e20;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  color: #c5ffc5;
+  font-weight: 500;
+}
 
-    .title{
-      font-size:72px;
-      font-weight:700;
-      color:#c5ffc5;
-      font-family: 'Dancing Script', 'Great Vibes', cursive;
-      letter-spacing:2px;
-      text-shadow: 0 0 8px rgba(0,255,0,0.6);
-      margin-bottom:10px;
-      opacity:0;
-      transform: translateY(-20px);
-      animation: fadeIn 2s ease forwards;
-      animation-delay:0.5s;
-    }
+.option:hover {
+  background: #2e7d32;
+  border-color: #66bb6a;
+  transform: scale(1.05);
+  box-shadow: 0 0 12px rgba(0,255,0,0.6);
+}
 
-    #play-button {
-      padding:10px 20px;
-      background-color:#4caf50;
-      color:#fff;
-      border:none;
-      border-radius:5px;
-      font-size:16px;
-      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-      margin-bottom:15px;
-      box-shadow: 0 0 10px rgba(0,255,0,0.4);
-      cursor:pointer;
-    }
-    #shuffle-button {
-      width: 40px;
-      height: 40px;
-      background-color: #4caf50;
-      color: #fff;
-      border: none;
-      border-radius: 50%;
-      font-size: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-      margin-bottom: 15px;
-      box-shadow: 0 0 10px rgba(0,255,0,0.4);
-      cursor: pointer;
-    }
-    #play-button:hover, #shuffle-button:hover { background-color:#388e3c; transform: scale(1.05); }
+button {
+  margin-top: 20px;
+  padding: 12px 20px;
+  background: #4caf50;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 0 10px rgba(0,255,0,0.4);
+}
 
-    
-    #play-button.playing {
-      box-shadow: 0 0 20px 6px rgba(0,255,0,0.8);
-      animation: pulseButton 1.2s infinite alternate;
-    }
-    @keyframes pulseButton {
-      0%{ box-shadow: 0 0 20px 6px rgba(0,255,0,0.8); }
-      100%{ box-shadow: 0 0 30px 12px rgba(128,255,128,0.9); }
-    }
+button:hover {
+  background: #388e3c;
+  transform: scale(1.05);
+}
 
-    
-    #shuffle-button.shuffled {
-      animation: shufflePulse 0.6s ease forwards;
-    }
-    @keyframes shufflePulse {
-      0%{ transform: scale(1); }
-      50%{ transform: scale(1.15); }
-      100%{ transform: scale(1); }
-    }
-
-    #volume-control{
-      width:200px; height:6px; border-radius:5px;
-      background: linear-gradient(90deg,#4caf50 0%,#81c784 100%);
-      outline:none; -webkit-appearance:none; box-shadow:0 0 10px rgba(0,255,0,0.4);
-      margin-bottom:20px;
-    }
-    #volume-control::-webkit-slider-thumb{
-      -webkit-appearance:none; width:18px;height:18px;background:#c5ffc5;border-radius:50%;
-      box-shadow:0 0 12px rgba(0,255,0,0.8);
-    }
-
-    .social-icons{
-      display:flex; justify-content:center; gap:20px;
-    }
-    .social-icons a{
-      color:#a8f1a8;
-      font-size:32px;
-      transition: color 0.3s ease, transform 0.3s ease, opacity 1.2s ease, transform 1.2s ease;
-      text-shadow: 0 0 6px rgba(0,255,0,0.6);
-      opacity:0; transform:translateY(10px);
-    }
-    .social-icons a.visible{ opacity:1; transform:translateY(0);}
-    .social-icons a:hover{ color:#76c776; transform: scale(1.15); }
-
-    @keyframes fadeIn{ from{opacity:0; transform: translateY(20px);} to{opacity:1; transform: translateY(0);} }
-
-    .overlay {
-      position:absolute; top:0; left:0; width:100%; height:100%;
-      background: rgba(0,0,0,0.92);
-      color:#c5ffc5;
-      display:flex; align-items:center; justify-content:center;
-      font-size:38px;
-      font-family:'Dancing Script', cursive;
-      letter-spacing:3px;
-      text-shadow:0 0 10px rgba(0,255,0,0.7);
-      z-index:10;
-      cursor:pointer;
-      animation:pulseText 2s infinite ease-in-out;
-      opacity:1;
-      transition: opacity 1.8s ease;
-    }
-    .overlay .overlay-text{
-      display:inline-block;
-      transition:opacity 0.9s ease;
-      opacity:1;
-    }
-    .overlay.fade-out{ opacity:0; pointer-events:none; }
-    .overlay.fade-out .overlay-text{ opacity:0; }
-
-    @keyframes pulseText{
-      0%,100%{ opacity:0.8; text-shadow:0 0 12px rgba(0,255,0,0.8);}
-      50%{ opacity:1; text-shadow:0 0 20px rgba(0,255,0,1);}
-    }
-
-    @media (max-width:520px){
-      .title{ font-size:44px; }
-      .overlay{ font-size:26px; padding:0 20px; text-align:center; }
-    }
-  </style>
+#result {
+  margin-top: 25px;
+  font-weight: bold;
+  font-size: 18px;
+  color: #a5d6a7;
+  text-shadow: 0 0 6px rgba(0,255,0,0.6);
+}
