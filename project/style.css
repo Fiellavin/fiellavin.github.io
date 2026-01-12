@@ -11,18 +11,9 @@ body {
   min-height: 100vh;
 }
 
-/* Overlay kısmında normal imleç görünsün */
-#overlay {
-  cursor: default !important;
-}
-
-/* Quiz kısmında özel imleç */
-#quiz-container, #quiz-container * {
-  cursor: none !important;
-}
-
 .hidden { display: none; }
 
+/* Overlay – imleci gizle ve yazı */
 #overlay {
   position: fixed;
   top: 0; left: 0;
@@ -37,20 +28,18 @@ body {
   z-index: 999;
   cursor: none !important;
 }
+#cursor { animation: blink 0.7s infinite; }
+@keyframes blink { 0%{opacity:1} 50%{opacity:0} 100%{opacity:1} }
 
-#cursor {
-  animation: blink 0.7s infinite;
-}
-@keyframes blink {
-  0% { opacity: 1; }
-  50% { opacity: 0; }
-  100% { opacity: 1; }
-}
+/* Fade-out animasyonu */
+.fade-out { animation: fadeOut 1.2s forwards; }
+@keyframes fadeOut { from{opacity:1} to{opacity:0; visibility:hidden} }
 
+/* Quiz container */
 .quiz-container {
   background: rgba(255, 255, 255, 0.05);
-  padding: 30px;
-  width: 450px;
+  padding: 30px 30px 80px; /* altta butona yer */
+  width: 480px;
   border-radius: 12px;
   box-shadow: 0 0 20px rgba(0, 255, 0, 0.4);
   text-align: center;
@@ -69,9 +58,10 @@ body {
 }
 #progress-fill {
   height: 100%;
-  background: #80ff80;
+  background: linear-gradient(90deg, #66ff66, #80ff80);
+  box-shadow: 0 0 10px rgba(128,255,128,0.6);
   width: 0%;
-  transition: width 0.3s ease;
+  transition: width 0.35s ease;
 }
 
 .question {
@@ -89,7 +79,7 @@ body {
   background: #1b5e20;
   border-radius: 8px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.25s ease;
   border: 2px solid transparent;
   color: #c5ffc5;
   font-weight: 500;
@@ -97,7 +87,7 @@ body {
 .option:hover {
   background: #2e7d32;
   border-color: #66bb6a;
-  transform: scale(1.05);
+  transform: scale(1.03);
   box-shadow: 0 0 12px rgba(0,255,0,0.6);
 }
 .option.correct {
@@ -113,11 +103,13 @@ body {
   color: #ffcccc !important;
 }
 
-/* Buton tasarımı */
-button {
-  display: block;
-  margin: 25px auto 0 auto; /* ortalama */
-  padding: 12px 20px;
+/* Next/Restart – alt orta, sabit */
+#next-btn {
+  position: absolute;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+  padding: 12px 24px;
   background: #4caf50;
   border: none;
   border-radius: 8px;
@@ -126,11 +118,9 @@ button {
   cursor: pointer;
   transition: background 0.3s ease, transform 0.2s ease;
   box-shadow: 0 0 10px rgba(0,255,0,0.4);
+  display: none; /* JS açacak */
 }
-button:hover {
-  background: #388e3c;
-  transform: scale(1.05);
-}
+#next-btn:hover { background: #388e3c; transform: translateX(-50%) scale(1.05); }
 
 #result {
   margin-top: 25px;
@@ -143,23 +133,10 @@ button:hover {
 /* Özel imleç */
 .cursor-dot {
   position: fixed;
-  width: 12px;
-  height: 12px;
+  width: 12px; height: 12px;
   background: #80ff80;
   border-radius: 50%;
   pointer-events: none;
   box-shadow: 0 0 10px 3px rgba(128,255,128,0.6);
-  transform: translate(-50%,-50%);
-  transition: transform 0.08s ease-out;
   z-index: 1000;
-}
-
-/* Fade-out animasyonu */
-.fade-out {
-  animation: fadeOut 1.2s forwards;
-}
-
-@keyframes fadeOut {
-  from { opacity: 1; }
-  to { opacity: 0; visibility: hidden; }
 }
