@@ -9,6 +9,11 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
+  cursor: none !important;
+}
+
+body * {
+  cursor: none !important;
 }
 
 .quiz-container {
@@ -87,6 +92,13 @@ button:hover {
   transform: translate(-50%,-50%);
   transition: transform 0.08s ease-out;
   z-index: 1000;
+}
+
+.option.correct {
+  background: #1b5e20 !important;
+  border-color: #00ff00 !important;
+  box-shadow: 0 0 12px rgba(0,255,0,0.8) !important;
+  color: #c5ffc5 !important;
 }
 
 .option.wrong {
