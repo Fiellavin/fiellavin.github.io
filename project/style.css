@@ -35,7 +35,9 @@ body {
   color: #80ff80;
   font-family: 'Dancing Script', cursive;
   z-index: 999;
+  cursor: none !important;
 }
+
 #cursor {
   animation: blink 0.7s infinite;
 }
