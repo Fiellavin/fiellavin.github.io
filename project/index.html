@@ -164,11 +164,11 @@
 
     // Özel imleç: akıcı takip (RAF), client koordinatları
     const cursorDot = document.getElementById("cursor-dot");
-    let targetX = 0, targetY = 0, curX = 0, curY = 0;
     document.addEventListener("mousemove", (e) => {
-      targetX = e.clientX;
-      targetY = e.clientY;
+    cursorDot.style.left = e.clientX + "px";
+    cursorDot.style.top = e.clientY + "px";
     });
+
     function animateCursor() {
       // küçük bir easing ile yumuşat
       curX += (targetX - curX) * 0.35;
