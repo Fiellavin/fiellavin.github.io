@@ -12,23 +12,24 @@
   </div>
 
   <!-- Quiz container -->
-  <div id="quiz-container" class="hidden">
+  <div id="quiz-container" class="quiz-container hidden">
     <h1>Quiz Oyunu</h1>
-    <div id="question"></div>
+    <div id="question" class="question"></div>
     <div id="options"></div>
     <button id="next-btn">Next Question</button>
     <div id="result"></div>
   </div>
 
-  <!-- JavaScript kodları -->
+  <!-- Özel imleç -->
+  <div class="cursor-dot" id="cursor-dot"></div>
+
   <script>
     // Overlay typing effect
     const typingEl = document.getElementById("typing");
-    const cursorEl = document.getElementById("cursor");
     const overlay = document.getElementById("overlay");
     const quizContainer = document.getElementById("quiz-container");
 
-    const texts = ["X Yazısı", "Y Yazısı"];
+    const texts = ["Click to enter...", "Welcome to Fiellavin"];
     let textIndex = 0;
     let charIndex = 0;
     let deleting = false;
@@ -55,6 +56,13 @@
     }
     typeEffect();
 
+    // Overlay mouse click ile kapanacak
+    overlay.addEventListener("click", () => {
+      overlay.style.display = "none";
+      quizContainer.classList.remove("hidden");
+      showQuestion();
+    });
+
     // Quiz logic
     const questions = [
       { q: "HTML açılımı nedir?", options: ["Hyper Text Markup Language", "Home Tool Markup Language", "Hyperlinks Text Management Language"], answer: 0 },
@@ -75,10 +83,16 @@
       questionEl.textContent = q.q;
       optionsEl.innerHTML = "";
       q.options.forEach((opt, i) => {
-        let btn = document.createElement("button");
+        let btn = document.createElement("div");
         btn.textContent = opt;
+        btn.className = "option";
         btn.onclick = () => {
-          if (i === q.answer) score++;
+          if (i === q.answer) {
+            score++;
+            btn.classList.add("correct");
+          } else {
+            btn.classList.add("wrong");
+          }
           nextBtn.style.display = "block";
         };
         optionsEl.appendChild(btn);
@@ -117,12 +131,12 @@
       showQuestion();
     }
 
-    // Overlay kapanınca quiz başlasın
-    setTimeout(() => {
-      overlay.style.display = "none";
-      quizContainer.classList.remove("hidden");
-      showQuestion();
-    }, 6000); // 6 saniye sonra quiz açılır
+    // Özel imleç hareketi
+    const cursorDot = document.getElementById("cursor-dot");
+    document.addEventListener("mousemove", e => {
+      cursorDot.style.left = e.pageX + "px";
+      cursorDot.style.top = e.pageY + "px";
+    });
   </script>
 </body>
 </html>
