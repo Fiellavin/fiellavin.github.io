@@ -2,19 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Quiz Game</title>
+  <title>Basic Questionnaire Website</title>
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="../logos/flogo.jpg" />
 </head>
 <body>
-  <!-- Overlay giriş ekranı -->
+
   <div id="overlay">
     <span id="typing"></span><span id="cursor">|</span>
   </div>
 
-  <!-- Quiz kutusu -->
   <div id="quiz-container" class="quiz-container hidden">
-    <h1>Quiz Game</h1>
+    <h1>Basic Questionnaire</h1>
     <div id="progress-bar"><div id="progress-fill"></div></div>
     <div id="question" class="question"></div>
     <div id="options"></div>
@@ -22,11 +21,9 @@
     <div id="result"></div>
   </div>
 
-  <!-- Özel imleç -->
   <div class="cursor-dot" id="cursor-dot"></div>
 
   <script>
-    // Typing effect
     const typingEl = document.getElementById("typing");
     const overlay = document.getElementById("overlay");
     const quizContainer = document.getElementById("quiz-container");
@@ -56,7 +53,6 @@
     }
     typeEffect();
 
-    // Overlay fade-out ve quiz fade-in
     overlay.addEventListener("click", () => {
       overlay.style.pointerEvents = "none";
       overlay.classList.add("fade-out");
@@ -68,7 +64,6 @@
       }, 1200);
     });
 
-    // Quiz verileri
     const questions = [
       { q: "What does HTML stand for?", options: ["Hyper Text Markup Language", "Home Tool Markup Language", "Hyperlinks Text Management Language"], answer: 0 },
       { q: "What is CSS mainly used for?", options: ["Database management", "Styling web pages", "Server setup"], answer: 1 },
@@ -118,7 +113,6 @@
             if (idx === q.answer) child.classList.add("correct");
           });
 
-          // 👇 Son sorudaysa buton "End Quiz" yazacak
           if (currentQuestion === questions.length - 1) {
             nextBtn.textContent = "End Quiz";
           } else {
@@ -171,8 +165,7 @@
       };
       showQuestion();
     }
-
-    // Özel imleç akıcı takip
+    
     const cursorDot = document.getElementById("cursor-dot");
     let targetX = 0, targetY = 0, curX = 0, curY = 0;
     document.addEventListener("mousemove", (e) => {
