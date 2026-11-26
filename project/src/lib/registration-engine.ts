@@ -241,15 +241,15 @@ export class CourseRegistrationSystem {
 
 export const SAMPLE_STATE: RegistrationState = {
   students: [
-    { id: "STU-101", name: "Arta Krasniqi", program: "Computer Science" },
-    { id: "STU-102", name: "Dren Berisha", program: "Software Engineering" },
-    { id: "STU-103", name: "Lira Gashi", program: "Data Science" },
-    { id: "STU-104", name: "Noel Morina", program: "Computer Science" },
+    { id: "STU-101", name: "Furkan Yiğit Kaya", program: "Computer Science" },
+    { id: "STU-102", name: "Esad Enis Arslan", program: "Cybersecurity" },
+    { id: "STU-103", name: "Murat Tatlı", program: "Computer Science" },
+    { id: "STU-104", name: "Oğuzhan Bakır", program: "Computer Science" },
   ],
   courses: [
     { code: "CS-201", title: "Object-Oriented Programming", capacity: 3 },
-    { code: "CS-204", title: "Data Structures & Algorithms", capacity: 2 },
-    { code: "SE-210", title: "UML & Software Design", capacity: 4 },
+    { code: "CS-202", title: "Algorithms and Data Structures", capacity: 2 },
+    { code: "SE-210", title: "Discrete Structures", capacity: 4 },
   ],
   registrations: [
     { studentId: "STU-101", courseCode: "CS-201", registeredAt: "2026-11-10" },
