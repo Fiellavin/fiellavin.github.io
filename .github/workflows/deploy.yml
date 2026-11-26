@@ -22,12 +22,21 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - run: npm install
-      - run: npx vite build
+      - name: Build the app
+        working-directory: project
+        run: |
+          npm install
+          npx vite build
+      - name: Put the app at /project/ and keep the rest of the site
+        run: |
+          mkdir _site
+          rsync -a --exclude .git --exclude .github --exclude _site --exclude project ./ _site/
+          cp -r project/dist _site/project
+          touch _site/.nojekyll
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: _site
 
   deploy:
     needs: build
