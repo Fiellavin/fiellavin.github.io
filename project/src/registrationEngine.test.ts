@@ -43,11 +43,11 @@ describe("CourseRegistrationSystem business rules", () => {
 
   it("rejects cancelling a non-existent registration without altering capacity", () => {
     const sys = new CourseRegistrationSystem(SAMPLE_STATE);
-    const beforeSeats = sys.getAvailableSeats("SE-210");
-    const res = sys.cancel("STU-104", "SE-210");
+    const beforeSeats = sys.getAvailableSeats("CS-203");
+    const res = sys.cancel("STU-104", "CS-203");
     expect(res.ok).toBe(false);
     expect(res.code).toBe("NOT_REGISTERED");
-    expect(sys.getAvailableSeats("SE-210")).toBe(beforeSeats);
+    expect(sys.getAvailableSeats("CS-203")).toBe(beforeSeats);
   });
 
   it("validates unique IDs and positive integer capacity", () => {

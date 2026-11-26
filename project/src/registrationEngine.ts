@@ -249,7 +249,7 @@ export const SAMPLE_STATE: RegistrationState = {
   courses: [
     { code: "CS-201", title: "Object-Oriented Programming", capacity: 3 },
     { code: "CS-202", title: "Algorithms and Data Structures", capacity: 2 },
-    { code: "SE-210", title: "Discrete Structures", capacity: 4 },
+    { code: "CS-203", title: "Discrete Structures", capacity: 4 },
   ],
   registrations: [
     { studentId: "STU-101", courseCode: "CS-201", registeredAt: "2026-11-10" },
