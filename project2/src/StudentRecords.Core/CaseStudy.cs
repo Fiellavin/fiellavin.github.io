@@ -19,7 +19,6 @@ public static class CaseStudy
         return bst;
     }
 
-    // Automated test checks (Task 5)
     public static List<(string Name, bool Passed)> RunTests()
     {
         var sample = Sample();

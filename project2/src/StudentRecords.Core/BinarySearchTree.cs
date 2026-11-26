@@ -85,7 +85,6 @@ public sealed class BinarySearchTree<TKey, TValue> where TKey : IComparable<TKey
         if (node.Left is null) return node.Right;
         if (node.Right is null) return node.Left;
 
-        // Two children: replace with in-order successor (minimum in right subtree)
         var successor = node.Right;
         while (successor.Left is not null) successor = successor.Left;
         node.Key = successor.Key;
