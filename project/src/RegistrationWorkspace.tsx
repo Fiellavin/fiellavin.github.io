@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
-import type { OperationResult, RegistrationState } from "../lib/registration-engine";
-import { CourseRegistrationSystem } from "../lib/registration-engine";
+import type { OperationResult, RegistrationState } from "./registrationEngine";
+import { CourseRegistrationSystem } from "./registrationEngine";
 
 interface RegistrationWorkspaceProps {
   state: RegistrationState;
@@ -67,7 +67,6 @@ export function RegistrationWorkspace({ state, activeSection, onUpdate }: Regist
 
   return (
     <div className="space-y-8">
-      {/* Quick Stats Strip */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         <div className="rounded-lg border border-border bg-card px-4 py-3.5">
           <div className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Courses Offered</div>
@@ -92,7 +91,6 @@ export function RegistrationWorkspace({ state, activeSection, onUpdate }: Regist
 
       {activeSection === "courses" && (
         <>
-          {/* Enrollment Desk */}
           <section aria-labelledby="desk-heading" className="rounded-lg border border-border bg-card p-5 sm:p-6">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div>
@@ -151,7 +149,6 @@ export function RegistrationWorkspace({ state, activeSection, onUpdate }: Regist
             </div>
           </section>
 
-          {/* Course Catalog & Rosters */}
           <section aria-labelledby="rosters-heading" className="space-y-4">
             <div className="flex flex-wrap items-baseline justify-between gap-2">
               <h2 id="rosters-heading" className="text-xl font-semibold text-foreground">

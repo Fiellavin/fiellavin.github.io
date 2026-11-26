@@ -1,38 +1,15 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import universumLogo from "../assets/universum-logo.png";
-import { RegistrationWorkspace } from "../components/RegistrationWorkspace";
+import universumLogo from "./logo.png";
+import { RegistrationWorkspace } from "./RegistrationWorkspace";
 import {
   SAMPLE_STATE,
   type OperationResult,
   type RegistrationState,
-} from "../lib/registration-engine";
+} from "./registrationEngine";
 
 const STORAGE_KEY = "universum-course-registration-v1";
 
-export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Course Registration Portal — Universum International College" },
-      {
-        name: "description",
-        content:
-          "Official Course Registration Portal for Universum International College. Register for courses, check open seats, and manage student schedules.",
-      },
-      { property: "og:title", content: "Course Registration Portal — Universum International College" },
-      {
-        property: "og:description",
-        content:
-          "Official Course Registration Portal for Universum International College. Register for courses, check open seats, and manage student schedules.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-    ],
-  }),
-  component: Index,
-});
-
-function Index() {
+export default function App() {
   const [state, setState] = useState<RegistrationState>(SAMPLE_STATE);
   const [hydrated, setHydrated] = useState(false);
   const [activeSection, setActiveSection] = useState<"courses" | "students" | "manage">("courses");
@@ -48,7 +25,7 @@ function Index() {
         }
       }
     } catch {
-      // Ignore malformed local storage
+      setState(SAMPLE_STATE);
     }
     setHydrated(true);
   }, []);
@@ -57,9 +34,7 @@ function Index() {
     if (!hydrated) return;
     try {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    } catch {
-      // Ignore storage quota errors
-    }
+    } catch {}
   }, [state, hydrated]);
 
   const handleUpdate = (next: RegistrationState, result: OperationResult) => {
@@ -80,7 +55,6 @@ function Index() {
 
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
-      {/* Top Institutional Bar */}
       <div className="h-1.5 w-full bg-primary" />
       <header className="border-b border-border bg-card">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-4 sm:px-6">
@@ -109,7 +83,6 @@ function Index() {
         </div>
       </header>
 
-      {/* Red Portal Banner */}
       <div className="bg-primary text-primary-foreground">
         <div className="mx-auto flex max-w-6xl flex-wrap items-end justify-between gap-4 px-4 py-7 sm:px-6">
           <div>

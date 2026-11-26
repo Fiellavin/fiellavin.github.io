@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { CourseRegistrationSystem, SAMPLE_STATE } from "../lib/registration-engine";
+import { CourseRegistrationSystem, SAMPLE_STATE } from "./registrationEngine";
 
 describe("CourseRegistrationSystem business rules", () => {
   it("registers an eligible student and decrements available seats", () => {
