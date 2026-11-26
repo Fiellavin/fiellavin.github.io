@@ -3,8 +3,17 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="/project/favicon.ico" type="image/x-icon" />
   <title>Student Records System</title>
   <base href="/" />
+  <script>
+    // Use the folder this page lives in as the base path, so the site works under any subfolder (e.g. /project2/).
+    (function () {
+      var path = location.pathname;
+      var dir = path.endsWith("/") ? path : path.substring(0, path.lastIndexOf("/") + 1);
+      document.querySelector("base").setAttribute("href", dir);
+    })();
+  </script>
   <link rel="stylesheet" href="css/app.css" />
 </head>
 <body>
