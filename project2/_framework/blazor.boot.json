@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "StudentRecords.Web",
   "resources": {
-    "hash": "sha256-OBmdwQmzUITTL7DXfYcw6saPcPmDtovagp5i9CM+0aA=",
+    "hash": "sha256-JbEYt09Ras7Xb+mCLPTxdJ/sl6zhWKENt8seAfF6x9U=",
     "jsModuleNative": {
       "dotnet.native.8.0.33.bb0byn1wr2.js": "sha256-1DK+nm58uZjvv7U2c/UlUp1zFjeBZnqXHFHBX/W1igo="
     },
@@ -31,7 +31,7 @@
       "Microsoft.Extensions.Primitives.wasm": "sha256-6187ynEahDlSLMBvD4vAmiLpZ3clRb5xu6rM7O8AxNo=",
       "Microsoft.JSInterop.wasm": "sha256-r9dkR5134QvSR5zRWncgwA3QgGc2mbiRwhPteP2xbpk=",
       "Microsoft.JSInterop.WebAssembly.wasm": "sha256-2bohIT7/qEC9nPtjBrESwyddQ86eqIfABSFaK7lb55A=",
-      "StudentRecords.Core.wasm": "sha256-7ljGG08qn2Ejsh8hAn3UmsTO1PtuAEkEH8MVrQx5kjM=",
+      "StudentRecords.Core.wasm": "sha256-FLxUmiLU3wuWzxlvN2ot526WzltuNuiY6WxRLc1B5fI=",
       "StudentRecords.Web.wasm": "sha256-xzYvSI0z2FKDvjZ0G43xH0CR78awelS7sj3bT3q8KpY=",
       "System.Collections.Concurrent.wasm": "sha256-RyAs6CtWAGZMg6LpwCZ3LnCNbf5LHzBGPcqsamVtSFs=",
       "System.Collections.wasm": "sha256-Sx7yiWZ9XLf4qGzi86dlT4HHcVu8Mgf7LaW8zSay4ZQ=",
