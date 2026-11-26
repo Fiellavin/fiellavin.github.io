@@ -1,0 +1,90 @@
+@page "/"
+<PageTitle>Student Records System — BST Prototype</PageTitle>
+
+<header>
+  <h1>Student Records System</h1>
+  <p>CS0315 case study · Binary Search Tree prototype running in your browser (C# / WebAssembly)</p>
+</header>
+
+<section class="card">
+  <h2>Records <small>@bst.Count records · height @bst.Height()</small></h2>
+  <table>
+    <thead><tr><th>ID</th><th>Name</th><th>Program</th><th>GPA</th><th>Year</th><th></th></tr></thead>
+    <tbody>
+    @foreach (var r in bst.InOrder())
+    {
+      <tr><td>@r.StudentId</td><td>@r.FullName</td><td>@r.Program</td><td>@r.Gpa.ToString("F2")</td><td>@r.Year</td>
+          <td><button class="link" @onclick="() => Delete(r.StudentId)">Delete</button></td></tr>
+    }
+    </tbody>
+  </table>
+  <button class="secondary" @onclick="Reset">Reset sample data</button>
+</section>
+
+<div class="grid">
+<section class="card">
+  <h2>Add or update a record</h2>
+  <label>Student ID <input type="number" @bind="id" /></label>
+  <label>Full name <input @bind="name" /></label>
+  <label>Program <input @bind="program" /></label>
+  <label>GPA <input type="number" step="0.01" @bind="gpa" /></label>
+  <label>Year <input type="number" @bind="year" /></label>
+  <div class="row">
+    <button @onclick="Insert">Insert</button>
+    <button class="secondary" @onclick="Update">Update</button>
+  </div>
+</section>
+
+<section class="card">
+  <h2>Search by ID</h2>
+  <label>Student ID <input type="number" @bind="searchId" /></label>
+  <button @onclick="Search">Search</button>
+  @if (searchResult is not null) { <p class="note">@searchResult</p> }
+</section>
+</div>
+
+@if (message is not null) { <p class="note">@message</p> }
+
+<section class="card">
+  <h2>Case study tests</h2>
+  <button @onclick="Run">Run tests</button>
+  @if (tests is not null)
+  {
+    <ul class="tests">
+      @foreach (var (n, ok) in tests) { <li class="@(ok ? "pass" : "fail")">[@(ok ? "PASS" : "FAIL")] @n</li> }
+    </ul>
+    <p><strong>Summary: @tests.Count(t => t.Passed)/@tests.Count tests passed.</strong></p>
+  }
+</section>
+
+@code {
+    BinarySearchTree<int, StudentRecord> bst = CaseStudy.LoadSample();
+    int id = 2026100; string name = ""; string program = ""; double gpa = 3.0; int year = 1;
+    int searchId = 2026038; string? searchResult; string? message;
+    List<(string Name, bool Passed)>? tests;
+
+    StudentRecord Current() => new(id, name.Trim(), program.Trim(), gpa, year);
+
+    void Insert()
+    {
+        var r = Current();
+        var err = StudentRecord.Validate(r);
+        message = err ?? (bst.TryInsert(r.StudentId, r) ? $"Inserted {r.StudentId}." : $"Rejected: ID {r.StudentId} already exists.");
+    }
+
+    void Update()
+    {
+        var r = Current();
+        var err = StudentRecord.Validate(r);
+        message = err ?? (bst.TryUpdate(r.StudentId, r) ? $"Updated {r.StudentId}." : $"No record with ID {r.StudentId}.");
+    }
+
+    void Delete(int key) => message = bst.Remove(key) ? $"Deleted {key}." : $"No record with ID {key}.";
+
+    void Search() => searchResult = bst.TrySearch(searchId, out var r, out var c)
+        ? $"Found {r!.FullName} ({r.Program}, GPA {r.Gpa:F2}, Y{r.Year}) after {c} comparison(s)."
+        : $"ID {searchId} not found after {c} comparison(s).";
+
+    void Reset() { bst = CaseStudy.LoadSample(); message = "Sample data restored."; }
+    void Run() => tests = CaseStudy.RunTests();
+}
