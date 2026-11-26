@@ -8,7 +8,7 @@ public static class CaseStudy
         new(2026025, "Esad Enis Arslan", "Cybersecurity", 3.42, 1),
         new(2026075, "Murat Tatlı", "Computer Science", 3.91, 3),
         new(2026012, "Oğuzhan Bakır", "Cybersecurity", 3.15, 1),
-        new(2026038, "Ahmet Bahadır Demirdağ*", "Computer Science", 3.68, 2),
+        new(2026038, "Ahmet Bahadır Demirdağ", "Computer Science", 3.68, 2),
     ];
 
     public static BinarySearchTree<int, StudentRecord> LoadSample()
