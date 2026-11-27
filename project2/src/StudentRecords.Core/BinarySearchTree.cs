@@ -25,7 +25,7 @@ public sealed class BinarySearchTree<TKey, TValue> where TKey : IComparable<TKey
         while (true)
         {
             int cmp = key.CompareTo(current.Key);
-            if (cmp == 0) return false; // Duplicate key rejected
+            if (cmp == 0) return false; // duplicate
             if (cmp < 0)
             {
                 if (current.Left is null) { current.Left = new Node(key, value); Count++; return true; }
